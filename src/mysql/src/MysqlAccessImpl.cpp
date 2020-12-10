@@ -28,7 +28,15 @@ int MysqlAccessImpl::Initialization(const std::string& strName, const std::strin
 		LOG_ERROR("open database:{} failed", strDBName);
 		return FAILED;
 	}
-	LOG_INFO("open database:{} success", strDBName);
+	LOG_DEBUG("open database:{} success", strDBName);
+
+	m_SqlStmtPtr.reset(mysql_stmt_init(m_SqlConPtr.get()));
+	if (!m_SqlStmtPtr) {
+		LOG_ERROR("init failed m_SqlStmtPtr is nullptr", strDBName);
+		return FAILED;
+	}
+	LOG_INFO("initialization success");
+
 	return SUCCESS;
 }
 
@@ -50,7 +58,7 @@ int MysqlAccessImpl::ExecuteSql(const std::string& strSql)
 	// }
 
 	// mysql_free_result(result); //释放掉内存
-
+	return 0;
 }
 
 } /* town */
