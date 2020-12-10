@@ -32,4 +32,10 @@ int MysqlAccess::Initialization(const std::string& strName, const std::string& s
 	return impl->Initialization(strName, strPasswd, strDBName, iPort);
 }
 
+int MysqlAccess::ExecuteSql(const std::string& strSql)
+{
+	MysqlAccessImpl* impl = reinterpret_cast<MysqlAccessImpl*>(this);
+	return impl->ExecuteSql(strSql);
+}
+
 } /* town */

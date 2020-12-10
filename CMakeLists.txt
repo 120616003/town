@@ -12,7 +12,7 @@ else()
 	SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")  # Debug模式下的编译指令
 endif()
 
-set(CXX_FLAGS -std=c++20)
+set(CXX_FLAGS -std=c++17)
 
 
 if(LOG STREQUAL "STDLOG")

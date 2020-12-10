@@ -23,9 +23,10 @@ public:
 	MysqlAccessImpl();
 	~MysqlAccessImpl();
 	int Initialization(const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort);
+	int ExecuteSql(const std::string& strSql);
 
 private:
-	std::unique_ptr<MYSQL> m_SqlConPtr;
+	std::shared_ptr<MYSQL> m_SqlConPtr;
 };
 
 } /* town */

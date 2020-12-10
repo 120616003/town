@@ -19,6 +19,7 @@ class MysqlAccess
 public:
 	static MysqlAccess* GetInstance();
 	int Initialization(const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort);
+	int ExecuteSql(const std::string& strSql);
 
 protected:
 	MysqlAccess();
