@@ -59,6 +59,12 @@ private:
     std::mutex m_mutex;
 }; /* Spdlogger */
 
+#define DEBUG(module,...) \
+do { \
+    Spdlogger::GetInstance()->RegisterModule(module); \
+    SPDLOG_LOGGER_DEBUG(Spdlogger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+} while(0)
+
 #define INFO(module,...) \
 do { \
     Spdlogger::GetInstance()->RegisterModule(module); \
@@ -77,16 +83,10 @@ do { \
     SPDLOG_LOGGER_ERROR(Spdlogger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
 } while(0)
 
-#define DEBUG(module,...) \
-do { \
-    Spdlogger::GetInstance()->RegisterModule(module); \
-    SPDLOG_LOGGER_DEBUG(Spdlogger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
-} while(0)
-
+#define LOG_DEBUG(...) DEBUG("  test   ", __VA_ARGS__)
 #define LOG_INFO(...)  INFO("  test   ", __VA_ARGS__)
 #define LOG_WARN(...)  WARN("  test   ", __VA_ARGS__)
 #define LOG_ERROR(...) ERROR("  test   ", __VA_ARGS__)
-#define LOG_DEBUG(...) DEBUG("  test   ", __VA_ARGS__)
 
 } /* town */
 

@@ -22,3 +22,9 @@ sudo mysql_secure_installation
 systemctl status mysql.service
 #创建数据库
 create database town;
+#创建用户表
+create table if not exists user (
+	id int auto_increment primary key not null,
+	account_number int not null,
+	password varchar(20)
+);

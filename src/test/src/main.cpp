@@ -15,11 +15,11 @@ int main()
 {
 	auto mysql = MysqlAccess::GetInstance();
 	mysql->Initialization("town", "1", "town", 1);
-	mysql->ExecuteSql(CREATE_USER_TABLE);
+	// mysql->ExecuteSql(CREATE_USER_TABLE);
 	int cnt = 0;
 	while (true) {
-		sleep(1);
 		LOG_INFO("cnt:{}", cnt++);
+		sleep(1);
 	}
 	return 0;
 }

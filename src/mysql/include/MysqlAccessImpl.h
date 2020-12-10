@@ -27,6 +27,7 @@ public:
 
 private:
 	std::shared_ptr<MYSQL> m_SqlConPtr;
+	std::shared_ptr<MYSQL_STMT> m_SqlStmtPtr;
 };
 
 } /* town */
