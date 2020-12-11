@@ -13,9 +13,13 @@ const std::string CREATE_USER_TABLE = R"(create table if not exists user (
 
 int main()
 {
-	auto mysql = MysqlAccess::GetInstance();
-	mysql->Initialization("town", "1", "town", 1);
+	// auto mysql = MysqlAccess::GetInstance();
+	// mysql->Initialization("town", "1", "town", 1);
 	// mysql->ExecuteSql(CREATE_USER_TABLE);
+
+	RapidJsoner json(R"({ "hello": "1" })");
+	std::cout << json.GetKey("hello") << std::endl;
+
 	int cnt = 0;
 	while (true) {
 		LOG_INFO("cnt:{}", cnt++);

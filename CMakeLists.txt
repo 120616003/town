@@ -28,6 +28,7 @@ configure_file (${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/src/comm
 include_directories(${PROJECT_SOURCE_DIR}/src/includes)
 include_directories(${PROJECT_SOURCE_DIR}/src/common)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/spdlog-1.8.1/include)
+include_directories(${PROJECT_SOURCE_DIR}/third_party/rapidjson-1.1.0/include)
 
 add_subdirectory(src/mysql)
 add_subdirectory(src/test)

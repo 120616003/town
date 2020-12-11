@@ -2,6 +2,7 @@
 #define COMMON_H
 
 #include "Spdlogger.hpp"
+#include "RapidJsoner.hpp"
 
 #define SUCCESS 0
 #define FAILED -1
