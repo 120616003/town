@@ -18,7 +18,15 @@ int main()
 	// mysql->ExecuteSql(CREATE_USER_TABLE);
 
 	RapidJsoner json(R"({ "hello": "1" })");
-	std::cout << json.GetKey("hello") << std::endl;
+	if (json.ParseWhetherSuccess()) {
+		LOG_INFO("{}", json.GetValue({"hello"}));
+	}
+	
+	json("./test.json", RapidJsoner::PARSE_TYPE::FILE);
+	if (json.ParseWhetherSuccess()) {
+		LOG_INFO("{}", json.GetValue({"test1", "test2", "test3"}));
+	}
+	
 
 	int cnt = 0;
 	while (true) {
