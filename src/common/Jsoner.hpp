@@ -7,17 +7,17 @@
  * @revision: last revised by yan on 2020-12-9
  *******************************************************/
 
-#ifndef RAPID_JSONER_H
-#define RAPID_JSONER_H
+#ifndef JSONER_H
+#define JSONER_H
 
-#include <memory>
 #include <initializer_list>
+#include <memory>
 #include <vector>
 #include <fstream>
 #include <stdint.h>
-#include "Spdlogger.hpp"
-#include "rapidjson/document.h"
 
+#include "Logger.hpp"
+#include "rapidjson/document.h"
 using namespace rapidjson;
 
 namespace town {
@@ -32,7 +32,7 @@ namespace town {
 #define LOG_WARN(...)  WARN("  json  ", __VA_ARGS__)
 #define LOG_ERROR(...) ERROR("  json  ", __VA_ARGS__)
 
-class RapidJsoner
+class Jsoner
 {
 public:
 	enum class PARSE_TYPE : uint8_t
@@ -42,8 +42,8 @@ public:
 	};
 
 public:
-	RapidJsoner() {}
-	RapidJsoner(const std::string& strJson, PARSE_TYPE eParseType = PARSE_TYPE::STRING)
+	Jsoner() {}
+	Jsoner(const std::string& strJson, PARSE_TYPE eParseType = PARSE_TYPE::STRING)
 	{
 		if (PARSE_TYPE::STRING == eParseType) {
 			m_document.Parse(strJson.c_str());
@@ -52,7 +52,7 @@ public:
 		m_document.Parse(ReadFile(strJson).c_str());
 	}
 
-	~RapidJsoner() {}
+	~Jsoner() {}
 
 public:
 	void operator () (const std::string& strJson, PARSE_TYPE eParseType = PARSE_TYPE::STRING)
@@ -96,18 +96,27 @@ public:
 		}
 		std::vector<std::string> strKeyVec;
 		std::copy(strKeyList.begin(), strKeyList.end(), std::back_inserter(strKeyVec));
-		return GetValue(m_document[strKeyVec[0].c_str()], std::move(std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end())));
+		if (m_document.HasMember(strKeyVec[0].c_str())) {
+			return GetValue(m_document[strKeyVec[0].c_str()], std::move(std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end())));
+		}
+		LOG_WARN("[{}] key not exists", strKeyVec[0]);
+		return "";
 	}
 
 	std::string GetValue(const Value& value, std::vector<std::string>&& strKeyVec)
 	{
+		
 		if (0 == strKeyVec.size()) {
 			return value.GetString();
 		}
-		if (1 == strKeyVec.size())  {
-			return value[strKeyVec[0].c_str()].GetString();
+		if (value.HasMember(strKeyVec[0].c_str())) { 
+			if (1 == strKeyVec.size())  {
+				return value[strKeyVec[0].c_str()].GetString();
+			}
+			return GetValue(value[strKeyVec[0].c_str()], std::move(std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end())));
 		}
-		return GetValue(value[strKeyVec[0].c_str()], std::move(std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end())));
+		LOG_WARN("[{}] key not exists", strKeyVec[0]);
+		return "";
 	}
 
 private:
@@ -138,4 +147,4 @@ private:
 
 } /* town */
 
-#endif /* RAPID_JSONER_H */
+#endif /* JSONER_H */

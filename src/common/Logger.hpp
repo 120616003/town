@@ -7,8 +7,8 @@
  * @revision: last revised by yan on 2020-12-9
  *******************************************************/
 
-#ifndef SPD_LOGGER_H
-#define SPD_LOGGER_H
+#ifndef LOGGER_H
+#define LOGGER_H
 
 #include "config.h"
 #include "spdlog/spdlog.h"
@@ -21,12 +21,12 @@
 
 namespace town {
 
-class Spdlogger
+class Logger
 {
 public:
-    static Spdlogger* GetInstance()
+    static Logger* GetInstance()
     {
-        static Spdlogger logger;
+        static Logger logger;
         return &logger;
     }
 
@@ -48,7 +48,8 @@ public:
     }
 
 private:
-    Spdlogger() {}
+    Logger() {}
+
 #ifdef FILELOG
     std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> m_pPublicLogger = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("./log.txt", 1024 * 1024 * 40, 100);
 #else
@@ -57,32 +58,32 @@ private:
 
     std::map<std::string,std::shared_ptr<spdlog::logger>> m_mapLogger;
     std::mutex m_mutex;
-}; /* Spdlogger */
+}; /* Logger */
 
 #define DEBUG(module,...) \
 do { \
-    Spdlogger::GetInstance()->RegisterModule(module); \
-    SPDLOG_LOGGER_DEBUG(Spdlogger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    Logger::GetInstance()->RegisterModule(module); \
+    SPDLOG_LOGGER_DEBUG(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
 } while(0)
 
 #define INFO(module,...) \
 do { \
-    Spdlogger::GetInstance()->RegisterModule(module); \
-    SPDLOG_LOGGER_INFO(Spdlogger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    Logger::GetInstance()->RegisterModule(module); \
+    SPDLOG_LOGGER_INFO(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
 } while(0)
 
 #define WARN(module,...) \
 do { \
-    Spdlogger::GetInstance()->RegisterModule(module); \
-    SPDLOG_LOGGER_WARN(Spdlogger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    Logger::GetInstance()->RegisterModule(module); \
+    SPDLOG_LOGGER_WARN(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
 } while(0)
 
 #define ERROR(module,...) \
 do { \
-    Spdlogger::GetInstance()->RegisterModule(module); \
-    SPDLOG_LOGGER_ERROR(Spdlogger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    Logger::GetInstance()->RegisterModule(module); \
+    SPDLOG_LOGGER_ERROR(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
 } while(0)
 
 } /* town */
 
-#endif /* SPD_LOGGER_H */
+#endif /* LOGGER_H */

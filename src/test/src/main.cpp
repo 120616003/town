@@ -13,20 +13,13 @@ const std::string CREATE_USER_TABLE = R"(create table if not exists user (
 
 int main()
 {
-	// auto mysql = MysqlAccess::GetInstance();
-	// mysql->Initialization("town", "1", "town", 1);
-	// mysql->ExecuteSql(CREATE_USER_TABLE);
-
-	RapidJsoner json(R"({ "hello": "1" })");
-	if (json.ParseWhetherSuccess()) {
-		LOG_INFO("{}", json.GetValue({"hello"}));
+	Jsoner json("/home/yan/Project/town/src/config/MysqlInfo.json", Jsoner::PARSE_TYPE::FILE);
+	if (!json.ParseWhetherSuccess()) {
+		return 0; LOG_INFO("", json.GetValue({"test1", "test2", "test3"}));
 	}
-	
-	json("./test.json", RapidJsoner::PARSE_TYPE::FILE);
-	if (json.ParseWhetherSuccess()) {
-		LOG_INFO("{}", json.GetValue({"test1", "test2", "test3"}));
-	}
-	
+	auto mysql = MysqlAccess::GetInstance();
+	mysql->Initialization(json.GetValue({"dba"}), json.GetValue({"dba_passwd"}), json.GetValue({"db"}), std::atoi(json.GetValue({"db_port"}).c_str()));
+	mysql->ExecuteSql(CREATE_USER_TABLE);
 
 	int cnt = 0;
 	while (true) {

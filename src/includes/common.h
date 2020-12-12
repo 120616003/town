@@ -5,8 +5,8 @@
 #include <string>
 #include <map>
 
-#include "Spdlogger.hpp"
-#include "RapidJsoner.hpp"
+#include "Logger.hpp"
+#include "Jsoner.hpp"
 
 namespace town
 {
