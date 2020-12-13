@@ -15,7 +15,7 @@ int main()
 {
 	Jsoner json("/home/yan/Project/town/src/config/MysqlInfo.json", Jsoner::PARSE_TYPE::FILE);
 	if (!json.ParseWhetherSuccess()) {
-		return 0; LOG_INFO("", json.GetValue({"test1", "test2", "test3"}));
+		return 0;
 	}
 	auto mysql = MysqlAccess::GetInstance();
 	mysql->Initialization(json.GetValue({"dba"}), json.GetValue({"dba_passwd"}), json.GetValue({"db"}), std::atoi(json.GetValue({"db_port"}).c_str()));

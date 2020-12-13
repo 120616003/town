@@ -52,9 +52,6 @@ public:
 		m_document.Parse(ReadFile(strJson).c_str());
 	}
 
-	~Jsoner() {}
-
-public:
 	void operator () (const std::string& strJson, PARSE_TYPE eParseType = PARSE_TYPE::STRING)
 	{
 		if (PARSE_TYPE::STRING == eParseType) {

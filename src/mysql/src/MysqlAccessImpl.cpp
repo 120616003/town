@@ -8,7 +8,6 @@
  *******************************************************/
 
 #include "MysqlAccessImpl.h"
-#include "MysqlCommon.h"
 
 namespace town {
 
@@ -19,11 +18,13 @@ MysqlAccessImpl::MysqlAccessImpl()
 
 MysqlAccessImpl::~MysqlAccessImpl()
 {
+	mysql_stmt_close(m_SqlStmtPtr.get());
+	mysql_close(m_SqlConPtr.get());
 }
 
 int MysqlAccessImpl::Initialization(const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort)
 {
-	mysql_init(m_SqlConPtr.get());
+	m_SqlConPtr.reset(mysql_init(nullptr));
 	if(!mysql_real_connect(m_SqlConPtr.get(), "localhost", strName.c_str(), strPasswd.c_str(), strDBName.c_str(), iPort, NULL, 0)) {
 		LOG_ERROR("open database:{} failed", strDBName);
 		return FAILED;
@@ -32,32 +33,50 @@ int MysqlAccessImpl::Initialization(const std::string& strName, const std::strin
 
 	m_SqlStmtPtr.reset(mysql_stmt_init(m_SqlConPtr.get()));
 	if (!m_SqlStmtPtr) {
-		LOG_ERROR("init failed m_SqlStmtPtr is nullptr", strDBName);
+		LOG_ERROR("init failed, m_SqlStmtPtr is nullptr", strDBName);
 		return FAILED;
 	}
-	LOG_INFO("initialization success");
+	LOG_INFO("initialization database:{} success", strDBName);
 
 	return SUCCESS;
 }
 
 int MysqlAccessImpl::ExecuteSql(const std::string& strSql)
 {
-	if (mysql_query(m_SqlConPtr.get(), strSql.c_str())) {
-		std::string strErrorMessage = mysql_error(m_SqlConPtr.get());
-		LOG_ERROR("execute sql:{}, error msg:{}", strSql, strErrorMessage);
+	std::vector<std::pair<std::string, std::string>> vParam;
+	return ExecuteSql(strSql, vParam);
+}
+
+template <typename T>
+int MysqlAccessImpl::ExecuteSql(const std::string& strSql, std::vector<std::pair<T, std::string>>& vParam)
+{
+	if (mysql_stmt_prepare(m_SqlStmtPtr.get(), strSql.c_str(), strlen(strSql.c_str()))) {
+		LOG_ERROR("[{}] prepare failed", strSql);
 		return FAILED;
 	}
 
-	// MYSQL_RES *result = mysql_store_result(mysql); //获取离线结果，数据存放到程序内存中
-	// MYSQL_ROW row;
-	// while (row=mysql_fetch_row(result))//获取一行数据的结果；
-	// {
-	// 	char *id=row[0];//第0列的值
-	// 	char *username=row[1];//第1列的值
-	// 	printf("id=%s,name=%s\n",id,username);
-	// }
+	size_t iParamLen = vParam.size();
+	if (iParamLen) {
+		MYSQL_BIND vSqlParam[iParamLen];
+		for (size_t i = 0; i < iParamLen; i++) {
+			vSqlParam[i].buffer_type = static_cast<enum_field_types>(std::atoi(vParam[i].second.c_str()));
+			vSqlParam[i].buffer = &vParam[i].first;
+			if (SQL_STRING == vParam[i].second) {
+				vSqlParam[i].buffer_length = sizeof(vParam[i].first);
+			}
+		}
 
-	// mysql_free_result(result); //释放掉内存
+		if (mysql_stmt_bind_param(m_SqlStmtPtr.get(), vSqlParam)) {
+			LOG_ERROR("[{}] bind param failed", strSql);
+			return FAILED;
+		}
+	}
+
+	if (mysql_stmt_execute(m_SqlStmtPtr.get())) {
+		LOG_ERROR("[{}] execute param failed", strSql);
+		return FAILED;
+	}
+	LOG_DEBUG("[{}] execute success", strSql);
 	return 0;
 }
 

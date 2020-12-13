@@ -38,4 +38,11 @@ int MysqlAccess::ExecuteSql(const std::string& strSql)
 	return impl->ExecuteSql(strSql);
 }
 
+template <typename T>
+int MysqlAccess::ExecuteSql(const std::string& strSql, std::vector<std::pair<T, std::string>>& vParam)
+{
+	MysqlAccessImpl* impl = reinterpret_cast<MysqlAccessImpl*>(this);
+	return impl->ExecuteSql(strSql, vParam);
+}
+
 } /* town */
