@@ -142,6 +142,11 @@ private:
 	Document m_document;
 };
 
+extern Jsoner json;
+#define PARSE_STRING(path) json.ParseString(path)
+#define PARSE_FILE(path) json.ParseFile(path)
+#define GET_JSON_VALUE(key) json.GetValue(key)
+
 } /* town */
 
 #endif /* JSONER_H */

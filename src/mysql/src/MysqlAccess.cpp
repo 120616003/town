@@ -26,10 +26,10 @@ MysqlAccess* MysqlAccess::GetInstance()
 	return &ins;
 }
 
-int MysqlAccess::Initialization(const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort)
+int MysqlAccess::Initialization(const std::string& strIp, const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort)
 {
 	MysqlAccessImpl* impl = reinterpret_cast<MysqlAccessImpl*>(this);
-	return impl->Initialization(strName, strPasswd, strDBName, iPort);
+	return impl->Initialization(strIp, strName, strPasswd, strDBName, iPort);
 }
 
 int MysqlAccess::ExecuteSql(const std::string& strSql)

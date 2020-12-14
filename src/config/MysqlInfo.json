@@ -1,4 +1,5 @@
 {
+	"ip" : "localhost",
 	"dba" : "town",
 	"dba_passwd" : "1",
 	"db" : "town",

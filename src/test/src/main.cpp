@@ -18,7 +18,7 @@ int main()
 		return 0;
 	}
 	auto mysql = MysqlAccess::GetInstance();
-	mysql->Initialization(json.GetValue({"dba"}), json.GetValue({"dba_passwd"}), json.GetValue({"db"}), std::atoi(json.GetValue({"db_port"}).c_str()));
+	mysql->Initialization(json.GetValue({"ip"}), json.GetValue({"dba"}), json.GetValue({"dba_passwd"}), json.GetValue({"db"}), std::atoi(json.GetValue({"db_port"}).c_str()));
 	mysql->ExecuteSql(CREATE_USER_TABLE);
 
 	int cnt = 0;

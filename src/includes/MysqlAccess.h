@@ -19,7 +19,7 @@ class MysqlAccess
 {
 public:
 	static MysqlAccess* GetInstance();
-	int Initialization(const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort);
+	int Initialization(const std::string& strIp, const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort);
 	int ExecuteSql(const std::string& strSql);
 	template <typename T>
 	int ExecuteSql(const std::string& strSql, std::vector<std::pair<T, std::string>>& vParam);

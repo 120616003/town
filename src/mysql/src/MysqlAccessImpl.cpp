@@ -22,7 +22,7 @@ MysqlAccessImpl::~MysqlAccessImpl()
 	mysql_close(m_SqlConPtr.get());
 }
 
-int MysqlAccessImpl::Initialization(const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort)
+int MysqlAccessImpl::Initialization(const std::string& strIp, const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort)
 {
 	m_SqlConPtr.reset(mysql_init(nullptr));
 	if(!mysql_real_connect(m_SqlConPtr.get(), "localhost", strName.c_str(), strPasswd.c_str(), strDBName.c_str(), iPort, NULL, 0)) {
