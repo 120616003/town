@@ -10,13 +10,8 @@
 #ifndef JSONER_H
 #define JSONER_H
 
-#include <initializer_list>
-#include <memory>
-#include <vector>
-#include <fstream>
-#include <stdint.h>
-
 #include "Logger.hpp"
+#include "config.h"
 #include "rapidjson/document.h"
 using namespace rapidjson;
 
@@ -41,8 +36,9 @@ public:
 		FILE = 1
 	};
 
-public:
+public: // 解析
 	Jsoner() {}
+
 	Jsoner(const std::string& strJson, PARSE_TYPE eParseType = PARSE_TYPE::STRING)
 	{
 		if (PARSE_TYPE::STRING == eParseType) {
@@ -85,34 +81,59 @@ public:
 		return !m_document.HasParseError();
 	}
 
-public:
+public: // 取值
+	Jsoner& operator[] (const std::string& strKey)
+	{
+		m_strKeyVec.push_back(strKey);
+		return *this;
+	}
+
+	std::string GetValue()
+	{
+		if (0 == m_strKeyVec.size()) {
+			return "";
+		}
+
+		if (m_document.HasMember(m_strKeyVec[0].c_str())) {
+			return GetValue(m_document[m_strKeyVec[0].c_str()], std::vector<std::string>(m_strKeyVec.begin() + 1, m_strKeyVec.end()));
+		}
+
+		LOG_WARN("[{}] key not exists", m_strKeyVec[0]);
+		m_strKeyVec.clear();
+		return "";
+	}
+
 	std::string GetValue(const std::initializer_list<std::string>& strKeyList)
 	{
 		if (0 == strKeyList.size()) {
 			return "";
 		}
+
 		std::vector<std::string> strKeyVec;
 		std::copy(strKeyList.begin(), strKeyList.end(), std::back_inserter(strKeyVec));
 		if (m_document.HasMember(strKeyVec[0].c_str())) {
-			return GetValue(m_document[strKeyVec[0].c_str()], std::move(std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end())));
+			return GetValue(m_document[strKeyVec[0].c_str()], std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end()));
 		}
+
 		LOG_WARN("[{}] key not exists", strKeyVec[0]);
 		return "";
 	}
 
-	std::string GetValue(const Value& value, std::vector<std::string>&& strKeyVec)
+	std::string GetValue(const Value& value, const std::vector<std::string>& strKeyVec)
 	{
-		
 		if (0 == strKeyVec.size()) {
+			m_strKeyVec.clear();
 			return value.GetString();
 		}
 		if (value.HasMember(strKeyVec[0].c_str())) { 
 			if (1 == strKeyVec.size())  {
+				m_strKeyVec.clear();
 				return value[strKeyVec[0].c_str()].GetString();
 			}
-			return GetValue(value[strKeyVec[0].c_str()], std::move(std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end())));
+			return GetValue(value[strKeyVec[0].c_str()], std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end()));
 		}
 		LOG_WARN("[{}] key not exists", strKeyVec[0]);
+		m_strKeyVec.clear();
 		return "";
 	}
 
@@ -140,6 +161,7 @@ private:
 
 private:
 	Document m_document;
+	std::vector<std::string> m_strKeyVec;
 };
 
 } /* town */

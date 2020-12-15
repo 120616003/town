@@ -1,4 +1,4 @@
-include_directories(include)
+include_directories(inc)
 
 file(GLOB_RECURSE mysql_SRC src/*.cpp)
 

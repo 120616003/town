@@ -31,4 +31,5 @@ include_directories(${PROJECT_SOURCE_DIR}/third_party/spdlog-1.8.1/include)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/rapidjson-1.1.0/include)
 
 add_subdirectory(src/mysql)
+add_subdirectory(src/server)
 add_subdirectory(src/test)

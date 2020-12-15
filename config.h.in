@@ -1,1 +1,12 @@
 #define @LOG_TYPE@
+
+#define SUCCESS 0
+#define FAILED -1
+
+#include <vector>
+#include <string>
+#include <map>
+#include <memory>
+#include <initializer_list>
+#include <fstream>
+#include <stdint.h>

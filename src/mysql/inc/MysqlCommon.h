@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+namespace town {
+
 #undef LOG_DEBUG
 #undef LOG_INFO
 #undef LOG_WARN
@@ -47,5 +49,7 @@ const std::string SQL_BLOB = "252";
 const std::string SQL_VAR_STRING = "253";
 const std::string SQL_STRING = "254";
 const std::string SQL_GEOMETRY = "255";
+
+} /* town */
 
 #endif /* MYSQL_COMMON_H */

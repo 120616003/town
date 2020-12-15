@@ -4,6 +4,6 @@ file(GLOB_RECURSE main_SRC main.cpp)
 
 add_executable(main ${main_SRC})
 
-target_link_libraries(main mysql-access mysqlclient)
+target_link_libraries(main mysql-access mysqlclient server-massage event)
 
 install(TARGETS main DESTINATION bin)

@@ -1,12 +1,3 @@
-/*******************************************************
- * @brief: Mysql访问模块
- * @Copyright: Copyleft
- * @license: GPL
- * @birth: created by yan on 2020-12-8
- * @version: V0.0.1
- * @revision: last revised by yan on 2020-12-8
- *******************************************************/
-
 #include "MysqlAccess.h"
 #include "MysqlAccessImpl.h"
 
