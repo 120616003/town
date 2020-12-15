@@ -29,8 +29,8 @@ public:
 	int ExecuteSql(const std::string& strSql, std::vector<std::pair<T, std::string>>& vParam);
 
 private:
-	std::shared_ptr<MYSQL> m_SqlConPtr;
-	std::shared_ptr<MYSQL_STMT> m_SqlStmtPtr;
+	MYSQL* m_pSqlCon;
+	MYSQL_STMT* m_pSqlStmt;
 };
 
 } /* town */

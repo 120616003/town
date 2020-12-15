@@ -13,27 +13,26 @@ namespace town {
 
 MysqlAccessImpl::MysqlAccessImpl()
 {
-	m_SqlConPtr = std::make_shared<MYSQL>();
 }
 
 MysqlAccessImpl::~MysqlAccessImpl()
 {
-	mysql_stmt_close(m_SqlStmtPtr.get());
-	mysql_close(m_SqlConPtr.get());
+	mysql_stmt_close(m_pSqlStmt);
+	mysql_close(m_pSqlCon);
 }
 
 int MysqlAccessImpl::Initialization(const std::string& strIp, const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort)
 {
-	m_SqlConPtr.reset(mysql_init(nullptr));
-	if(!mysql_real_connect(m_SqlConPtr.get(), "localhost", strName.c_str(), strPasswd.c_str(), strDBName.c_str(), iPort, NULL, 0)) {
+	m_pSqlCon = mysql_init(nullptr);
+	if(!mysql_real_connect(m_pSqlCon, "localhost", strName.c_str(), strPasswd.c_str(), strDBName.c_str(), iPort, NULL, 0)) {
 		LOG_ERROR("open database:{} failed", strDBName);
 		return FAILED;
 	}
 	LOG_DEBUG("open database:{} success", strDBName);
 
-	m_SqlStmtPtr.reset(mysql_stmt_init(m_SqlConPtr.get()));
-	if (!m_SqlStmtPtr) {
-		LOG_ERROR("init failed, m_SqlStmtPtr is nullptr", strDBName);
+	m_pSqlStmt = mysql_stmt_init(m_pSqlCon);
+	if (!m_pSqlStmt) {
+		LOG_ERROR("init failed, m_pSqlStmt is nullptr", strDBName);
 		return FAILED;
 	}
 	LOG_INFO("initialization database:{} success", strDBName);
@@ -50,13 +49,13 @@ int MysqlAccessImpl::ExecuteSql(const std::string& strSql)
 template <typename T>
 int MysqlAccessImpl::ExecuteSql(const std::string& strSql, std::vector<std::pair<T, std::string>>& vParam)
 {
-	if (mysql_stmt_prepare(m_SqlStmtPtr.get(), strSql.c_str(), strlen(strSql.c_str()))) {
+	if (mysql_stmt_prepare(m_pSqlStmt, strSql.c_str(), strlen(strSql.c_str()))) {
 		LOG_ERROR("[{}] prepare failed", strSql);
 		return FAILED;
 	}
 
 	size_t iParamLen = vParam.size();
-	if (iParamLen) {
+	if (0 != iParamLen) {
 		MYSQL_BIND vSqlParam[iParamLen];
 		for (size_t i = 0; i < iParamLen; i++) {
 			vSqlParam[i].buffer_type = static_cast<enum_field_types>(std::atoi(vParam[i].second.c_str()));
@@ -66,13 +65,13 @@ int MysqlAccessImpl::ExecuteSql(const std::string& strSql, std::vector<std::pair
 			}
 		}
 
-		if (mysql_stmt_bind_param(m_SqlStmtPtr.get(), vSqlParam)) {
+		if (mysql_stmt_bind_param(m_pSqlStmt, vSqlParam)) {
 			LOG_ERROR("[{}] bind param failed", strSql);
 			return FAILED;
 		}
 	}
 
-	if (mysql_stmt_execute(m_SqlStmtPtr.get())) {
+	if (mysql_stmt_execute(m_pSqlStmt)) {
 		LOG_ERROR("[{}] execute param failed", strSql);
 		return FAILED;
 	}
