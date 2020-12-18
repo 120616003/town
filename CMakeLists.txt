@@ -23,13 +23,25 @@ else()
   set(LOG_TYPE "STDLOG")
 endif()
 
-configure_file (${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/src/common/config.h)
+add_custom_target(flash
+    COMMAND ${PERL_EXECUTABLE} ${CMAKE_SOURCE_DIR}/scripts/do_flash.pl ${MAIN_BIN_FILE}
+    DEPENDS ${MAIN_BIN_FILE}
+)
 
-include_directories(${PROJECT_SOURCE_DIR}/src/includes)
-include_directories(${PROJECT_SOURCE_DIR}/src/common)
+#third_party
+set(protobuf_SOURCE_DIR ${PROJECT_SOURCE_DIR}/third_party/protobuf-3.14.0/cmake)
+include_directories(${PROJECT_SOURCE_DIR}/third_party/protobuf-3.14.0/src/)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/spdlog-1.8.1/include)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/rapidjson-1.1.0/include)
 
+#core
+configure_file (${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/src/common/config.h)
+include_directories(${PROJECT_SOURCE_DIR}/src/includes)
+include_directories(${PROJECT_SOURCE_DIR}/src/server/inc)
+include_directories(${PROJECT_SOURCE_DIR}/src/common)
+
+#lib
+add_subdirectory(third_party/protobuf-3.14.0/cmake)
 add_subdirectory(src/mysql)
 add_subdirectory(src/server)
 add_subdirectory(src/test)

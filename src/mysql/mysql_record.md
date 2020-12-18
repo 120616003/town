@@ -7,6 +7,8 @@ grant 权限列表 on 数据库 to '用户名'@'访问主机' ;
 grant all privileges on town.* to 'town'@'localhost' identified by '1'; #本地
 grant all privileges on town.* to 'town'@'%' identified by '1'; #远程
 
+
+
 #刷新系统权限表
 flush privileges;
 
@@ -28,3 +30,9 @@ create table if not exists user (
 	account_number int not null,
 	password varchar(20)
 );
+
+create user "typecho"@"localhost" identified by "Hui0415+"; 
+create user "typecho"@"%" identified by "Hui0415+"; 
+
+grant all privileges on typecho.* to 'typecho'@'%' identified by 'Hui0415+';
+grant all privileges on typecho.* to 'typecho'@'localhost' identified by 'Hui0415+';
