@@ -15,7 +15,6 @@ namespace town {
 #define LOG_WARN(...)  WARN("  server  ", __VA_ARGS__)
 #define LOG_ERROR(...) ERROR("  server  ", __VA_ARGS__)
 
-
 } /* town */
 
 #endif /* SERVER_COMMON_H */

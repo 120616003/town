@@ -4,6 +4,8 @@ file(GLOB_RECURSE server_SRC src/*.cpp)
 
 add_library(server-massage SHARED ${server_SRC})
 
-target_link_libraries(server-massage event)
+add_dependencies(server-massage proto)
+
+target_link_libraries(server-massage event proto)
 
 install(TARGETS server-massage DESTINATION lib)

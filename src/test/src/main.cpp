@@ -6,32 +6,32 @@
 #include "common.h"
 using namespace town;
 
-const std::string create_user_table = R"(create table if not exists user (
-	id int auto_increment primary key not null,
-	account_number int not null,
-	password varchar(20)
-);)";
-
-
-
 int main()
 {
-	// Jsoner json("/home/yan/Project/town/src/config/MysqlInfo.json", Jsoner::PARSE_TYPE::FILE);
-	// if (!json.ParseWhetherSuccess()) {
-	// 	return 0;
-	// }
+	Jsoner json("/home/yan/Project/town/src/config/MysqlInfo.json", Jsoner::PARSE_TYPE::FILE);
+	if (!json.ParseWhetherSuccess()) {
+		return 0;
+	}
 
-	// MysqlAccess::GetInstance()->Initialization(json["ip"].GetValue(), json["dba"].GetValue(), json["dba_passwd"].GetValue(), json["db"].GetValue(), std::atoi(json["db_port"].GetValue().c_str()));
-	// MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
+	MysqlAccess::GetInstance()->Initialization(json["ip"].GetValue(), json["dba"].GetValue(), json["dba_passwd"].GetValue(), json["db"].GetValue(), std::atoi(json["db_port"].GetValue().c_str()));
+	MysqlAccess::GetInstance()->ExecuteSql(create_town_database);
+	MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
+	MysqlAccess::GetInstance()->ExecuteSql(create_user_info_table);
 
-	ServerEvent serverevent;
-	serverevent.ServerInit(20000);
-	serverevent.ServerStart();
+	// ServerEvent serverevent;
+	// serverevent.ServerInit(20000);
+	// serverevent.ServerStart();
 
 	// int cnt = 0;
-	// while (true) {
+	// while (cnt != 10) {
 	// 	LOG_INFO("cnt:{}", cnt++);
 	// 	sleep(1);
 	// }
+
+	// serverevent.ClearMap(0);
+
+	while (true) {
+		sleep(3600);
+	}
 	return 0;
 }
