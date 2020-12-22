@@ -13,10 +13,19 @@ int main()
 		return 0;
 	}
 
-	MysqlAccess::GetInstance()->Initialization(json["ip"].GetValue(), json["dba"].GetValue(), json["dba_passwd"].GetValue(), json["db"].GetValue(), std::atoi(json["db_port"].GetValue().c_str()));
-	MysqlAccess::GetInstance()->ExecuteSql(create_town_database);
-	MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
-	MysqlAccess::GetInstance()->ExecuteSql(create_user_info_table);
+	LOG_INFO("ip:{}", json["array"][0].asInt());
+	LOG_INFO("ip:{}", json["array"][1].asInt());
+	LOG_INFO("ip:{}", json["array"][2].asInt());
+	LOG_INFO("ip:{}", json["array"][3].asInt());
+	LOG_INFO("ip:{}", json["array"][4].asInt());
+	LOG_INFO("ip:{}", json["array"][4].asInt());
+	LOG_INFO("ip:{}", json["array"][4].asInt());
+	
+
+	// MysqlAccess::GetInstance()->Initialization(json["ip"].asString(), json["dba"].asString(), json["dba_passwd"].asString(), json["db"].asString(), json["db_port"].asInt());
+	// MysqlAccess::GetInstance()->ExecuteSql(create_town_database);
+	// MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
+	// MysqlAccess::GetInstance()->ExecuteSql(create_user_info_table);
 
 	// ServerEvent serverevent;
 	// serverevent.ServerInit(20000);

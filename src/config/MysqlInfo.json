@@ -3,5 +3,8 @@
 	"dba" : "town",
 	"dba_passwd" : "1",
 	"db" : "town",
-	"db_port" : "1"
+	"db_port" : 1,
+	"array" : [
+		1,2,3,4,5
+	]
 }

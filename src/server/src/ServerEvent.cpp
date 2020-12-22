@@ -75,10 +75,10 @@ void ServerEvent::ServerListenerCb(evconnlistener* listener, evutil_socket_t fd,
 
 void ServerEvent::ServerReadCb(bufferevent *bev, void *arg)
 {
-	static char buf[1024 * 10 + 1] = {};
-	static uint32_t len = 0;
-	static uint32_t ret = 0;
-	static uint32_t save_len = 0;
+	char buf[1024 * 10 + 1] = {};
+	uint32_t len = 0;
+	uint32_t ret = 0;
+	uint32_t save_len = 0;
 	std::string msg;
 	do {
 		if (!len) {
@@ -91,7 +91,7 @@ void ServerEvent::ServerReadCb(bufferevent *bev, void *arg)
 				return;
 			}
 		}
-		LOG_INFO("len:{}, save_len:{}", len, save_len);
+		// LOG_INFO("len:{}, save_len:{}", len, save_len);
 		ret = bufferevent_read(bev, buf + save_len, len - save_len);
 
 		if (ret <= 0) {
@@ -101,10 +101,11 @@ void ServerEvent::ServerReadCb(bufferevent *bev, void *arg)
 
 		save_len += len;
 		if (save_len == len) {
-			msg.reserve(save_len);
-			msg.insert(msg.end(), buf, buf + save_len);
+			// msg.reserve(save_len);
+			// msg.insert(msg.end(), buf, buf + save_len);
 			login lg;
-			if (!lg.ParseFromString(msg))
+			// if (!lg.ParseFromString(msg))
+			if (!lg.ParseFromArray(buf, save_len))
 			{
 				LOG_INFO("ParseFromString failed");
 				return;

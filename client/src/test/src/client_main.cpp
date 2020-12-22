@@ -82,24 +82,22 @@ void cmd_msg_cb(int fd, short events, void* arg)
     struct bufferevent* bev = (struct bufferevent*)arg;
  
     // 把终端的消息发送给服务器端
-    // while (true) {
-        login lg;
-        lg.set_type(1);
-        lg.set_name("yan");
-        lg.set_email("120616003@qq.com");
-        lg.set_phone("13505532408");
-        lg.set_passwd("123456");
-        std::string msg;
-        lg.SerializeToString(&msg);
-        uint32_t len = msg.size();
-        printf("len1:%d\n", len);
-        memcpy(buf, &len, sizeof(len));
-        memcpy(buf + sizeof(len), msg.data(), len);
-        bufferevent_write(bev, buf, len + sizeof(len));
-        // bufferevent_write(bev, buf, len + sizeof(len));
-        sleep(1);
-    // }
 
+    login lg;
+    lg.set_type(1);
+    lg.set_name("yan");
+    lg.set_email("120616003@qq.com");
+    lg.set_phone("13505532408");
+    lg.set_passwd("123456");
+    std::string msg;
+    lg.SerializeToString(&msg);
+    uint32_t len = msg.size();
+    printf("len1:%d\n", len);
+    memcpy(buf, &len, sizeof(len));
+    memcpy(buf + sizeof(len), msg.data(), len);
+    bufferevent_write(bev, buf, len + sizeof(len));
+    bufferevent_write(bev, buf, len + sizeof(len));
+    bufferevent_flush(bev, EV_WRITE, BEV_FLUSH);
 }
 
 void server_msg_cb(struct bufferevent* bev, void* arg)
