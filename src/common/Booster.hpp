@@ -4,18 +4,17 @@
 #include "boost/uuid/uuid.hpp"
 #include "boost/uuid/uuid_generators.hpp"
 #include "boost/uuid/uuid_io.hpp"
+#include <regex>
 
 namespace town {
 
 class Booster
 {
 public:
-	static std::string GetUUID6()
+	static std::string GetUUID()
 	{
 		boost::uuids::random_generator rgen;
-		boost::uuids::uuid u6 = rgen();
-		std::string strUuid = boost::uuids::to_string(u6);
-		return strUuid;
+		return std::regex_replace(boost::uuids::to_string(rgen()), std::regex(R"(-)"), "");
 	}
 };
 

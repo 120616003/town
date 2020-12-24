@@ -15,7 +15,7 @@ MysqlAccessImpl::~MysqlAccessImpl()
 int MysqlAccessImpl::Initialization(const std::string& strIp, const std::string& strName, const std::string& strPasswd, const std::string& strDBName, int iPort)
 {
 	m_pSqlCon = mysql_init(nullptr);
-	if(!mysql_real_connect(m_pSqlCon, "localhost", strName.c_str(), strPasswd.c_str(), strDBName.c_str(), iPort, NULL, 0)) {
+	if(!mysql_real_connect(m_pSqlCon, "localhost", strName.c_str(), strPasswd.c_str(), nullptr, iPort, nullptr, 0)) {
 		LOG_ERROR("open database:{} failed", strDBName);
 		return FAILED;
 	}

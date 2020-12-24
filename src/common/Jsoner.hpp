@@ -246,15 +246,17 @@ private: // 私有函数
 				m_ArrayIndex = -1;
 				return value[index];
 			}
-			return value[m_ArrayIndex];
+			return value;
 		}
-		if (value.HasMember(strKeyVec[0].c_str())) { 
+
+		if (value.HasMember(strKeyVec[0].c_str())) {
 			if (1 == strKeyVec.size())  {
 				m_strKeyVec.clear();
 				return value[strKeyVec[0].c_str()];
 			}
 			return GetValue(value[strKeyVec[0].c_str()], std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end()));
 		}
+
 		LOG_WARN("[{}] key not exists", strKeyVec[0]);
 		exit(1);
 	}

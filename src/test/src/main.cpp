@@ -5,6 +5,7 @@
 #include "ServerEvent.h"
 #include "common.h"
 using namespace town;
+using namespace rapidjson;
 
 int main()
 {
@@ -13,19 +14,10 @@ int main()
 		return 0;
 	}
 
-	LOG_INFO("ip:{}", json["array"][0].asInt());
-	LOG_INFO("ip:{}", json["array"][1].asInt());
-	LOG_INFO("ip:{}", json["array"][2].asInt());
-	LOG_INFO("ip:{}", json["array"][3].asInt());
-	LOG_INFO("ip:{}", json["array"][4].asInt());
-	LOG_INFO("ip:{}", json["array"][4].asInt());
-	LOG_INFO("ip:{}", json["array"][4].asInt());
-	
-
-	// MysqlAccess::GetInstance()->Initialization(json["ip"].asString(), json["dba"].asString(), json["dba_passwd"].asString(), json["db"].asString(), json["db_port"].asInt());
-	// MysqlAccess::GetInstance()->ExecuteSql(create_town_database);
-	// MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
-	// MysqlAccess::GetInstance()->ExecuteSql(create_user_info_table);
+	MysqlAccess::GetInstance()->Initialization(json["ip"].asString(), json["dba"].asString(), json["dba_passwd"].asString(), json["db"].asString(), json["db_port"].asInt());
+	MysqlAccess::GetInstance()->ExecuteSql(create_town_database);
+	MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
+	MysqlAccess::GetInstance()->ExecuteSql(create_user_info_table);
 
 	// ServerEvent serverevent;
 	// serverevent.ServerInit(20000);
@@ -40,7 +32,8 @@ int main()
 	// serverevent.ClearMap(0);
 
 	while (true) {
-		sleep(3600);
+		// LOG_INFO("{}", Booster::GetUUID6());
+		sleep(1);
 	}
 	return 0;
 }

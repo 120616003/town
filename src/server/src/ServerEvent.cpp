@@ -51,7 +51,6 @@ int ServerEvent::ServerInit(int iPort)
 void ServerEvent::ServerStart()
 {
 	std::thread(event_base_dispatch, ev_b).detach();
-	// event_base_dispatch(ev_b);
 }
 
 void ServerEvent::ServerListenerCb(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int socklen, void* arg)
@@ -68,7 +67,7 @@ void ServerEvent::ServerListenerCb(evconnlistener* listener, evutil_socket_t fd,
 	if (ser_mess) {
 		ser_mess->SetEvutilSocket(fd);
 		ser_mess->SetBufferevent(bev);
-		ser_mess->SetUUID(Booster::GetUUID6());
+		ser_mess->SetUUID(Booster::GetUUID());
 	}
 	m_vumpSerMessPtr[0][ser_mess->GetUUID()] = ser_mess;
 }
