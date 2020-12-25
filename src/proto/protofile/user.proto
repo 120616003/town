@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-message login {
+message AccRegister {
     int32 type = 1;
-    string name = 2;
-    string email = 3;
-    string phone = 4;
+    string email = 2;
+    string phone = 3;
+    string accname = 4;
     string passwd = 5;
 }

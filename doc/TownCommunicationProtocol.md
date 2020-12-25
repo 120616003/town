@@ -2,56 +2,57 @@
 
 ### `注册 10001`
 
-> **`class ACCRegister;`**
+> **`class AccRegister;`**
 
 | Field Name   | Type   |
 | ------------ | ------ |
+| type         | int    |
 | email        | string |
 | phone        | string |
-| account_name | string |
+| accname      | string |
 | passwd       | string |
 
 ### `登录 10002`
 
-> **`class ACCLogin;`**
+> **`class AccLogin;`**
 
 | Field Name   | Type   |
 | ------------ | ------ |
 | email        | string |
 | phone        | string |
-| account_name | string |
+| accname      | string |
 | passwd       | string |
 
 ### `登出 10003`
 
-> **`class ACCLogout;`**
+> **`class AccLogout;`**
 
 | Field Name   | Type   |
 | ------------ | ------ |
-| account_name | string |
+| accname      | string |
 
 ### `注销 10004`
 
-> **`class ACCCancellation;`**
+> **`class AccCancellation;`**
 
 | Field Name   | Type   |
 | ------------ | ------ |
 | email        | string |
 | phone        | string |
-| account_name | string |
+| accname      | string |
 
 ### `恢复 10005`
 
-> **`class ACCRecovery;`**
+> **`class AccRecovery;`**
 
 | Field Name   | Type   |
 | ------------ | ------ |
-| account_name | string |
+| accname      | string |
 
 ### `个人信息 10006`
 
-> **`ACCPersonInfo 10006;`**
+> **`AccPersonInfo 10006;`**
 
 | Field Name   | Type   |
 | ------------ | ------ |
-| account_name | string |
+| accname      | string |

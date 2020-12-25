@@ -98,24 +98,25 @@ void ServerEvent::ServerReadCb(bufferevent *bev, void *arg)
 			return;
 		}
 
-		save_len += len;
+		save_len += ret;
 		if (save_len == len) {
 			// msg.reserve(save_len);
 			// msg.insert(msg.end(), buf, buf + save_len);
-			login lg;
-			// if (!lg.ParseFromString(msg))
-			if (!lg.ParseFromArray(buf, save_len))
-			{
-				LOG_INFO("ParseFromString failed");
-				return;
-			}
-			LOG_INFO("type:{}", lg.type());
-			LOG_INFO("name:{}", lg.name());
-			LOG_INFO("email:{}", lg.email());
-			LOG_INFO("phone:{}", lg.phone());
-			LOG_INFO("passwd:{}", lg.passwd());
-			len = 0;
-			save_len = 0;
+			// login lg;
+			// // if (!lg.ParseFromString(msg))
+			// if (!lg.ParseFromArray(buf, save_len))
+			// {
+			// 	LOG_INFO("ParseFromString failed");
+			// 	return;
+			// }
+			// LOG_INFO("type:{}", lg.type());
+			// LOG_INFO("name:{}", lg.name());
+			// LOG_INFO("email:{}", lg.email());
+			// LOG_INFO("phone:{}", lg.phone());
+			// LOG_INFO("passwd:{}", lg.passwd());
+			// len = 0;
+			// save_len = 0;
+			// break;
 		}
 	} while (true);
 }

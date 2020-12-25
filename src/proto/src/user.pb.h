@@ -53,32 +53,32 @@ struct TableStruct_user_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_2eproto;
-class login;
-class loginDefaultTypeInternal;
-extern loginDefaultTypeInternal _login_default_instance_;
+class AccRegister;
+class AccRegisterDefaultTypeInternal;
+extern AccRegisterDefaultTypeInternal _AccRegister_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
-template<> ::login* Arena::CreateMaybeMessage<::login>(Arena*);
+template<> ::AccRegister* Arena::CreateMaybeMessage<::AccRegister>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
 
-class login PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:login) */ {
+class AccRegister PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AccRegister) */ {
  public:
-  inline login() : login(nullptr) {}
-  virtual ~login();
+  inline AccRegister() : AccRegister(nullptr) {}
+  virtual ~AccRegister();
 
-  login(const login& from);
-  login(login&& from) noexcept
-    : login() {
+  AccRegister(const AccRegister& from);
+  AccRegister(AccRegister&& from) noexcept
+    : AccRegister() {
     *this = ::std::move(from);
   }
 
-  inline login& operator=(const login& from) {
+  inline AccRegister& operator=(const AccRegister& from) {
     CopyFrom(from);
     return *this;
   }
-  inline login& operator=(login&& from) noexcept {
+  inline AccRegister& operator=(AccRegister&& from) noexcept {
     if (GetArena() == from.GetArena()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -96,19 +96,19 @@ class login PROTOBUF_FINAL :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const login& default_instance();
+  static const AccRegister& default_instance();
 
-  static inline const login* internal_default_instance() {
-    return reinterpret_cast<const login*>(
-               &_login_default_instance_);
+  static inline const AccRegister* internal_default_instance() {
+    return reinterpret_cast<const AccRegister*>(
+               &_AccRegister_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(login& a, login& b) {
+  friend void swap(AccRegister& a, AccRegister& b) {
     a.Swap(&b);
   }
-  inline void Swap(login* other) {
+  inline void Swap(AccRegister* other) {
     if (other == this) return;
     if (GetArena() == other->GetArena()) {
       InternalSwap(other);
@@ -116,7 +116,7 @@ class login PROTOBUF_FINAL :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(login* other) {
+  void UnsafeArenaSwap(AccRegister* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -124,17 +124,17 @@ class login PROTOBUF_FINAL :
 
   // implements Message ----------------------------------------------
 
-  inline login* New() const final {
-    return CreateMaybeMessage<login>(nullptr);
+  inline AccRegister* New() const final {
+    return CreateMaybeMessage<AccRegister>(nullptr);
   }
 
-  login* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<login>(arena);
+  AccRegister* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<AccRegister>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const login& from);
-  void MergeFrom(const login& from);
+  void CopyFrom(const AccRegister& from);
+  void MergeFrom(const AccRegister& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -148,13 +148,13 @@ class login PROTOBUF_FINAL :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(login* other);
+  void InternalSwap(AccRegister* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "login";
+    return "AccRegister";
   }
   protected:
-  explicit login(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit AccRegister(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -174,29 +174,13 @@ class login PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 2,
-    kEmailFieldNumber = 3,
-    kPhoneFieldNumber = 4,
+    kEmailFieldNumber = 2,
+    kPhoneFieldNumber = 3,
+    kAccnameFieldNumber = 4,
     kPasswdFieldNumber = 5,
     kTypeFieldNumber = 1,
   };
-  // string name = 2;
-  void clear_name();
-  const std::string& name() const;
-  void set_name(const std::string& value);
-  void set_name(std::string&& value);
-  void set_name(const char* value);
-  void set_name(const char* value, size_t size);
-  std::string* mutable_name();
-  std::string* release_name();
-  void set_allocated_name(std::string* name);
-  private:
-  const std::string& _internal_name() const;
-  void _internal_set_name(const std::string& value);
-  std::string* _internal_mutable_name();
-  public:
-
-  // string email = 3;
+  // string email = 2;
   void clear_email();
   const std::string& email() const;
   void set_email(const std::string& value);
@@ -212,7 +196,7 @@ class login PROTOBUF_FINAL :
   std::string* _internal_mutable_email();
   public:
 
-  // string phone = 4;
+  // string phone = 3;
   void clear_phone();
   const std::string& phone() const;
   void set_phone(const std::string& value);
@@ -226,6 +210,22 @@ class login PROTOBUF_FINAL :
   const std::string& _internal_phone() const;
   void _internal_set_phone(const std::string& value);
   std::string* _internal_mutable_phone();
+  public:
+
+  // string accname = 4;
+  void clear_accname();
+  const std::string& accname() const;
+  void set_accname(const std::string& value);
+  void set_accname(std::string&& value);
+  void set_accname(const char* value);
+  void set_accname(const char* value, size_t size);
+  std::string* mutable_accname();
+  std::string* release_accname();
+  void set_allocated_accname(std::string* accname);
+  private:
+  const std::string& _internal_accname() const;
+  void _internal_set_accname(const std::string& value);
+  std::string* _internal_mutable_accname();
   public:
 
   // string passwd = 5;
@@ -253,16 +253,16 @@ class login PROTOBUF_FINAL :
   void _internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:login)
+  // @@protoc_insertion_point(class_scope:AccRegister)
  private:
   class _Internal;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr email_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr phone_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr accname_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr passwd_;
   ::PROTOBUF_NAMESPACE_ID::int32 type_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -277,140 +277,79 @@ class login PROTOBUF_FINAL :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// login
+// AccRegister
 
 // int32 type = 1;
-inline void login::clear_type() {
+inline void AccRegister::clear_type() {
   type_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 login::_internal_type() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 AccRegister::_internal_type() const {
   return type_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 login::type() const {
-  // @@protoc_insertion_point(field_get:login.type)
+inline ::PROTOBUF_NAMESPACE_ID::int32 AccRegister::type() const {
+  // @@protoc_insertion_point(field_get:AccRegister.type)
   return _internal_type();
 }
-inline void login::_internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void AccRegister::_internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   type_ = value;
 }
-inline void login::set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void AccRegister::set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:login.type)
+  // @@protoc_insertion_point(field_set:AccRegister.type)
 }
 
-// string name = 2;
-inline void login::clear_name() {
-  name_.ClearToEmpty();
-}
-inline const std::string& login::name() const {
-  // @@protoc_insertion_point(field_get:login.name)
-  return _internal_name();
-}
-inline void login::set_name(const std::string& value) {
-  _internal_set_name(value);
-  // @@protoc_insertion_point(field_set:login.name)
-}
-inline std::string* login::mutable_name() {
-  // @@protoc_insertion_point(field_mutable:login.name)
-  return _internal_mutable_name();
-}
-inline const std::string& login::_internal_name() const {
-  return name_.Get();
-}
-inline void login::_internal_set_name(const std::string& value) {
-  
-  name_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
-}
-inline void login::set_name(std::string&& value) {
-  
-  name_.Set(
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:login.name)
-}
-inline void login::set_name(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  name_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:login.name)
-}
-inline void login::set_name(const char* value,
-    size_t size) {
-  
-  name_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:login.name)
-}
-inline std::string* login::_internal_mutable_name() {
-  
-  return name_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
-}
-inline std::string* login::release_name() {
-  // @@protoc_insertion_point(field_release:login.name)
-  return name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline void login::set_allocated_name(std::string* name) {
-  if (name != nullptr) {
-    
-  } else {
-    
-  }
-  name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:login.name)
-}
-
-// string email = 3;
-inline void login::clear_email() {
+// string email = 2;
+inline void AccRegister::clear_email() {
   email_.ClearToEmpty();
 }
-inline const std::string& login::email() const {
-  // @@protoc_insertion_point(field_get:login.email)
+inline const std::string& AccRegister::email() const {
+  // @@protoc_insertion_point(field_get:AccRegister.email)
   return _internal_email();
 }
-inline void login::set_email(const std::string& value) {
+inline void AccRegister::set_email(const std::string& value) {
   _internal_set_email(value);
-  // @@protoc_insertion_point(field_set:login.email)
+  // @@protoc_insertion_point(field_set:AccRegister.email)
 }
-inline std::string* login::mutable_email() {
-  // @@protoc_insertion_point(field_mutable:login.email)
+inline std::string* AccRegister::mutable_email() {
+  // @@protoc_insertion_point(field_mutable:AccRegister.email)
   return _internal_mutable_email();
 }
-inline const std::string& login::_internal_email() const {
+inline const std::string& AccRegister::_internal_email() const {
   return email_.Get();
 }
-inline void login::_internal_set_email(const std::string& value) {
+inline void AccRegister::_internal_set_email(const std::string& value) {
   
   email_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void login::set_email(std::string&& value) {
+inline void AccRegister::set_email(std::string&& value) {
   
   email_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:login.email)
+  // @@protoc_insertion_point(field_set_rvalue:AccRegister.email)
 }
-inline void login::set_email(const char* value) {
+inline void AccRegister::set_email(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   email_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:login.email)
+  // @@protoc_insertion_point(field_set_char:AccRegister.email)
 }
-inline void login::set_email(const char* value,
+inline void AccRegister::set_email(const char* value,
     size_t size) {
   
   email_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:login.email)
+  // @@protoc_insertion_point(field_set_pointer:AccRegister.email)
 }
-inline std::string* login::_internal_mutable_email() {
+inline std::string* AccRegister::_internal_mutable_email() {
   
   return email_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* login::release_email() {
-  // @@protoc_insertion_point(field_release:login.email)
+inline std::string* AccRegister::release_email() {
+  // @@protoc_insertion_point(field_release:AccRegister.email)
   return email_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void login::set_allocated_email(std::string* email) {
+inline void AccRegister::set_allocated_email(std::string* email) {
   if (email != nullptr) {
     
   } else {
@@ -418,60 +357,60 @@ inline void login::set_allocated_email(std::string* email) {
   }
   email_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), email,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:login.email)
+  // @@protoc_insertion_point(field_set_allocated:AccRegister.email)
 }
 
-// string phone = 4;
-inline void login::clear_phone() {
+// string phone = 3;
+inline void AccRegister::clear_phone() {
   phone_.ClearToEmpty();
 }
-inline const std::string& login::phone() const {
-  // @@protoc_insertion_point(field_get:login.phone)
+inline const std::string& AccRegister::phone() const {
+  // @@protoc_insertion_point(field_get:AccRegister.phone)
   return _internal_phone();
 }
-inline void login::set_phone(const std::string& value) {
+inline void AccRegister::set_phone(const std::string& value) {
   _internal_set_phone(value);
-  // @@protoc_insertion_point(field_set:login.phone)
+  // @@protoc_insertion_point(field_set:AccRegister.phone)
 }
-inline std::string* login::mutable_phone() {
-  // @@protoc_insertion_point(field_mutable:login.phone)
+inline std::string* AccRegister::mutable_phone() {
+  // @@protoc_insertion_point(field_mutable:AccRegister.phone)
   return _internal_mutable_phone();
 }
-inline const std::string& login::_internal_phone() const {
+inline const std::string& AccRegister::_internal_phone() const {
   return phone_.Get();
 }
-inline void login::_internal_set_phone(const std::string& value) {
+inline void AccRegister::_internal_set_phone(const std::string& value) {
   
   phone_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void login::set_phone(std::string&& value) {
+inline void AccRegister::set_phone(std::string&& value) {
   
   phone_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:login.phone)
+  // @@protoc_insertion_point(field_set_rvalue:AccRegister.phone)
 }
-inline void login::set_phone(const char* value) {
+inline void AccRegister::set_phone(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   phone_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:login.phone)
+  // @@protoc_insertion_point(field_set_char:AccRegister.phone)
 }
-inline void login::set_phone(const char* value,
+inline void AccRegister::set_phone(const char* value,
     size_t size) {
   
   phone_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:login.phone)
+  // @@protoc_insertion_point(field_set_pointer:AccRegister.phone)
 }
-inline std::string* login::_internal_mutable_phone() {
+inline std::string* AccRegister::_internal_mutable_phone() {
   
   return phone_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* login::release_phone() {
-  // @@protoc_insertion_point(field_release:login.phone)
+inline std::string* AccRegister::release_phone() {
+  // @@protoc_insertion_point(field_release:AccRegister.phone)
   return phone_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void login::set_allocated_phone(std::string* phone) {
+inline void AccRegister::set_allocated_phone(std::string* phone) {
   if (phone != nullptr) {
     
   } else {
@@ -479,60 +418,121 @@ inline void login::set_allocated_phone(std::string* phone) {
   }
   phone_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), phone,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:login.phone)
+  // @@protoc_insertion_point(field_set_allocated:AccRegister.phone)
+}
+
+// string accname = 4;
+inline void AccRegister::clear_accname() {
+  accname_.ClearToEmpty();
+}
+inline const std::string& AccRegister::accname() const {
+  // @@protoc_insertion_point(field_get:AccRegister.accname)
+  return _internal_accname();
+}
+inline void AccRegister::set_accname(const std::string& value) {
+  _internal_set_accname(value);
+  // @@protoc_insertion_point(field_set:AccRegister.accname)
+}
+inline std::string* AccRegister::mutable_accname() {
+  // @@protoc_insertion_point(field_mutable:AccRegister.accname)
+  return _internal_mutable_accname();
+}
+inline const std::string& AccRegister::_internal_accname() const {
+  return accname_.Get();
+}
+inline void AccRegister::_internal_set_accname(const std::string& value) {
+  
+  accname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void AccRegister::set_accname(std::string&& value) {
+  
+  accname_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:AccRegister.accname)
+}
+inline void AccRegister::set_accname(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  accname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:AccRegister.accname)
+}
+inline void AccRegister::set_accname(const char* value,
+    size_t size) {
+  
+  accname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:AccRegister.accname)
+}
+inline std::string* AccRegister::_internal_mutable_accname() {
+  
+  return accname_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* AccRegister::release_accname() {
+  // @@protoc_insertion_point(field_release:AccRegister.accname)
+  return accname_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void AccRegister::set_allocated_accname(std::string* accname) {
+  if (accname != nullptr) {
+    
+  } else {
+    
+  }
+  accname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), accname,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:AccRegister.accname)
 }
 
 // string passwd = 5;
-inline void login::clear_passwd() {
+inline void AccRegister::clear_passwd() {
   passwd_.ClearToEmpty();
 }
-inline const std::string& login::passwd() const {
-  // @@protoc_insertion_point(field_get:login.passwd)
+inline const std::string& AccRegister::passwd() const {
+  // @@protoc_insertion_point(field_get:AccRegister.passwd)
   return _internal_passwd();
 }
-inline void login::set_passwd(const std::string& value) {
+inline void AccRegister::set_passwd(const std::string& value) {
   _internal_set_passwd(value);
-  // @@protoc_insertion_point(field_set:login.passwd)
+  // @@protoc_insertion_point(field_set:AccRegister.passwd)
 }
-inline std::string* login::mutable_passwd() {
-  // @@protoc_insertion_point(field_mutable:login.passwd)
+inline std::string* AccRegister::mutable_passwd() {
+  // @@protoc_insertion_point(field_mutable:AccRegister.passwd)
   return _internal_mutable_passwd();
 }
-inline const std::string& login::_internal_passwd() const {
+inline const std::string& AccRegister::_internal_passwd() const {
   return passwd_.Get();
 }
-inline void login::_internal_set_passwd(const std::string& value) {
+inline void AccRegister::_internal_set_passwd(const std::string& value) {
   
   passwd_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void login::set_passwd(std::string&& value) {
+inline void AccRegister::set_passwd(std::string&& value) {
   
   passwd_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:login.passwd)
+  // @@protoc_insertion_point(field_set_rvalue:AccRegister.passwd)
 }
-inline void login::set_passwd(const char* value) {
+inline void AccRegister::set_passwd(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   passwd_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:login.passwd)
+  // @@protoc_insertion_point(field_set_char:AccRegister.passwd)
 }
-inline void login::set_passwd(const char* value,
+inline void AccRegister::set_passwd(const char* value,
     size_t size) {
   
   passwd_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:login.passwd)
+  // @@protoc_insertion_point(field_set_pointer:AccRegister.passwd)
 }
-inline std::string* login::_internal_mutable_passwd() {
+inline std::string* AccRegister::_internal_mutable_passwd() {
   
   return passwd_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* login::release_passwd() {
-  // @@protoc_insertion_point(field_release:login.passwd)
+inline std::string* AccRegister::release_passwd() {
+  // @@protoc_insertion_point(field_release:AccRegister.passwd)
   return passwd_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void login::set_allocated_passwd(std::string* passwd) {
+inline void AccRegister::set_allocated_passwd(std::string* passwd) {
   if (passwd != nullptr) {
     
   } else {
@@ -540,7 +540,7 @@ inline void login::set_allocated_passwd(std::string* passwd) {
   }
   passwd_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), passwd,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:login.passwd)
+  // @@protoc_insertion_point(field_set_allocated:AccRegister.passwd)
 }
 
 #ifdef __GNUC__
