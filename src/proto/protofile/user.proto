@@ -1,9 +1,30 @@
 syntax = "proto3";
 
-message AccRegister {
-    int32 type = 1;
+message common_enum {
+    enum MESSAGE_TYPE {
+        MESS_REGISTER = 0;
+    }
+
+    enum ACC_TYPE {
+        ACC_EMAIL = 0;
+        ACC_PHONE = 1;
+        ACC_NAME = 2;
+    }
+}
+
+message acc_register {
+    common_enum.ACC_TYPE type = 1;
     string email = 2;
     string phone = 3;
     string accname = 4;
     string passwd = 5;
+    string yanyan = 6;
 }
+
+message message {
+    common_enum.MESSAGE_TYPE mess_type = 1;
+    acc_register acc_reg = 2;
+}
+
+
+

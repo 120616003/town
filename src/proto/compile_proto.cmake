@@ -1,0 +1,1 @@
+execute_process(COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../../../../build/bin/protoc --proto_path=${CMAKE_CURRENT_SOURCE_DIR}/../../../../src/proto/protofile/ --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}/../../../../src/proto/src user.proto)

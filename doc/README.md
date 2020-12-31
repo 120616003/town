@@ -9,4 +9,4 @@ sudo apt install cmake gcc g++ build-essential -y
 sudo apt install mysql-server libmysqlclient-dev libevent-dev -y
 
 #protobuf生成
-./protoc --proto_path = /xx/town/src/proto/protofile/ --cpp_out = /xx/town/src/proto/src user.proto
+./protoc --proto_path=/home/yan/Project/town/src/proto/protofile/ --cpp_out=/home/yan/Project/town/src/proto/src user.proto

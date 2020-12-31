@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.10)
 
 project (town)
 
@@ -22,11 +22,6 @@ elseif(LOG STREQUAL "FILELOG")
 else()
   set(LOG_TYPE "STDLOG")
 endif()
-
-# add_custom_target(flash
-#     COMMAND ${PERL_EXECUTABLE} ${CMAKE_SOURCE_DIR}/scripts/do_flash.pl ${MAIN_BIN_FILE}
-#     DEPENDS ${MAIN_BIN_FILE}
-# )
 
 #third_party
 set(protobuf_SOURCE_DIR ${PROJECT_SOURCE_DIR}/third_party/protobuf-3.14.0/cmake)

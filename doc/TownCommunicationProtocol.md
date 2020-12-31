@@ -56,3 +56,5 @@
 | Field Name   | Type   |
 | ------------ | ------ |
 | accname      | string |
+| name         | string |
+| age          | int32  |

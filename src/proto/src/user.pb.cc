@@ -14,81 +14,345 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-class AccRegisterDefaultTypeInternal {
+extern PROTOBUF_INTERNAL_EXPORT_user_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_acc_register_user_2eproto;
+class common_enumDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<AccRegister> _instance;
-} _AccRegister_default_instance_;
-static void InitDefaultsscc_info_AccRegister_user_2eproto() {
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<common_enum> _instance;
+} _common_enum_default_instance_;
+class acc_registerDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<acc_register> _instance;
+} _acc_register_default_instance_;
+class messageDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<message> _instance;
+} _message_default_instance_;
+static void InitDefaultsscc_info_acc_register_user_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_AccRegister_default_instance_;
-    new (ptr) ::AccRegister();
+    void* ptr = &::_acc_register_default_instance_;
+    new (ptr) ::acc_register();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_AccRegister_user_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_AccRegister_user_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_acc_register_user_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_acc_register_user_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_user_2eproto[1];
-static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_user_2eproto = nullptr;
+static void InitDefaultsscc_info_common_enum_user_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_common_enum_default_instance_;
+    new (ptr) ::common_enum();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_common_enum_user_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_common_enum_user_2eproto}, {}};
+
+static void InitDefaultsscc_info_message_user_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_message_default_instance_;
+    new (ptr) ::message();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_message_user_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_message_user_2eproto}, {
+      &scc_info_acc_register_user_2eproto.base,}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_user_2eproto[3];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_user_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_user_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_user_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::AccRegister, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::common_enum, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::AccRegister, type_),
-  PROTOBUF_FIELD_OFFSET(::AccRegister, email_),
-  PROTOBUF_FIELD_OFFSET(::AccRegister, phone_),
-  PROTOBUF_FIELD_OFFSET(::AccRegister, accname_),
-  PROTOBUF_FIELD_OFFSET(::AccRegister, passwd_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::acc_register, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::acc_register, type_),
+  PROTOBUF_FIELD_OFFSET(::acc_register, email_),
+  PROTOBUF_FIELD_OFFSET(::acc_register, phone_),
+  PROTOBUF_FIELD_OFFSET(::acc_register, accname_),
+  PROTOBUF_FIELD_OFFSET(::acc_register, passwd_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::message, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::message, mess_type_),
+  PROTOBUF_FIELD_OFFSET(::message, acc_reg_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::AccRegister)},
+  { 0, -1, sizeof(::common_enum)},
+  { 5, -1, sizeof(::acc_register)},
+  { 15, -1, sizeof(::message)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_AccRegister_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_common_enum_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_acc_register_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_message_default_instance_),
 };
 
 const char descriptor_table_protodef_user_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nuser.proto\"Z\n\013AccRegister\022\014\n\004type\030\001 \001("
-  "\005\022\r\n\005email\030\002 \001(\t\022\r\n\005phone\030\003 \001(\t\022\017\n\007accna"
-  "me\030\004 \001(\t\022\016\n\006passwd\030\005 \001(\tb\006proto3"
+  "\n\nuser.proto\"h\n\013common_enum\"!\n\014MESSAGE_T"
+  "YPE\022\021\n\rMESS_REGISTER\020\000\"6\n\010ACC_TYPE\022\r\n\tAC"
+  "C_EMAIL\020\000\022\r\n\tACC_PHONE\020\001\022\014\n\010ACC_NAME\020\002\"r"
+  "\n\014acc_register\022#\n\004type\030\001 \001(\0162\025.common_en"
+  "um.ACC_TYPE\022\r\n\005email\030\002 \001(\t\022\r\n\005phone\030\003 \001("
+  "\t\022\017\n\007accname\030\004 \001(\t\022\016\n\006passwd\030\005 \001(\t\"W\n\007me"
+  "ssage\022,\n\tmess_type\030\001 \001(\0162\031.common_enum.M"
+  "ESSAGE_TYPE\022\036\n\007acc_reg\030\002 \001(\0132\r.acc_regis"
+  "terb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_user_2eproto_sccs[1] = {
-  &scc_info_AccRegister_user_2eproto.base,
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_user_2eproto_sccs[3] = {
+  &scc_info_acc_register_user_2eproto.base,
+  &scc_info_common_enum_user_2eproto.base,
+  &scc_info_message_user_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_user_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_2eproto = {
-  false, false, descriptor_table_protodef_user_2eproto, "user.proto", 112,
-  &descriptor_table_user_2eproto_once, descriptor_table_user_2eproto_sccs, descriptor_table_user_2eproto_deps, 1, 0,
+  false, false, descriptor_table_protodef_user_2eproto, "user.proto", 331,
+  &descriptor_table_user_2eproto_once, descriptor_table_user_2eproto_sccs, descriptor_table_user_2eproto_deps, 3, 0,
   schemas, file_default_instances, TableStruct_user_2eproto::offsets,
-  file_level_metadata_user_2eproto, 1, file_level_enum_descriptors_user_2eproto, file_level_service_descriptors_user_2eproto,
+  file_level_metadata_user_2eproto, 3, file_level_enum_descriptors_user_2eproto, file_level_service_descriptors_user_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_user_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_user_2eproto)), true);
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* common_enum_MESSAGE_TYPE_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_user_2eproto);
+  return file_level_enum_descriptors_user_2eproto[0];
+}
+bool common_enum_MESSAGE_TYPE_IsValid(int value) {
+  switch (value) {
+    case 0:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr common_enum_MESSAGE_TYPE common_enum::MESS_REGISTER;
+constexpr common_enum_MESSAGE_TYPE common_enum::MESSAGE_TYPE_MIN;
+constexpr common_enum_MESSAGE_TYPE common_enum::MESSAGE_TYPE_MAX;
+constexpr int common_enum::MESSAGE_TYPE_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* common_enum_ACC_TYPE_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_user_2eproto);
+  return file_level_enum_descriptors_user_2eproto[1];
+}
+bool common_enum_ACC_TYPE_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr common_enum_ACC_TYPE common_enum::ACC_EMAIL;
+constexpr common_enum_ACC_TYPE common_enum::ACC_PHONE;
+constexpr common_enum_ACC_TYPE common_enum::ACC_NAME;
+constexpr common_enum_ACC_TYPE common_enum::ACC_TYPE_MIN;
+constexpr common_enum_ACC_TYPE common_enum::ACC_TYPE_MAX;
+constexpr int common_enum::ACC_TYPE_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
 
-class AccRegister::_Internal {
+class common_enum::_Internal {
  public:
 };
 
-AccRegister::AccRegister(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+common_enum::common_enum(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:AccRegister)
+  // @@protoc_insertion_point(arena_constructor:common_enum)
 }
-AccRegister::AccRegister(const AccRegister& from)
+common_enum::common_enum(const common_enum& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:common_enum)
+}
+
+void common_enum::SharedCtor() {
+}
+
+common_enum::~common_enum() {
+  // @@protoc_insertion_point(destructor:common_enum)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void common_enum::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void common_enum::ArenaDtor(void* object) {
+  common_enum* _this = reinterpret_cast< common_enum* >(object);
+  (void)_this;
+}
+void common_enum::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void common_enum::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const common_enum& common_enum::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_common_enum_user_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void common_enum::Clear() {
+// @@protoc_insertion_point(message_clear_start:common_enum)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* common_enum::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* common_enum::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:common_enum)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:common_enum)
+  return target;
+}
+
+size_t common_enum::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:common_enum)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void common_enum::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:common_enum)
+  GOOGLE_DCHECK_NE(&from, this);
+  const common_enum* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<common_enum>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:common_enum)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:common_enum)
+    MergeFrom(*source);
+  }
+}
+
+void common_enum::MergeFrom(const common_enum& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:common_enum)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void common_enum::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:common_enum)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void common_enum::CopyFrom(const common_enum& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:common_enum)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool common_enum::IsInitialized() const {
+  return true;
+}
+
+void common_enum::InternalSwap(common_enum* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata common_enum::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class acc_register::_Internal {
+ public:
+};
+
+acc_register::acc_register(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:acc_register)
+}
+acc_register::acc_register(const acc_register& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   email_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -112,11 +376,11 @@ AccRegister::AccRegister(const AccRegister& from)
       GetArena());
   }
   type_ = from.type_;
-  // @@protoc_insertion_point(copy_constructor:AccRegister)
+  // @@protoc_insertion_point(copy_constructor:acc_register)
 }
 
-void AccRegister::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_AccRegister_user_2eproto.base);
+void acc_register::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_acc_register_user_2eproto.base);
   email_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   phone_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   accname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -124,13 +388,13 @@ void AccRegister::SharedCtor() {
   type_ = 0;
 }
 
-AccRegister::~AccRegister() {
-  // @@protoc_insertion_point(destructor:AccRegister)
+acc_register::~acc_register() {
+  // @@protoc_insertion_point(destructor:acc_register)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void AccRegister::SharedDtor() {
+void acc_register::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
   email_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   phone_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -138,23 +402,23 @@ void AccRegister::SharedDtor() {
   passwd_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void AccRegister::ArenaDtor(void* object) {
-  AccRegister* _this = reinterpret_cast< AccRegister* >(object);
+void acc_register::ArenaDtor(void* object) {
+  acc_register* _this = reinterpret_cast< acc_register* >(object);
   (void)_this;
 }
-void AccRegister::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+void acc_register::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 }
-void AccRegister::SetCachedSize(int size) const {
+void acc_register::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const AccRegister& AccRegister::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_AccRegister_user_2eproto.base);
+const acc_register& acc_register::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_acc_register_user_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void AccRegister::Clear() {
-// @@protoc_insertion_point(message_clear_start:AccRegister)
+void acc_register::Clear() {
+// @@protoc_insertion_point(message_clear_start:acc_register)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -167,18 +431,19 @@ void AccRegister::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* AccRegister::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* acc_register::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // int32 type = 1;
+      // .common_enum.ACC_TYPE type = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          _internal_set_type(static_cast<::common_enum_ACC_TYPE>(val));
         } else goto handle_unusual;
         continue;
       // string email = 2;
@@ -186,7 +451,7 @@ const char* AccRegister::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           auto str = _internal_mutable_email();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "AccRegister.email"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "acc_register.email"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -195,7 +460,7 @@ const char* AccRegister::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           auto str = _internal_mutable_phone();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "AccRegister.phone"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "acc_register.phone"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -204,7 +469,7 @@ const char* AccRegister::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           auto str = _internal_mutable_accname();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "AccRegister.accname"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "acc_register.accname"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -213,7 +478,7 @@ const char* AccRegister::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           auto str = _internal_mutable_passwd();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "AccRegister.passwd"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "acc_register.passwd"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -239,16 +504,17 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* AccRegister::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* acc_register::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:AccRegister)
+  // @@protoc_insertion_point(serialize_to_array_start:acc_register)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 type = 1;
+  // .common_enum.ACC_TYPE type = 1;
   if (this->type() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_type(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_type(), target);
   }
 
   // string email = 2;
@@ -256,7 +522,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_email().data(), static_cast<int>(this->_internal_email().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "AccRegister.email");
+      "acc_register.email");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_email(), target);
   }
@@ -266,7 +532,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_phone().data(), static_cast<int>(this->_internal_phone().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "AccRegister.phone");
+      "acc_register.phone");
     target = stream->WriteStringMaybeAliased(
         3, this->_internal_phone(), target);
   }
@@ -276,7 +542,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_accname().data(), static_cast<int>(this->_internal_accname().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "AccRegister.accname");
+      "acc_register.accname");
     target = stream->WriteStringMaybeAliased(
         4, this->_internal_accname(), target);
   }
@@ -286,7 +552,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_passwd().data(), static_cast<int>(this->_internal_passwd().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "AccRegister.passwd");
+      "acc_register.passwd");
     target = stream->WriteStringMaybeAliased(
         5, this->_internal_passwd(), target);
   }
@@ -295,12 +561,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:AccRegister)
+  // @@protoc_insertion_point(serialize_to_array_end:acc_register)
   return target;
 }
 
-size_t AccRegister::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:AccRegister)
+size_t acc_register::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:acc_register)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -335,11 +601,10 @@ size_t AccRegister::ByteSizeLong() const {
         this->_internal_passwd());
   }
 
-  // int32 type = 1;
+  // .common_enum.ACC_TYPE type = 1;
   if (this->type() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_type());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_type());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -351,23 +616,23 @@ size_t AccRegister::ByteSizeLong() const {
   return total_size;
 }
 
-void AccRegister::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:AccRegister)
+void acc_register::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:acc_register)
   GOOGLE_DCHECK_NE(&from, this);
-  const AccRegister* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<AccRegister>(
+  const acc_register* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<acc_register>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AccRegister)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:acc_register)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:AccRegister)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:acc_register)
     MergeFrom(*source);
   }
 }
 
-void AccRegister::MergeFrom(const AccRegister& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:AccRegister)
+void acc_register::MergeFrom(const acc_register& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:acc_register)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -390,25 +655,25 @@ void AccRegister::MergeFrom(const AccRegister& from) {
   }
 }
 
-void AccRegister::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:AccRegister)
+void acc_register::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:acc_register)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void AccRegister::CopyFrom(const AccRegister& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:AccRegister)
+void acc_register::CopyFrom(const acc_register& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:acc_register)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool AccRegister::IsInitialized() const {
+bool acc_register::IsInitialized() const {
   return true;
 }
 
-void AccRegister::InternalSwap(AccRegister* other) {
+void acc_register::InternalSwap(acc_register* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   email_.Swap(&other->email_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
@@ -418,15 +683,265 @@ void AccRegister::InternalSwap(AccRegister* other) {
   swap(type_, other->type_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata AccRegister::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata acc_register::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+class message::_Internal {
+ public:
+  static const ::acc_register& acc_reg(const message* msg);
+};
+
+const ::acc_register&
+message::_Internal::acc_reg(const message* msg) {
+  return *msg->acc_reg_;
+}
+message::message(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:message)
+}
+message::message(const message& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_acc_reg()) {
+    acc_reg_ = new ::acc_register(*from.acc_reg_);
+  } else {
+    acc_reg_ = nullptr;
+  }
+  mess_type_ = from.mess_type_;
+  // @@protoc_insertion_point(copy_constructor:message)
+}
+
+void message::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_message_user_2eproto.base);
+  ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+      reinterpret_cast<char*>(&acc_reg_) - reinterpret_cast<char*>(this)),
+      0, static_cast<size_t>(reinterpret_cast<char*>(&mess_type_) -
+      reinterpret_cast<char*>(&acc_reg_)) + sizeof(mess_type_));
+}
+
+message::~message() {
+  // @@protoc_insertion_point(destructor:message)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void message::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  if (this != internal_default_instance()) delete acc_reg_;
+}
+
+void message::ArenaDtor(void* object) {
+  message* _this = reinterpret_cast< message* >(object);
+  (void)_this;
+}
+void message::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void message::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const message& message::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_message_user_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void message::Clear() {
+// @@protoc_insertion_point(message_clear_start:message)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArena() == nullptr && acc_reg_ != nullptr) {
+    delete acc_reg_;
+  }
+  acc_reg_ = nullptr;
+  mess_type_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* message::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // .common_enum.MESSAGE_TYPE mess_type = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_mess_type(static_cast<::common_enum_MESSAGE_TYPE>(val));
+        } else goto handle_unusual;
+        continue;
+      // .acc_register acc_reg = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_acc_reg(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* message::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:message)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .common_enum.MESSAGE_TYPE mess_type = 1;
+  if (this->mess_type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_mess_type(), target);
+  }
+
+  // .acc_register acc_reg = 2;
+  if (this->has_acc_reg()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        2, _Internal::acc_reg(this), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:message)
+  return target;
+}
+
+size_t message::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:message)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .acc_register acc_reg = 2;
+  if (this->has_acc_reg()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *acc_reg_);
+  }
+
+  // .common_enum.MESSAGE_TYPE mess_type = 1;
+  if (this->mess_type() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_mess_type());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void message::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:message)
+  GOOGLE_DCHECK_NE(&from, this);
+  const message* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<message>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:message)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:message)
+    MergeFrom(*source);
+  }
+}
+
+void message::MergeFrom(const message& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:message)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.has_acc_reg()) {
+    _internal_mutable_acc_reg()->::acc_register::MergeFrom(from._internal_acc_reg());
+  }
+  if (from.mess_type() != 0) {
+    _internal_set_mess_type(from._internal_mess_type());
+  }
+}
+
+void message::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:message)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void message::CopyFrom(const message& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:message)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool message::IsInitialized() const {
+  return true;
+}
+
+void message::InternalSwap(message* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(message, mess_type_)
+      + sizeof(message::mess_type_)
+      - PROTOBUF_FIELD_OFFSET(message, acc_reg_)>(
+          reinterpret_cast<char*>(&acc_reg_),
+          reinterpret_cast<char*>(&other->acc_reg_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata message::GetMetadata() const {
   return GetMetadataStatic();
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::AccRegister* Arena::CreateMaybeMessage< ::AccRegister >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::AccRegister >(arena);
+template<> PROTOBUF_NOINLINE ::common_enum* Arena::CreateMaybeMessage< ::common_enum >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::common_enum >(arena);
+}
+template<> PROTOBUF_NOINLINE ::acc_register* Arena::CreateMaybeMessage< ::acc_register >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::acc_register >(arena);
+}
+template<> PROTOBUF_NOINLINE ::message* Arena::CreateMaybeMessage< ::message >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::message >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

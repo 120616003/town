@@ -30,6 +30,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
@@ -46,39 +47,97 @@ struct TableStruct_user_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_2eproto;
-class AccRegister;
-class AccRegisterDefaultTypeInternal;
-extern AccRegisterDefaultTypeInternal _AccRegister_default_instance_;
+class acc_register;
+class acc_registerDefaultTypeInternal;
+extern acc_registerDefaultTypeInternal _acc_register_default_instance_;
+class common_enum;
+class common_enumDefaultTypeInternal;
+extern common_enumDefaultTypeInternal _common_enum_default_instance_;
+class message;
+class messageDefaultTypeInternal;
+extern messageDefaultTypeInternal _message_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
-template<> ::AccRegister* Arena::CreateMaybeMessage<::AccRegister>(Arena*);
+template<> ::acc_register* Arena::CreateMaybeMessage<::acc_register>(Arena*);
+template<> ::common_enum* Arena::CreateMaybeMessage<::common_enum>(Arena*);
+template<> ::message* Arena::CreateMaybeMessage<::message>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
+enum common_enum_MESSAGE_TYPE : int {
+  common_enum_MESSAGE_TYPE_MESS_REGISTER = 0,
+  common_enum_MESSAGE_TYPE_common_enum_MESSAGE_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  common_enum_MESSAGE_TYPE_common_enum_MESSAGE_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool common_enum_MESSAGE_TYPE_IsValid(int value);
+constexpr common_enum_MESSAGE_TYPE common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MIN = common_enum_MESSAGE_TYPE_MESS_REGISTER;
+constexpr common_enum_MESSAGE_TYPE common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MAX = common_enum_MESSAGE_TYPE_MESS_REGISTER;
+constexpr int common_enum_MESSAGE_TYPE_MESSAGE_TYPE_ARRAYSIZE = common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* common_enum_MESSAGE_TYPE_descriptor();
+template<typename T>
+inline const std::string& common_enum_MESSAGE_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, common_enum_MESSAGE_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function common_enum_MESSAGE_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    common_enum_MESSAGE_TYPE_descriptor(), enum_t_value);
+}
+inline bool common_enum_MESSAGE_TYPE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, common_enum_MESSAGE_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<common_enum_MESSAGE_TYPE>(
+    common_enum_MESSAGE_TYPE_descriptor(), name, value);
+}
+enum common_enum_ACC_TYPE : int {
+  common_enum_ACC_TYPE_ACC_EMAIL = 0,
+  common_enum_ACC_TYPE_ACC_PHONE = 1,
+  common_enum_ACC_TYPE_ACC_NAME = 2,
+  common_enum_ACC_TYPE_common_enum_ACC_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  common_enum_ACC_TYPE_common_enum_ACC_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool common_enum_ACC_TYPE_IsValid(int value);
+constexpr common_enum_ACC_TYPE common_enum_ACC_TYPE_ACC_TYPE_MIN = common_enum_ACC_TYPE_ACC_EMAIL;
+constexpr common_enum_ACC_TYPE common_enum_ACC_TYPE_ACC_TYPE_MAX = common_enum_ACC_TYPE_ACC_NAME;
+constexpr int common_enum_ACC_TYPE_ACC_TYPE_ARRAYSIZE = common_enum_ACC_TYPE_ACC_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* common_enum_ACC_TYPE_descriptor();
+template<typename T>
+inline const std::string& common_enum_ACC_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, common_enum_ACC_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function common_enum_ACC_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    common_enum_ACC_TYPE_descriptor(), enum_t_value);
+}
+inline bool common_enum_ACC_TYPE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, common_enum_ACC_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<common_enum_ACC_TYPE>(
+    common_enum_ACC_TYPE_descriptor(), name, value);
+}
 // ===================================================================
 
-class AccRegister PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AccRegister) */ {
+class common_enum PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:common_enum) */ {
  public:
-  inline AccRegister() : AccRegister(nullptr) {}
-  virtual ~AccRegister();
+  inline common_enum() : common_enum(nullptr) {}
+  virtual ~common_enum();
 
-  AccRegister(const AccRegister& from);
-  AccRegister(AccRegister&& from) noexcept
-    : AccRegister() {
+  common_enum(const common_enum& from);
+  common_enum(common_enum&& from) noexcept
+    : common_enum() {
     *this = ::std::move(from);
   }
 
-  inline AccRegister& operator=(const AccRegister& from) {
+  inline common_enum& operator=(const common_enum& from) {
     CopyFrom(from);
     return *this;
   }
-  inline AccRegister& operator=(AccRegister&& from) noexcept {
+  inline common_enum& operator=(common_enum&& from) noexcept {
     if (GetArena() == from.GetArena()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -96,19 +155,19 @@ class AccRegister PROTOBUF_FINAL :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const AccRegister& default_instance();
+  static const common_enum& default_instance();
 
-  static inline const AccRegister* internal_default_instance() {
-    return reinterpret_cast<const AccRegister*>(
-               &_AccRegister_default_instance_);
+  static inline const common_enum* internal_default_instance() {
+    return reinterpret_cast<const common_enum*>(
+               &_common_enum_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(AccRegister& a, AccRegister& b) {
+  friend void swap(common_enum& a, common_enum& b) {
     a.Swap(&b);
   }
-  inline void Swap(AccRegister* other) {
+  inline void Swap(common_enum* other) {
     if (other == this) return;
     if (GetArena() == other->GetArena()) {
       InternalSwap(other);
@@ -116,7 +175,7 @@ class AccRegister PROTOBUF_FINAL :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(AccRegister* other) {
+  void UnsafeArenaSwap(common_enum* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -124,17 +183,17 @@ class AccRegister PROTOBUF_FINAL :
 
   // implements Message ----------------------------------------------
 
-  inline AccRegister* New() const final {
-    return CreateMaybeMessage<AccRegister>(nullptr);
+  inline common_enum* New() const final {
+    return CreateMaybeMessage<common_enum>(nullptr);
   }
 
-  AccRegister* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<AccRegister>(arena);
+  common_enum* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<common_enum>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const AccRegister& from);
-  void MergeFrom(const AccRegister& from);
+  void CopyFrom(const common_enum& from);
+  void MergeFrom(const common_enum& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -148,13 +207,196 @@ class AccRegister PROTOBUF_FINAL :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(AccRegister* other);
+  void InternalSwap(common_enum* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "AccRegister";
+    return "common_enum";
   }
   protected:
-  explicit AccRegister(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit common_enum(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_user_2eproto);
+    return ::descriptor_table_user_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  typedef common_enum_MESSAGE_TYPE MESSAGE_TYPE;
+  static constexpr MESSAGE_TYPE MESS_REGISTER =
+    common_enum_MESSAGE_TYPE_MESS_REGISTER;
+  static inline bool MESSAGE_TYPE_IsValid(int value) {
+    return common_enum_MESSAGE_TYPE_IsValid(value);
+  }
+  static constexpr MESSAGE_TYPE MESSAGE_TYPE_MIN =
+    common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MIN;
+  static constexpr MESSAGE_TYPE MESSAGE_TYPE_MAX =
+    common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MAX;
+  static constexpr int MESSAGE_TYPE_ARRAYSIZE =
+    common_enum_MESSAGE_TYPE_MESSAGE_TYPE_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  MESSAGE_TYPE_descriptor() {
+    return common_enum_MESSAGE_TYPE_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& MESSAGE_TYPE_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, MESSAGE_TYPE>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function MESSAGE_TYPE_Name.");
+    return common_enum_MESSAGE_TYPE_Name(enum_t_value);
+  }
+  static inline bool MESSAGE_TYPE_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      MESSAGE_TYPE* value) {
+    return common_enum_MESSAGE_TYPE_Parse(name, value);
+  }
+
+  typedef common_enum_ACC_TYPE ACC_TYPE;
+  static constexpr ACC_TYPE ACC_EMAIL =
+    common_enum_ACC_TYPE_ACC_EMAIL;
+  static constexpr ACC_TYPE ACC_PHONE =
+    common_enum_ACC_TYPE_ACC_PHONE;
+  static constexpr ACC_TYPE ACC_NAME =
+    common_enum_ACC_TYPE_ACC_NAME;
+  static inline bool ACC_TYPE_IsValid(int value) {
+    return common_enum_ACC_TYPE_IsValid(value);
+  }
+  static constexpr ACC_TYPE ACC_TYPE_MIN =
+    common_enum_ACC_TYPE_ACC_TYPE_MIN;
+  static constexpr ACC_TYPE ACC_TYPE_MAX =
+    common_enum_ACC_TYPE_ACC_TYPE_MAX;
+  static constexpr int ACC_TYPE_ARRAYSIZE =
+    common_enum_ACC_TYPE_ACC_TYPE_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  ACC_TYPE_descriptor() {
+    return common_enum_ACC_TYPE_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& ACC_TYPE_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, ACC_TYPE>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function ACC_TYPE_Name.");
+    return common_enum_ACC_TYPE_Name(enum_t_value);
+  }
+  static inline bool ACC_TYPE_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      ACC_TYPE* value) {
+    return common_enum_ACC_TYPE_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:common_enum)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_user_2eproto;
+};
+// -------------------------------------------------------------------
+
+class acc_register PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:acc_register) */ {
+ public:
+  inline acc_register() : acc_register(nullptr) {}
+  virtual ~acc_register();
+
+  acc_register(const acc_register& from);
+  acc_register(acc_register&& from) noexcept
+    : acc_register() {
+    *this = ::std::move(from);
+  }
+
+  inline acc_register& operator=(const acc_register& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline acc_register& operator=(acc_register&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const acc_register& default_instance();
+
+  static inline const acc_register* internal_default_instance() {
+    return reinterpret_cast<const acc_register*>(
+               &_acc_register_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(acc_register& a, acc_register& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(acc_register* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(acc_register* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline acc_register* New() const final {
+    return CreateMaybeMessage<acc_register>(nullptr);
+  }
+
+  acc_register* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<acc_register>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const acc_register& from);
+  void MergeFrom(const acc_register& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(acc_register* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "acc_register";
+  }
+  protected:
+  explicit acc_register(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -244,16 +486,16 @@ class AccRegister PROTOBUF_FINAL :
   std::string* _internal_mutable_passwd();
   public:
 
-  // int32 type = 1;
+  // .common_enum.ACC_TYPE type = 1;
   void clear_type();
-  ::PROTOBUF_NAMESPACE_ID::int32 type() const;
-  void set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::common_enum_ACC_TYPE type() const;
+  void set_type(::common_enum_ACC_TYPE value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_type() const;
-  void _internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::common_enum_ACC_TYPE _internal_type() const;
+  void _internal_set_type(::common_enum_ACC_TYPE value);
   public:
 
-  // @@protoc_insertion_point(class_scope:AccRegister)
+  // @@protoc_insertion_point(class_scope:acc_register)
  private:
   class _Internal;
 
@@ -264,7 +506,163 @@ class AccRegister PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr phone_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr accname_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr passwd_;
-  ::PROTOBUF_NAMESPACE_ID::int32 type_;
+  int type_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_user_2eproto;
+};
+// -------------------------------------------------------------------
+
+class message PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message) */ {
+ public:
+  inline message() : message(nullptr) {}
+  virtual ~message();
+
+  message(const message& from);
+  message(message&& from) noexcept
+    : message() {
+    *this = ::std::move(from);
+  }
+
+  inline message& operator=(const message& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline message& operator=(message&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const message& default_instance();
+
+  static inline const message* internal_default_instance() {
+    return reinterpret_cast<const message*>(
+               &_message_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(message& a, message& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(message* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(message* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline message* New() const final {
+    return CreateMaybeMessage<message>(nullptr);
+  }
+
+  message* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<message>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const message& from);
+  void MergeFrom(const message& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(message* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message";
+  }
+  protected:
+  explicit message(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_user_2eproto);
+    return ::descriptor_table_user_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAccRegFieldNumber = 2,
+    kMessTypeFieldNumber = 1,
+  };
+  // .acc_register acc_reg = 2;
+  bool has_acc_reg() const;
+  private:
+  bool _internal_has_acc_reg() const;
+  public:
+  void clear_acc_reg();
+  const ::acc_register& acc_reg() const;
+  ::acc_register* release_acc_reg();
+  ::acc_register* mutable_acc_reg();
+  void set_allocated_acc_reg(::acc_register* acc_reg);
+  private:
+  const ::acc_register& _internal_acc_reg() const;
+  ::acc_register* _internal_mutable_acc_reg();
+  public:
+  void unsafe_arena_set_allocated_acc_reg(
+      ::acc_register* acc_reg);
+  ::acc_register* unsafe_arena_release_acc_reg();
+
+  // .common_enum.MESSAGE_TYPE mess_type = 1;
+  void clear_mess_type();
+  ::common_enum_MESSAGE_TYPE mess_type() const;
+  void set_mess_type(::common_enum_MESSAGE_TYPE value);
+  private:
+  ::common_enum_MESSAGE_TYPE _internal_mess_type() const;
+  void _internal_set_mess_type(::common_enum_MESSAGE_TYPE value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::acc_register* acc_reg_;
+  int mess_type_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_user_2eproto;
 };
@@ -277,79 +675,83 @@ class AccRegister PROTOBUF_FINAL :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// AccRegister
+// common_enum
 
-// int32 type = 1;
-inline void AccRegister::clear_type() {
+// -------------------------------------------------------------------
+
+// acc_register
+
+// .common_enum.ACC_TYPE type = 1;
+inline void acc_register::clear_type() {
   type_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 AccRegister::_internal_type() const {
-  return type_;
+inline ::common_enum_ACC_TYPE acc_register::_internal_type() const {
+  return static_cast< ::common_enum_ACC_TYPE >(type_);
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 AccRegister::type() const {
-  // @@protoc_insertion_point(field_get:AccRegister.type)
+inline ::common_enum_ACC_TYPE acc_register::type() const {
+  // @@protoc_insertion_point(field_get:acc_register.type)
   return _internal_type();
 }
-inline void AccRegister::_internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void acc_register::_internal_set_type(::common_enum_ACC_TYPE value) {
   
   type_ = value;
 }
-inline void AccRegister::set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void acc_register::set_type(::common_enum_ACC_TYPE value) {
   _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:AccRegister.type)
+  // @@protoc_insertion_point(field_set:acc_register.type)
 }
 
 // string email = 2;
-inline void AccRegister::clear_email() {
+inline void acc_register::clear_email() {
   email_.ClearToEmpty();
 }
-inline const std::string& AccRegister::email() const {
-  // @@protoc_insertion_point(field_get:AccRegister.email)
+inline const std::string& acc_register::email() const {
+  // @@protoc_insertion_point(field_get:acc_register.email)
   return _internal_email();
 }
-inline void AccRegister::set_email(const std::string& value) {
+inline void acc_register::set_email(const std::string& value) {
   _internal_set_email(value);
-  // @@protoc_insertion_point(field_set:AccRegister.email)
+  // @@protoc_insertion_point(field_set:acc_register.email)
 }
-inline std::string* AccRegister::mutable_email() {
-  // @@protoc_insertion_point(field_mutable:AccRegister.email)
+inline std::string* acc_register::mutable_email() {
+  // @@protoc_insertion_point(field_mutable:acc_register.email)
   return _internal_mutable_email();
 }
-inline const std::string& AccRegister::_internal_email() const {
+inline const std::string& acc_register::_internal_email() const {
   return email_.Get();
 }
-inline void AccRegister::_internal_set_email(const std::string& value) {
+inline void acc_register::_internal_set_email(const std::string& value) {
   
   email_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void AccRegister::set_email(std::string&& value) {
+inline void acc_register::set_email(std::string&& value) {
   
   email_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:AccRegister.email)
+  // @@protoc_insertion_point(field_set_rvalue:acc_register.email)
 }
-inline void AccRegister::set_email(const char* value) {
+inline void acc_register::set_email(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   email_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:AccRegister.email)
+  // @@protoc_insertion_point(field_set_char:acc_register.email)
 }
-inline void AccRegister::set_email(const char* value,
+inline void acc_register::set_email(const char* value,
     size_t size) {
   
   email_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:AccRegister.email)
+  // @@protoc_insertion_point(field_set_pointer:acc_register.email)
 }
-inline std::string* AccRegister::_internal_mutable_email() {
+inline std::string* acc_register::_internal_mutable_email() {
   
   return email_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* AccRegister::release_email() {
-  // @@protoc_insertion_point(field_release:AccRegister.email)
+inline std::string* acc_register::release_email() {
+  // @@protoc_insertion_point(field_release:acc_register.email)
   return email_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void AccRegister::set_allocated_email(std::string* email) {
+inline void acc_register::set_allocated_email(std::string* email) {
   if (email != nullptr) {
     
   } else {
@@ -357,60 +759,60 @@ inline void AccRegister::set_allocated_email(std::string* email) {
   }
   email_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), email,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:AccRegister.email)
+  // @@protoc_insertion_point(field_set_allocated:acc_register.email)
 }
 
 // string phone = 3;
-inline void AccRegister::clear_phone() {
+inline void acc_register::clear_phone() {
   phone_.ClearToEmpty();
 }
-inline const std::string& AccRegister::phone() const {
-  // @@protoc_insertion_point(field_get:AccRegister.phone)
+inline const std::string& acc_register::phone() const {
+  // @@protoc_insertion_point(field_get:acc_register.phone)
   return _internal_phone();
 }
-inline void AccRegister::set_phone(const std::string& value) {
+inline void acc_register::set_phone(const std::string& value) {
   _internal_set_phone(value);
-  // @@protoc_insertion_point(field_set:AccRegister.phone)
+  // @@protoc_insertion_point(field_set:acc_register.phone)
 }
-inline std::string* AccRegister::mutable_phone() {
-  // @@protoc_insertion_point(field_mutable:AccRegister.phone)
+inline std::string* acc_register::mutable_phone() {
+  // @@protoc_insertion_point(field_mutable:acc_register.phone)
   return _internal_mutable_phone();
 }
-inline const std::string& AccRegister::_internal_phone() const {
+inline const std::string& acc_register::_internal_phone() const {
   return phone_.Get();
 }
-inline void AccRegister::_internal_set_phone(const std::string& value) {
+inline void acc_register::_internal_set_phone(const std::string& value) {
   
   phone_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void AccRegister::set_phone(std::string&& value) {
+inline void acc_register::set_phone(std::string&& value) {
   
   phone_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:AccRegister.phone)
+  // @@protoc_insertion_point(field_set_rvalue:acc_register.phone)
 }
-inline void AccRegister::set_phone(const char* value) {
+inline void acc_register::set_phone(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   phone_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:AccRegister.phone)
+  // @@protoc_insertion_point(field_set_char:acc_register.phone)
 }
-inline void AccRegister::set_phone(const char* value,
+inline void acc_register::set_phone(const char* value,
     size_t size) {
   
   phone_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:AccRegister.phone)
+  // @@protoc_insertion_point(field_set_pointer:acc_register.phone)
 }
-inline std::string* AccRegister::_internal_mutable_phone() {
+inline std::string* acc_register::_internal_mutable_phone() {
   
   return phone_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* AccRegister::release_phone() {
-  // @@protoc_insertion_point(field_release:AccRegister.phone)
+inline std::string* acc_register::release_phone() {
+  // @@protoc_insertion_point(field_release:acc_register.phone)
   return phone_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void AccRegister::set_allocated_phone(std::string* phone) {
+inline void acc_register::set_allocated_phone(std::string* phone) {
   if (phone != nullptr) {
     
   } else {
@@ -418,60 +820,60 @@ inline void AccRegister::set_allocated_phone(std::string* phone) {
   }
   phone_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), phone,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:AccRegister.phone)
+  // @@protoc_insertion_point(field_set_allocated:acc_register.phone)
 }
 
 // string accname = 4;
-inline void AccRegister::clear_accname() {
+inline void acc_register::clear_accname() {
   accname_.ClearToEmpty();
 }
-inline const std::string& AccRegister::accname() const {
-  // @@protoc_insertion_point(field_get:AccRegister.accname)
+inline const std::string& acc_register::accname() const {
+  // @@protoc_insertion_point(field_get:acc_register.accname)
   return _internal_accname();
 }
-inline void AccRegister::set_accname(const std::string& value) {
+inline void acc_register::set_accname(const std::string& value) {
   _internal_set_accname(value);
-  // @@protoc_insertion_point(field_set:AccRegister.accname)
+  // @@protoc_insertion_point(field_set:acc_register.accname)
 }
-inline std::string* AccRegister::mutable_accname() {
-  // @@protoc_insertion_point(field_mutable:AccRegister.accname)
+inline std::string* acc_register::mutable_accname() {
+  // @@protoc_insertion_point(field_mutable:acc_register.accname)
   return _internal_mutable_accname();
 }
-inline const std::string& AccRegister::_internal_accname() const {
+inline const std::string& acc_register::_internal_accname() const {
   return accname_.Get();
 }
-inline void AccRegister::_internal_set_accname(const std::string& value) {
+inline void acc_register::_internal_set_accname(const std::string& value) {
   
   accname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void AccRegister::set_accname(std::string&& value) {
+inline void acc_register::set_accname(std::string&& value) {
   
   accname_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:AccRegister.accname)
+  // @@protoc_insertion_point(field_set_rvalue:acc_register.accname)
 }
-inline void AccRegister::set_accname(const char* value) {
+inline void acc_register::set_accname(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   accname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:AccRegister.accname)
+  // @@protoc_insertion_point(field_set_char:acc_register.accname)
 }
-inline void AccRegister::set_accname(const char* value,
+inline void acc_register::set_accname(const char* value,
     size_t size) {
   
   accname_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:AccRegister.accname)
+  // @@protoc_insertion_point(field_set_pointer:acc_register.accname)
 }
-inline std::string* AccRegister::_internal_mutable_accname() {
+inline std::string* acc_register::_internal_mutable_accname() {
   
   return accname_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* AccRegister::release_accname() {
-  // @@protoc_insertion_point(field_release:AccRegister.accname)
+inline std::string* acc_register::release_accname() {
+  // @@protoc_insertion_point(field_release:acc_register.accname)
   return accname_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void AccRegister::set_allocated_accname(std::string* accname) {
+inline void acc_register::set_allocated_accname(std::string* accname) {
   if (accname != nullptr) {
     
   } else {
@@ -479,60 +881,60 @@ inline void AccRegister::set_allocated_accname(std::string* accname) {
   }
   accname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), accname,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:AccRegister.accname)
+  // @@protoc_insertion_point(field_set_allocated:acc_register.accname)
 }
 
 // string passwd = 5;
-inline void AccRegister::clear_passwd() {
+inline void acc_register::clear_passwd() {
   passwd_.ClearToEmpty();
 }
-inline const std::string& AccRegister::passwd() const {
-  // @@protoc_insertion_point(field_get:AccRegister.passwd)
+inline const std::string& acc_register::passwd() const {
+  // @@protoc_insertion_point(field_get:acc_register.passwd)
   return _internal_passwd();
 }
-inline void AccRegister::set_passwd(const std::string& value) {
+inline void acc_register::set_passwd(const std::string& value) {
   _internal_set_passwd(value);
-  // @@protoc_insertion_point(field_set:AccRegister.passwd)
+  // @@protoc_insertion_point(field_set:acc_register.passwd)
 }
-inline std::string* AccRegister::mutable_passwd() {
-  // @@protoc_insertion_point(field_mutable:AccRegister.passwd)
+inline std::string* acc_register::mutable_passwd() {
+  // @@protoc_insertion_point(field_mutable:acc_register.passwd)
   return _internal_mutable_passwd();
 }
-inline const std::string& AccRegister::_internal_passwd() const {
+inline const std::string& acc_register::_internal_passwd() const {
   return passwd_.Get();
 }
-inline void AccRegister::_internal_set_passwd(const std::string& value) {
+inline void acc_register::_internal_set_passwd(const std::string& value) {
   
   passwd_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
 }
-inline void AccRegister::set_passwd(std::string&& value) {
+inline void acc_register::set_passwd(std::string&& value) {
   
   passwd_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:AccRegister.passwd)
+  // @@protoc_insertion_point(field_set_rvalue:acc_register.passwd)
 }
-inline void AccRegister::set_passwd(const char* value) {
+inline void acc_register::set_passwd(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   passwd_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:AccRegister.passwd)
+  // @@protoc_insertion_point(field_set_char:acc_register.passwd)
 }
-inline void AccRegister::set_passwd(const char* value,
+inline void acc_register::set_passwd(const char* value,
     size_t size) {
   
   passwd_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:AccRegister.passwd)
+  // @@protoc_insertion_point(field_set_pointer:acc_register.passwd)
 }
-inline std::string* AccRegister::_internal_mutable_passwd() {
+inline std::string* acc_register::_internal_mutable_passwd() {
   
   return passwd_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
-inline std::string* AccRegister::release_passwd() {
-  // @@protoc_insertion_point(field_release:AccRegister.passwd)
+inline std::string* acc_register::release_passwd() {
+  // @@protoc_insertion_point(field_release:acc_register.passwd)
   return passwd_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void AccRegister::set_allocated_passwd(std::string* passwd) {
+inline void acc_register::set_allocated_passwd(std::string* passwd) {
   if (passwd != nullptr) {
     
   } else {
@@ -540,15 +942,141 @@ inline void AccRegister::set_allocated_passwd(std::string* passwd) {
   }
   passwd_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), passwd,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:AccRegister.passwd)
+  // @@protoc_insertion_point(field_set_allocated:acc_register.passwd)
+}
+
+// -------------------------------------------------------------------
+
+// message
+
+// .common_enum.MESSAGE_TYPE mess_type = 1;
+inline void message::clear_mess_type() {
+  mess_type_ = 0;
+}
+inline ::common_enum_MESSAGE_TYPE message::_internal_mess_type() const {
+  return static_cast< ::common_enum_MESSAGE_TYPE >(mess_type_);
+}
+inline ::common_enum_MESSAGE_TYPE message::mess_type() const {
+  // @@protoc_insertion_point(field_get:message.mess_type)
+  return _internal_mess_type();
+}
+inline void message::_internal_set_mess_type(::common_enum_MESSAGE_TYPE value) {
+  
+  mess_type_ = value;
+}
+inline void message::set_mess_type(::common_enum_MESSAGE_TYPE value) {
+  _internal_set_mess_type(value);
+  // @@protoc_insertion_point(field_set:message.mess_type)
+}
+
+// .acc_register acc_reg = 2;
+inline bool message::_internal_has_acc_reg() const {
+  return this != internal_default_instance() && acc_reg_ != nullptr;
+}
+inline bool message::has_acc_reg() const {
+  return _internal_has_acc_reg();
+}
+inline void message::clear_acc_reg() {
+  if (GetArena() == nullptr && acc_reg_ != nullptr) {
+    delete acc_reg_;
+  }
+  acc_reg_ = nullptr;
+}
+inline const ::acc_register& message::_internal_acc_reg() const {
+  const ::acc_register* p = acc_reg_;
+  return p != nullptr ? *p : reinterpret_cast<const ::acc_register&>(
+      ::_acc_register_default_instance_);
+}
+inline const ::acc_register& message::acc_reg() const {
+  // @@protoc_insertion_point(field_get:message.acc_reg)
+  return _internal_acc_reg();
+}
+inline void message::unsafe_arena_set_allocated_acc_reg(
+    ::acc_register* acc_reg) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(acc_reg_);
+  }
+  acc_reg_ = acc_reg;
+  if (acc_reg) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.acc_reg)
+}
+inline ::acc_register* message::release_acc_reg() {
+  
+  ::acc_register* temp = acc_reg_;
+  acc_reg_ = nullptr;
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::acc_register* message::unsafe_arena_release_acc_reg() {
+  // @@protoc_insertion_point(field_release:message.acc_reg)
+  
+  ::acc_register* temp = acc_reg_;
+  acc_reg_ = nullptr;
+  return temp;
+}
+inline ::acc_register* message::_internal_mutable_acc_reg() {
+  
+  if (acc_reg_ == nullptr) {
+    auto* p = CreateMaybeMessage<::acc_register>(GetArena());
+    acc_reg_ = p;
+  }
+  return acc_reg_;
+}
+inline ::acc_register* message::mutable_acc_reg() {
+  // @@protoc_insertion_point(field_mutable:message.acc_reg)
+  return _internal_mutable_acc_reg();
+}
+inline void message::set_allocated_acc_reg(::acc_register* acc_reg) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete acc_reg_;
+  }
+  if (acc_reg) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(acc_reg);
+    if (message_arena != submessage_arena) {
+      acc_reg = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, acc_reg, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  acc_reg_ = acc_reg;
+  // @@protoc_insertion_point(field_set_allocated:message.acc_reg)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
+
+PROTOBUF_NAMESPACE_OPEN
+
+template <> struct is_proto_enum< ::common_enum_MESSAGE_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::common_enum_MESSAGE_TYPE>() {
+  return ::common_enum_MESSAGE_TYPE_descriptor();
+}
+template <> struct is_proto_enum< ::common_enum_ACC_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::common_enum_ACC_TYPE>() {
+  return ::common_enum_ACC_TYPE_descriptor();
+}
+
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

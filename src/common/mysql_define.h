@@ -1,6 +1,8 @@
 #ifndef MYSQL_DEFINE_H
 #define MYSQL_DEFINE_H
 
+#include <string>
+
 namespace town
 {
 

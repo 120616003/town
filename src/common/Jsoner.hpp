@@ -103,6 +103,7 @@ public: // 取值
 
 	bool asBool() const
 	{
+		return GetValue().GetBool();
 	}
 
 	int8_t asInt8() const

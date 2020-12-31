@@ -14,3 +14,10 @@ add_executable(protobuf::protoc ALIAS protoc)
 
 set_target_properties(protoc PROPERTIES
     VERSION ${protobuf_VERSION})
+
+add_custom_command(TARGET protoc 
+	COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/src/proto/compile_proto.cmake
+	VERBATIM
+)
+
+include(${PROJECT_SOURCE_DIR}/src/proto/compile_proto.cmake)
