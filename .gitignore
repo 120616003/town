@@ -2,3 +2,4 @@ config.h
 build
 .tags
 .tags_sorted_by_file
+.*.md5

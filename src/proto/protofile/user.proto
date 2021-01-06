@@ -18,7 +18,6 @@ message acc_register {
     string phone = 3;
     string accname = 4;
     string passwd = 5;
-    string yanyan = 6;
 }
 
 message message {

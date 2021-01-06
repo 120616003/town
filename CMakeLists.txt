@@ -23,6 +23,12 @@ else()
   set(LOG_TYPE "STDLOG")
 endif()
 
+execute_process(COMMAND bash 
+	${CMAKE_CURRENT_SOURCE_DIR}/src/proto/protofile/check/check_change.sh 
+	${CMAKE_BINARY_DIR}/bin/protoc-3.14.0.0 
+	${CMAKE_BINARY_DIR}/bin/protoc
+	${CMAKE_CURRENT_SOURCE_DIR}/src/proto/protofile/)
+
 #third_party
 set(protobuf_SOURCE_DIR ${PROJECT_SOURCE_DIR}/third_party/protobuf-3.14.0/cmake)
 set(BUILD_SHARED_LIBS 1)
