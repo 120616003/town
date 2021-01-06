@@ -45,6 +45,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/common)
 include_directories(${PROJECT_SOURCE_DIR}/src/proto/src)
 
 #lib
+add_subdirectory(third_party/googletest-release-1.10.0)
 add_subdirectory(third_party/protobuf-3.14.0/cmake)
 add_subdirectory(src/proto)
 add_subdirectory(src/mysql)
