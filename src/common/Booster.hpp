@@ -21,10 +21,8 @@ public:
     static void Timer(int64_t seconds, int64_t milliseconds, int64_t microseconds)
     {
         boost::asio::io_service io;
-        boost::asio::deadline_timer timer1(io, boost::posix_time::seconds(seconds));
-        boost::asio::deadline_timer timer2(io, boost::posix_time::microseconds(microseconds + milliseconds * 1000));
-        timer1.wait();
-        timer2.wait();
+        boost::asio::deadline_timer timer(io, boost::posix_time::microseconds(seconds * 1000 * 1000 +  milliseconds * 1000 + microseconds));
+        timer.wait();
     }
 };
 
