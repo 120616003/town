@@ -22,8 +22,5 @@ message acc_register {
 
 message message {
     common_enum.MESSAGE_TYPE mess_type = 1;
-    acc_register acc_reg = 2;
+    string mess_data = 2;
 }
-
-
-

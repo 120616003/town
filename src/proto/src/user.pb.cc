@@ -14,7 +14,6 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-extern PROTOBUF_INTERNAL_EXPORT_user_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_acc_register_user_2eproto;
 class common_enumDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<common_enum> _instance;
@@ -63,9 +62,8 @@ static void InitDefaultsscc_info_message_user_2eproto() {
   }
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_message_user_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_message_user_2eproto}, {
-      &scc_info_acc_register_user_2eproto.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_message_user_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_message_user_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_user_2eproto[3];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_user_2eproto[2];
@@ -93,7 +91,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_user_2eproto::offsets[] PROTOB
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::message, mess_type_),
-  PROTOBUF_FIELD_OFFSET(::message, acc_reg_),
+  PROTOBUF_FIELD_OFFSET(::message, mess_data_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::common_enum)},
@@ -113,10 +111,9 @@ const char descriptor_table_protodef_user_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "C_EMAIL\020\000\022\r\n\tACC_PHONE\020\001\022\014\n\010ACC_NAME\020\002\"r"
   "\n\014acc_register\022#\n\004type\030\001 \001(\0162\025.common_en"
   "um.ACC_TYPE\022\r\n\005email\030\002 \001(\t\022\r\n\005phone\030\003 \001("
-  "\t\022\017\n\007accname\030\004 \001(\t\022\016\n\006passwd\030\005 \001(\t\"W\n\007me"
+  "\t\022\017\n\007accname\030\004 \001(\t\022\016\n\006passwd\030\005 \001(\t\"J\n\007me"
   "ssage\022,\n\tmess_type\030\001 \001(\0162\031.common_enum.M"
-  "ESSAGE_TYPE\022\036\n\007acc_reg\030\002 \001(\0132\r.acc_regis"
-  "terb\006proto3"
+  "ESSAGE_TYPE\022\021\n\tmess_data\030\002 \001(\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_2eproto_deps[1] = {
 };
@@ -127,7 +124,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_use
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_user_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_2eproto = {
-  false, false, descriptor_table_protodef_user_2eproto, "user.proto", 331,
+  false, false, descriptor_table_protodef_user_2eproto, "user.proto", 318,
   &descriptor_table_user_2eproto_once, descriptor_table_user_2eproto_sccs, descriptor_table_user_2eproto_deps, 3, 0,
   schemas, file_default_instances, TableStruct_user_2eproto::offsets,
   file_level_metadata_user_2eproto, 3, file_level_enum_descriptors_user_2eproto, file_level_service_descriptors_user_2eproto,
@@ -692,13 +689,8 @@ void acc_register::InternalSwap(acc_register* other) {
 
 class message::_Internal {
  public:
-  static const ::acc_register& acc_reg(const message* msg);
 };
 
-const ::acc_register&
-message::_Internal::acc_reg(const message* msg) {
-  return *msg->acc_reg_;
-}
 message::message(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
@@ -708,10 +700,10 @@ message::message(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 message::message(const message& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_acc_reg()) {
-    acc_reg_ = new ::acc_register(*from.acc_reg_);
-  } else {
-    acc_reg_ = nullptr;
+  mess_data_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_mess_data().empty()) {
+    mess_data_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_mess_data(), 
+      GetArena());
   }
   mess_type_ = from.mess_type_;
   // @@protoc_insertion_point(copy_constructor:message)
@@ -719,10 +711,8 @@ message::message(const message& from)
 
 void message::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_message_user_2eproto.base);
-  ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-      reinterpret_cast<char*>(&acc_reg_) - reinterpret_cast<char*>(this)),
-      0, static_cast<size_t>(reinterpret_cast<char*>(&mess_type_) -
-      reinterpret_cast<char*>(&acc_reg_)) + sizeof(mess_type_));
+  mess_data_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  mess_type_ = 0;
 }
 
 message::~message() {
@@ -733,7 +723,7 @@ message::~message() {
 
 void message::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
-  if (this != internal_default_instance()) delete acc_reg_;
+  mess_data_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void message::ArenaDtor(void* object) {
@@ -757,10 +747,7 @@ void message::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArena() == nullptr && acc_reg_ != nullptr) {
-    delete acc_reg_;
-  }
-  acc_reg_ = nullptr;
+  mess_data_.ClearToEmpty();
   mess_type_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -780,10 +767,12 @@ const char* message::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
           _internal_set_mess_type(static_cast<::common_enum_MESSAGE_TYPE>(val));
         } else goto handle_unusual;
         continue;
-      // .acc_register acc_reg = 2;
+      // string mess_data = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_acc_reg(), ptr);
+          auto str = _internal_mutable_mess_data();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "message.mess_data"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -822,12 +811,14 @@ failure:
       1, this->_internal_mess_type(), target);
   }
 
-  // .acc_register acc_reg = 2;
-  if (this->has_acc_reg()) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        2, _Internal::acc_reg(this), target, stream);
+  // string mess_data = 2;
+  if (this->mess_data().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_mess_data().data(), static_cast<int>(this->_internal_mess_data().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "message.mess_data");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_mess_data(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -846,11 +837,11 @@ size_t message::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .acc_register acc_reg = 2;
-  if (this->has_acc_reg()) {
+  // string mess_data = 2;
+  if (this->mess_data().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *acc_reg_);
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_mess_data());
   }
 
   // .common_enum.MESSAGE_TYPE mess_type = 1;
@@ -890,8 +881,8 @@ void message::MergeFrom(const message& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_acc_reg()) {
-    _internal_mutable_acc_reg()->::acc_register::MergeFrom(from._internal_acc_reg());
+  if (from.mess_data().size() > 0) {
+    _internal_set_mess_data(from._internal_mess_data());
   }
   if (from.mess_type() != 0) {
     _internal_set_mess_type(from._internal_mess_type());
@@ -919,12 +910,8 @@ bool message::IsInitialized() const {
 void message::InternalSwap(message* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(message, mess_type_)
-      + sizeof(message::mess_type_)
-      - PROTOBUF_FIELD_OFFSET(message, acc_reg_)>(
-          reinterpret_cast<char*>(&acc_reg_),
-          reinterpret_cast<char*>(&other->acc_reg_));
+  mess_data_.Swap(&other->mess_data_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  swap(mess_type_, other->mess_type_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata message::GetMetadata() const {

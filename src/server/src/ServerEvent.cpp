@@ -100,9 +100,16 @@ void ServerEvent::ServerReadCb(bufferevent *bev, void *arg)
 
 		save_len += ret;
 		if (save_len == len) {
-			// msg.reserve(save_len);
-			// msg.insert(msg.end(), buf, buf + save_len);
-			// login lg;
+			msg.reserve(save_len);
+			msg.insert(msg.end(), buf, buf + save_len);
+			message ma;
+			ma.ParseFromString(msg);
+			LOG_INFO("type:{}", ma.mess_type());
+			acc_register ar;
+			ar.ParseFromString(ma.mess_data());
+			LOG_INFO("type:{}", ar.type());
+			LOG_INFO("email:{}", ar.email());
+			LOG_INFO("passwd:{}", ar.passwd());
 			// // if (!lg.ParseFromString(msg))
 			// if (!lg.ParseFromArray(buf, save_len))
 			// {

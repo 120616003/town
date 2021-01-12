@@ -82,22 +82,22 @@ void cmd_msg_cb(int fd, short events, void* arg)
     struct bufferevent* bev = (struct bufferevent*)arg;
  
     // 把终端的消息发送给服务器端
+    acc_register ar;
+    ar.set_type(common_enum::ACC_EMAIL);
+    ar.set_email("120616003@qq.com");
+    ar.set_passwd("123456");
 
-    login lg;
-    lg.set_type(1);
-    lg.set_name("yan");
-    lg.set_email("120616003@qq.com");
-    lg.set_phone("13505532408");
-    lg.set_passwd("123456");
-    std::string msg;
-    lg.SerializeToString(&msg);
+    message ma;
+    ma.set_mess_type(common_enum::MESS_REGISTER);
+    ma.set_mess_data(std::move(ar.SerializeAsString()));
+    std::string msg = std::move(ma.SerializeAsString());
     uint32_t len = msg.size();
-    printf("len1:%d\n", len);
+
     memcpy(buf, &len, sizeof(len));
     memcpy(buf + sizeof(len), msg.data(), len);
     bufferevent_write(bev, buf, len + sizeof(len));
-    bufferevent_write(bev, buf, len + sizeof(len));
-    bufferevent_flush(bev, EV_WRITE, BEV_FLUSH);
+    // bufferevent_write(bev, buf, len + sizeof(len));
+    // bufferevent_flush(bev, EV_WRITE, BEV_FLUSH);
 }
 
 void server_msg_cb(struct bufferevent* bev, void* arg)

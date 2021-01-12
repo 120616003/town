@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 
-project (client)
+project (town-client)
 
 SET(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/build/project) #安装到指定目录
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/bin)   #设置可执行文件的输出目录
@@ -23,11 +23,8 @@ else()
   set(LOG_TYPE "STDLOG")
 endif()
 
-set(protobuf_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../third_party/protobuf-3.14.0/cmake)
-set(BUILD_SHARED_LIBS 1)
 include_directories(${PROJECT_SOURCE_DIR}/../third_party/protobuf-3.14.0/src/)
 include_directories(${PROJECT_SOURCE_DIR}/../src/proto/src)
+link_directories(${PROJECT_SOURCE_DIR}/../build/lib/)
 
-add_subdirectory(../third_party/protobuf-3.14.0/cmake src/protobuf)
-add_subdirectory(../src/proto src/proto)
 add_subdirectory(src/test)

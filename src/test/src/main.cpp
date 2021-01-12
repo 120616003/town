@@ -9,19 +9,19 @@ using namespace rapidjson;
 
 int main()
 {
-	Jsoner json("/home/yan/Project/town/src/config/MysqlInfo.json", Jsoner::PARSE_TYPE::FILE);
-	if (!json.ParseWhetherSuccess()) {
-		return 0;
-	}
+	// Jsoner json("/home/yan/Project/town/src/config/MysqlInfo.json", Jsoner::PARSE_TYPE::FILE);
+	// if (!json.ParseWhetherSuccess()) {
+	// 	return 0;
+	// }
 
-	MysqlAccess::GetInstance()->Initialization(json["ip"].asString(), json["dba"].asString(), json["dba_passwd"].asString(), json["db"].asString(), json["db_port"].asInt());
-	MysqlAccess::GetInstance()->ExecuteSql(create_town_database);
-	MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
-	MysqlAccess::GetInstance()->ExecuteSql(create_user_info_table);
+	// MysqlAccess::GetInstance()->Initialization(json["ip"].asString(), json["dba"].asString(), json["dba_passwd"].asString(), json["db"].asString(), json["db_port"].asInt());
+	// MysqlAccess::GetInstance()->ExecuteSql(create_town_database);
+	// MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
+	// MysqlAccess::GetInstance()->ExecuteSql(create_user_info_table);
 
-	// ServerEvent serverevent;
-	// serverevent.ServerInit(20000);
-	// serverevent.ServerStart();
+	ServerEvent serverevent;
+	serverevent.ServerInit(20000);
+	serverevent.ServerStart();
 
 	// int cnt = 0;
 	// while (cnt != 10) {

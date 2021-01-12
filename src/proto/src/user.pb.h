@@ -624,26 +624,24 @@ class message PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kAccRegFieldNumber = 2,
+    kMessDataFieldNumber = 2,
     kMessTypeFieldNumber = 1,
   };
-  // .acc_register acc_reg = 2;
-  bool has_acc_reg() const;
+  // string mess_data = 2;
+  void clear_mess_data();
+  const std::string& mess_data() const;
+  void set_mess_data(const std::string& value);
+  void set_mess_data(std::string&& value);
+  void set_mess_data(const char* value);
+  void set_mess_data(const char* value, size_t size);
+  std::string* mutable_mess_data();
+  std::string* release_mess_data();
+  void set_allocated_mess_data(std::string* mess_data);
   private:
-  bool _internal_has_acc_reg() const;
+  const std::string& _internal_mess_data() const;
+  void _internal_set_mess_data(const std::string& value);
+  std::string* _internal_mutable_mess_data();
   public:
-  void clear_acc_reg();
-  const ::acc_register& acc_reg() const;
-  ::acc_register* release_acc_reg();
-  ::acc_register* mutable_acc_reg();
-  void set_allocated_acc_reg(::acc_register* acc_reg);
-  private:
-  const ::acc_register& _internal_acc_reg() const;
-  ::acc_register* _internal_mutable_acc_reg();
-  public:
-  void unsafe_arena_set_allocated_acc_reg(
-      ::acc_register* acc_reg);
-  ::acc_register* unsafe_arena_release_acc_reg();
 
   // .common_enum.MESSAGE_TYPE mess_type = 1;
   void clear_mess_type();
@@ -661,7 +659,7 @@ class message PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::acc_register* acc_reg_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr mess_data_;
   int mess_type_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_user_2eproto;
@@ -969,87 +967,65 @@ inline void message::set_mess_type(::common_enum_MESSAGE_TYPE value) {
   // @@protoc_insertion_point(field_set:message.mess_type)
 }
 
-// .acc_register acc_reg = 2;
-inline bool message::_internal_has_acc_reg() const {
-  return this != internal_default_instance() && acc_reg_ != nullptr;
+// string mess_data = 2;
+inline void message::clear_mess_data() {
+  mess_data_.ClearToEmpty();
 }
-inline bool message::has_acc_reg() const {
-  return _internal_has_acc_reg();
+inline const std::string& message::mess_data() const {
+  // @@protoc_insertion_point(field_get:message.mess_data)
+  return _internal_mess_data();
 }
-inline void message::clear_acc_reg() {
-  if (GetArena() == nullptr && acc_reg_ != nullptr) {
-    delete acc_reg_;
-  }
-  acc_reg_ = nullptr;
+inline void message::set_mess_data(const std::string& value) {
+  _internal_set_mess_data(value);
+  // @@protoc_insertion_point(field_set:message.mess_data)
 }
-inline const ::acc_register& message::_internal_acc_reg() const {
-  const ::acc_register* p = acc_reg_;
-  return p != nullptr ? *p : reinterpret_cast<const ::acc_register&>(
-      ::_acc_register_default_instance_);
+inline std::string* message::mutable_mess_data() {
+  // @@protoc_insertion_point(field_mutable:message.mess_data)
+  return _internal_mutable_mess_data();
 }
-inline const ::acc_register& message::acc_reg() const {
-  // @@protoc_insertion_point(field_get:message.acc_reg)
-  return _internal_acc_reg();
+inline const std::string& message::_internal_mess_data() const {
+  return mess_data_.Get();
 }
-inline void message::unsafe_arena_set_allocated_acc_reg(
-    ::acc_register* acc_reg) {
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(acc_reg_);
-  }
-  acc_reg_ = acc_reg;
-  if (acc_reg) {
+inline void message::_internal_set_mess_data(const std::string& value) {
+  
+  mess_data_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
+}
+inline void message::set_mess_data(std::string&& value) {
+  
+  mess_data_.Set(
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.mess_data)
+}
+inline void message::set_mess_data(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  mess_data_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
+  // @@protoc_insertion_point(field_set_char:message.mess_data)
+}
+inline void message::set_mess_data(const char* value,
+    size_t size) {
+  
+  mess_data_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.mess_data)
+}
+inline std::string* message::_internal_mutable_mess_data() {
+  
+  return mess_data_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
+}
+inline std::string* message::release_mess_data() {
+  // @@protoc_insertion_point(field_release:message.mess_data)
+  return mess_data_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void message::set_allocated_mess_data(std::string* mess_data) {
+  if (mess_data != nullptr) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:message.acc_reg)
-}
-inline ::acc_register* message::release_acc_reg() {
-  
-  ::acc_register* temp = acc_reg_;
-  acc_reg_ = nullptr;
-  if (GetArena() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline ::acc_register* message::unsafe_arena_release_acc_reg() {
-  // @@protoc_insertion_point(field_release:message.acc_reg)
-  
-  ::acc_register* temp = acc_reg_;
-  acc_reg_ = nullptr;
-  return temp;
-}
-inline ::acc_register* message::_internal_mutable_acc_reg() {
-  
-  if (acc_reg_ == nullptr) {
-    auto* p = CreateMaybeMessage<::acc_register>(GetArena());
-    acc_reg_ = p;
-  }
-  return acc_reg_;
-}
-inline ::acc_register* message::mutable_acc_reg() {
-  // @@protoc_insertion_point(field_mutable:message.acc_reg)
-  return _internal_mutable_acc_reg();
-}
-inline void message::set_allocated_acc_reg(::acc_register* acc_reg) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
-  if (message_arena == nullptr) {
-    delete acc_reg_;
-  }
-  if (acc_reg) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(acc_reg);
-    if (message_arena != submessage_arena) {
-      acc_reg = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, acc_reg, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  acc_reg_ = acc_reg;
-  // @@protoc_insertion_point(field_set_allocated:message.acc_reg)
+  mess_data_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), mess_data,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.mess_data)
 }
 
 #ifdef __GNUC__
