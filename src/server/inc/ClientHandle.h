@@ -1,5 +1,5 @@
-#ifndef SERVER_MASSEGE_H
-#define SERVER_MASSEGE_H
+#ifndef CLIENT_HANDLE_H
+#define CLIENT_HANDLE_H
 
 #include <event2/bufferevent.h>
 #include <string>
@@ -7,11 +7,11 @@
 
 namespace town {
 
-class ServerMessage
+class ClientHandle
 {
 public:
-	ServerMessage();
-	~ServerMessage();
+	ClientHandle();
+	~ClientHandle();
 
 public:
 	void SetEvutilSocket(evutil_socket_t fd);
@@ -31,4 +31,4 @@ private:
 
 }
 
-#endif /* SERVER_MASSEGE_H */
+#endif /* CLIENT_HANDLE_H */

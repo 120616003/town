@@ -1,9 +1,19 @@
+
+#include <errno.h>
+#include <assert.h>
+#include <event2/event.h>
+#include <event2/bufferevent.h>
+#include <event2/listener.h>
+
+
 #include "ServerEvent.h"
+#include "ServerCommon.h"
+#include "ClientHandle.h"
 #include "user.pb.h"
 
 namespace town {
 
-VUMPSerMessPtr ServerEvent::m_vumpSerMessPtr = VUMPSerMessPtr(4);
+VUMCliHanPtr ServerEvent::m_vumCliHanPtr = VUMCliHanPtr(4);
 
 ServerEvent::~ServerEvent()
 {
@@ -15,10 +25,9 @@ ServerEvent::~ServerEvent()
 	}
 }
 
-int ServerEvent::ServerInit(int iPort)
+int32_t ServerEvent::ServerInit(int32_t iPort)
 {
-	struct sockaddr_in sin;
-	memset(&sin, 0, sizeof(struct sockaddr_in));
+	struct sockaddr_in sin {};
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(iPort);
 
@@ -39,11 +48,13 @@ int ServerEvent::ServerInit(int iPort)
 		return FAILED;
 	}
 
-	ev_l = evconnlistener_new_bind(ev_b, ServerListenerCb, ev_b, LEV_OPT_REUSEABLE | LEV_OPT_CLOSE_ON_FREE, 10, (struct sockaddr*)&sin, sizeof(struct sockaddr_in));
+	ev_l = evconnlistener_new_bind(ev_b, Accept, ev_b, LEV_OPT_REUSEABLE | LEV_OPT_CLOSE_ON_FREE, 10, (struct sockaddr*)&sin, sizeof(struct sockaddr_in));
 	if (!ev_l) {
 		LOG_WARN("evconnlistener_new_bind failed, ev_l is nullptr");
 		return FAILED;
 	}
+
+	std::thread(&ServerEvent::Disconnect, this).detach(); // 启动超时断开线程
 
 	return SUCCESS;
 }
@@ -53,45 +64,45 @@ void ServerEvent::ServerStart()
 	std::thread(event_base_dispatch, ev_b).detach();
 }
 
-void ServerEvent::ServerListenerCb(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int socklen, void* arg)
+void ServerEvent::Accept(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg)
 {
 	LOG_INFO("accept a client:{}", fd);
   
 	event_base *base = (event_base*)arg;
 	bufferevent *bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
   
-	bufferevent_setcb(bev, ServerReadCb, nullptr, ServerEventCb, nullptr);
+	bufferevent_setcb(bev, ReadData, nullptr, ServerEventCb, nullptr);
 	bufferevent_enable(bev, EV_READ | EV_PERSIST);
 
-	SerMessPtr ser_mess = std::make_shared<ServerMessage>();
-	if (ser_mess) {
-		ser_mess->SetEvutilSocket(fd);
-		ser_mess->SetBufferevent(bev);
-		ser_mess->SetUUID(Booster::GetUUID());
+	CliHanPtr cli_han = std::make_shared<ClientHandle>();
+	if (cli_han) {
+		cli_han->SetEvutilSocket(fd);
+		cli_han->SetBufferevent(bev);
+		cli_han->SetUUID(Booster::GetUUID());
 	}
-	m_vumpSerMessPtr[0][ser_mess->GetUUID()] = ser_mess;
+	m_vumCliHanPtr[0][cli_han->GetUUID()] = cli_han;
 }
 
-void ServerEvent::ServerReadCb(bufferevent *bev, void *arg)
+void ServerEvent::ReadData(bufferevent *bev, void *arg)
 {
 	char buf[1024 * 10 + 1] = {};
-	uint32_t len = 0;
+	uint32_t data_len = 0;
 	uint32_t ret = 0;
 	uint32_t save_len = 0;
 	std::string msg;
 	do {
-		if (!len) {
-			bufferevent_read(bev, &len, sizeof(uint32_t));
-			if (len == 0) {
+		if (!data_len) {
+			bufferevent_read(bev, &data_len, sizeof(uint32_t));
+			if (data_len == 0) {
 				return;
 			}
-			if (len > 1024 * 10) {
-				LOG_INFO("data size out of range, len:{}", len);
+			if (data_len > 1024 * 10) {
+				LOG_INFO("data size out of range, data_len:{}", data_len);
 				return;
 			}
 		}
 		// LOG_INFO("len:{}, save_len:{}", len, save_len);
-		ret = bufferevent_read(bev, buf + save_len, len - save_len);
+		ret = bufferevent_read(bev, buf + save_len, data_len - save_len);
 
 		if (ret <= 0) {
 			LOG_INFO("data error, ret:{}", ret);
@@ -99,7 +110,7 @@ void ServerEvent::ServerReadCb(bufferevent *bev, void *arg)
 		}
 
 		save_len += ret;
-		if (save_len == len) {
+		if (save_len == data_len) {
 			msg.reserve(save_len);
 			msg.insert(msg.end(), buf, buf + save_len);
 			message ma;
@@ -139,9 +150,17 @@ void ServerEvent::ServerEventCb(bufferevent *bev, short events, void *arg)
 	bufferevent_free(bev);
 }
 
+void ServerEvent::Disconnect()
+{
+	while(true) {
+		Booster::Timer(10, 0, 0);
+		ClearMap(clear_index++ % 4);
+	}
+}
+
 void ServerEvent::ClearMap(size_t index)
 {
-	m_vumpSerMessPtr[index].clear();
+	m_vumCliHanPtr[index].clear();
 }
 
 } /* town */
