@@ -123,7 +123,7 @@ void event_cb(struct bufferevent *bev, short event, void *arg)
         return ;
     }
  
-    //这将自动close套接字和free读写缓冲区
+    // 这将自动close套接字和free读写缓冲区
     bufferevent_free(bev);
  
     struct event *ev = (struct event*)arg;

@@ -15,7 +15,7 @@ namespace town {
 
 class ClientHandle;
 typedef std::shared_ptr<town::ClientHandle> CliHanPtr;
-typedef std::unordered_map<std::string, CliHanPtr> UMCliHanPtr;
+typedef std::unordered_map<evutil_socket_t, CliHanPtr> UMCliHanPtr;
 typedef std::vector<UMCliHanPtr> VUMCliHanPtr;
 
 class ServerEvent
@@ -39,7 +39,8 @@ private:
 	struct event_config* ev_c = nullptr;
 	struct event_base* ev_b = nullptr;
 	evconnlistener* ev_l = nullptr;
-	uint8_t clear_index = 0;
+	static uint64_t clear_index;
+	static uint64_t record_index;
 	static VUMCliHanPtr m_vumCliHanPtr;
 };
 

@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <event2/event.h>
 #include <event2/bufferevent.h>
+#include <event2/bufferevent_struct.h>
 #include <event2/listener.h>
 
 
@@ -14,6 +15,8 @@
 namespace town {
 
 VUMCliHanPtr ServerEvent::m_vumCliHanPtr = VUMCliHanPtr(4);
+uint64_t ServerEvent::clear_index = 0;
+uint64_t ServerEvent::record_index = 2;
 
 ServerEvent::~ServerEvent()
 {
@@ -67,28 +70,32 @@ void ServerEvent::ServerStart()
 void ServerEvent::Accept(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg)
 {
 	LOG_INFO("accept a client:{}", fd);
-  
+
 	event_base *base = (event_base*)arg;
 	bufferevent *bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
-  
+
 	bufferevent_setcb(bev, ReadData, nullptr, ServerEventCb, nullptr);
 	bufferevent_enable(bev, EV_READ | EV_PERSIST);
 
 	CliHanPtr cli_han = std::make_shared<ClientHandle>();
-	if (cli_han) {
-		cli_han->SetEvutilSocket(fd);
-		cli_han->SetBufferevent(bev);
-		cli_han->SetUUID(Booster::GetUUID());
+	if (!cli_han) {
+		bufferevent_free(bev);
+		return;
 	}
-	m_vumCliHanPtr[0][cli_han->GetUUID()] = cli_han;
+	cli_han->SetEvutilSocket(fd);
+	cli_han->SetBufferevent(bev);
+	m_vumCliHanPtr[record_index  % 4][fd] = cli_han;
 }
 
-void ServerEvent::ReadData(bufferevent *bev, void *arg)
+void ServerEvent::ReadData(bufferevent* bev, void *arg)
 {
+	m_vumCliHanPtr[record_index % 4][bev->ev_read.ev_fd] = m_vumCliHanPtr[(record_index % 4 - 1) < 0 ? 3 : (record_index % 4 - 1)][bev->ev_read.ev_fd];
+
 	char buf[1024 * 10 + 1] = {};
 	uint32_t data_len = 0;
 	uint32_t ret = 0;
 	uint32_t save_len = 0;
+	
 	std::string msg;
 	do {
 		if (!data_len) {
@@ -155,6 +162,7 @@ void ServerEvent::Disconnect()
 	while(true) {
 		Booster::Timer(10, 0, 0);
 		ClearMap(clear_index++ % 4);
+		++record_index;
 	}
 }
 

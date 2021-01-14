@@ -47,6 +47,16 @@ public:
         return m_mapLogger[module];
     }
 
+    uint8_t GetLevel()
+    {
+        return m_iLoglevel;
+    }
+
+    uint8_t SetLevel(uint8_t iLoglevel)
+    {
+        m_iLoglevel = iLoglevel;
+    }
+
 private:
     Logger() {}
 
@@ -58,30 +68,55 @@ private:
 
     std::map<std::string,std::shared_ptr<spdlog::logger>> m_mapLogger;
     std::mutex m_mutex;
+    uint8_t m_iLoglevel = 0;
 }; /* Logger */
+
+#define TRACE(module,...) \
+do { \
+    if (Logger::GetInstance()->GetLevel() <= 0) { \
+        Logger::GetInstance()->RegisterModule(module); \
+        SPDLOG_LOGGER_TRACE(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    } \
+} while(0)
 
 #define DEBUG(module,...) \
 do { \
-    Logger::GetInstance()->RegisterModule(module); \
-    SPDLOG_LOGGER_DEBUG(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    if (Logger::GetInstance()->GetLevel() <= 1) { \
+        Logger::GetInstance()->RegisterModule(module); \
+        SPDLOG_LOGGER_DEBUG(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    } \
 } while(0)
 
 #define INFO(module,...) \
 do { \
-    Logger::GetInstance()->RegisterModule(module); \
-    SPDLOG_LOGGER_INFO(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    if (Logger::GetInstance()->GetLevel() <= 2) { \
+        Logger::GetInstance()->RegisterModule(module); \
+        SPDLOG_LOGGER_INFO(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    } \
 } while(0)
 
 #define WARN(module,...) \
 do { \
-    Logger::GetInstance()->RegisterModule(module); \
-    SPDLOG_LOGGER_WARN(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    if (Logger::GetInstance()->GetLevel() <= 3) { \
+        Logger::GetInstance()->RegisterModule(module); \
+        SPDLOG_LOGGER_WARN(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    } \
 } while(0)
 
 #define ERROR(module,...) \
 do { \
-    Logger::GetInstance()->RegisterModule(module); \
-    SPDLOG_LOGGER_ERROR(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    if (Logger::GetInstance()->GetLevel() <= 4) { \
+        Logger::GetInstance()->RegisterModule(module); \
+        SPDLOG_LOGGER_ERROR(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    } \
+} while(0)
+
+#define CRITICAL(module,...) \
+do { \
+    if (Logger::GetInstance()->GetLevel() <= 5) { \
+        Logger::GetInstance()->RegisterModule(module); \
+        SPDLOG_CRITICAL(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+    } \
 } while(0)
 
 } /* town */

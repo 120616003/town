@@ -9,7 +9,10 @@ ClientHandle::ClientHandle()
 
 ClientHandle::~ClientHandle()
 {
-	bufferevent_free(m_ev);
+	if (m_ev) {
+		close(m_fd);
+		bufferevent_free(m_ev);
+	}
 }
 
 void ClientHandle::SetEvutilSocket(evutil_socket_t fd)
