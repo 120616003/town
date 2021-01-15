@@ -14,6 +14,9 @@
 
 namespace town {
 
+#define INDEX_BEFORE(x) ((x % 4) == 0) ? 3 : ((x % 4) - 1)
+#define INDEX_CURREN(x) (x % 4)
+
 VUMCliHanPtr ServerEvent::m_vumCliHanPtr = VUMCliHanPtr(4);
 uint64_t ServerEvent::clear_index = 0;
 uint64_t ServerEvent::record_index = 2;
@@ -69,8 +72,6 @@ void ServerEvent::ServerStart()
 
 void ServerEvent::Accept(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg)
 {
-	LOG_INFO("accept a client:{}", fd);
-
 	event_base *base = (event_base*)arg;
 	bufferevent *bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
 
@@ -84,12 +85,14 @@ void ServerEvent::Accept(evconnlistener* listener, evutil_socket_t fd, struct so
 	}
 	cli_han->SetEvutilSocket(fd);
 	cli_han->SetBufferevent(bev);
-	m_vumCliHanPtr[record_index  % 4][fd] = cli_han;
+	m_vumCliHanPtr[record_index % 4][fd] = cli_han;
+	LOG_INFO("accept a client:{}, record_index:{}", fd, record_index % 4);
 }
 
 void ServerEvent::ReadData(bufferevent* bev, void *arg)
 {
-	m_vumCliHanPtr[record_index % 4][bev->ev_read.ev_fd] = m_vumCliHanPtr[(record_index % 4 - 1) < 0 ? 3 : (record_index % 4 - 1)][bev->ev_read.ev_fd];
+	RecordClient(bev);
+	
 
 	char buf[1024 * 10 + 1] = {};
 	uint32_t data_len = 0;
@@ -128,20 +131,7 @@ void ServerEvent::ReadData(bufferevent* bev, void *arg)
 			LOG_INFO("type:{}", ar.type());
 			LOG_INFO("email:{}", ar.email());
 			LOG_INFO("passwd:{}", ar.passwd());
-			// // if (!lg.ParseFromString(msg))
-			// if (!lg.ParseFromArray(buf, save_len))
-			// {
-			// 	LOG_INFO("ParseFromString failed");
-			// 	return;
-			// }
-			// LOG_INFO("type:{}", lg.type());
-			// LOG_INFO("name:{}", lg.name());
-			// LOG_INFO("email:{}", lg.email());
-			// LOG_INFO("phone:{}", lg.phone());
-			// LOG_INFO("passwd:{}", lg.passwd());
-			// len = 0;
-			// save_len = 0;
-			// break;
+			return;
 		}
 	} while (true);
 }
@@ -154,7 +144,8 @@ void ServerEvent::ServerEventCb(bufferevent *bev, short events, void *arg)
 	else if (events & BEV_EVENT_ERROR) {
 		LOG_WARN("unknown error, the server will be passively disconnected");
 	}
-	bufferevent_free(bev);
+	m_vumCliHanPtr[INDEX_BEFORE(record_index)][bev->ev_read.ev_fd]  = nullptr;
+	m_vumCliHanPtr[INDEX_CURREN(record_index)][bev->ev_read.ev_fd] = nullptr;
 }
 
 void ServerEvent::Disconnect()
@@ -169,6 +160,13 @@ void ServerEvent::Disconnect()
 void ServerEvent::ClearMap(size_t index)
 {
 	m_vumCliHanPtr[index].clear();
+}
+
+void ServerEvent::RecordClient(bufferevent *bev)
+{
+	if (m_vumCliHanPtr[INDEX_CURREN(record_index)].find(bufferevent_getfd(bev)) == m_vumCliHanPtr[INDEX_CURREN(record_index)].end()) {
+		m_vumCliHanPtr[INDEX_CURREN(record_index)][bufferevent_getfd(bev)] = m_vumCliHanPtr[INDEX_BEFORE(record_index)][bufferevent_getfd(bev)];
+	}
 }
 
 } /* town */

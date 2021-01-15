@@ -34,6 +34,7 @@ private:
 	static void Accept(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg);
 	static void ReadData(bufferevent *bev, void *arg);
 	static void ServerEventCb(bufferevent *bev, short events, void *arg);
+	static void RecordClient(bufferevent *bev);
 
 private:
 	struct event_config* ev_c = nullptr;
