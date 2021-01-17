@@ -1,10 +1,9 @@
 #ifndef SERVER_EVENT_H
 #define SERVER_EVENT_H
 
-#include <memory>
-#include <unordered_map>
-#include <vector>
 #include <event2/util.h> // evutil_socket_t
+
+#include <ServerCommon.h>
 
 struct event_config;
 struct event_base;
@@ -13,38 +12,46 @@ struct bufferevent;
 
 namespace town {
 
-class ClientHandle;
-typedef std::shared_ptr<town::ClientHandle> CliHanPtr;
-typedef std::unordered_map<evutil_socket_t, CliHanPtr> UMCliHanPtr;
-typedef std::vector<UMCliHanPtr> VUMCliHanPtr;
-
 class ServerEvent
 {
+private:
+	struct PRIVATE_KEY {};
+
 public:
+	static SerEvnPtr GetInstance();
+	explicit ServerEvent(PRIVATE_KEY key);
 	~ServerEvent();
-
-	int32_t ServerInit(int32_t iPort);
-	void ServerStart();
+	int32_t Initialization(int32_t iPort);
+	void StartServer();
+	static CliHanPtr GetClientHandle(bufferevent* bev);
+	static CliHanPtr GetClientHandle(const std::string& uuid);
 
 private:
-	void Disconnect();
+	static void AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg);
+	static void ReadDataCb(bufferevent* bev, void* arg);
+	static void ClientEventCb(bufferevent* bev, short events, void* arg);
+
+private:
+	static void RecordClient(bufferevent* bev);
+	void DeleteClient();
 	void ClearMap(size_t index);
+	static std::string GetStringFd(bufferevent* bev);
+	static std::string GetStringFd(const evutil_socket_t fd);
 
-private:
-	static void Accept(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg);
-	static void ReadData(bufferevent *bev, void *arg);
-	static void ServerEventCb(bufferevent *bev, short events, void *arg);
-	static void RecordClient(bufferevent *bev);
+private: // 消息网关对象
+	static std::unique_ptr<ServerGateway> m_pServerGateway;
 
-private:
-	struct event_config* ev_c = nullptr;
-	struct event_base* ev_b = nullptr;
+private: // libevent事件库
+	event_config* ev_c = nullptr;
+	event_base* ev_b = nullptr;
 	evconnlistener* ev_l = nullptr;
-	static uint64_t clear_index;
-	static uint64_t record_index;
+
+private: // 维护客户端句柄
+	static uint64_t m_record_index;
+	static uint64_t m_clear_index;
 	static VUMCliHanPtr m_vumCliHanPtr;
 };
 
-}
+} /* town */
 
 #endif /* SERVER_EVENT_H */

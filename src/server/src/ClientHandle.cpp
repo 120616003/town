@@ -46,4 +46,14 @@ std::string ClientHandle::GetUUID()
 	return m_uuid;
 }
 
+void ClientHandle::SetStatus(bool status)
+{
+	m_status = status;
+}
+
+bool ClientHandle::GetStatus()
+{
+	return m_status;
+}
+
 } /* town */

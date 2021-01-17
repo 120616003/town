@@ -19,9 +19,8 @@ int main()
 	// MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
 	// MysqlAccess::GetInstance()->ExecuteSql(create_user_info_table);
 
-	ServerEvent serverevent;
-	serverevent.ServerInit(20000);
-	serverevent.ServerStart();
+	ServerEvent::GetInstance()->Initialization(20000);
+	ServerEvent::GetInstance()->StartServer();
 
 	// int cnt = 0;
 	// while (cnt != 10) {

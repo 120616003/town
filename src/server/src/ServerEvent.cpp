@@ -1,16 +1,14 @@
-
-#include <errno.h>
-#include <assert.h>
 #include <event2/event.h>
 #include <event2/bufferevent.h>
 #include <event2/bufferevent_struct.h>
 #include <event2/listener.h>
-
+#include <errno.h>
+#include <cstring>
+#include <thread>
 
 #include "ServerEvent.h"
-#include "ServerCommon.h"
 #include "ClientHandle.h"
-#include "user.pb.h"
+#include "ServerGateway.h"
 
 namespace town {
 
@@ -18,11 +16,25 @@ namespace town {
 #define INDEX_CURREN(x) (x % 4)
 
 VUMCliHanPtr ServerEvent::m_vumCliHanPtr = VUMCliHanPtr(4);
-uint64_t ServerEvent::clear_index = 0;
-uint64_t ServerEvent::record_index = 2;
+uint64_t ServerEvent::m_clear_index = 0;
+uint64_t ServerEvent::m_record_index = 2;
+std::unique_ptr<ServerGateway> ServerEvent::m_pServerGateway = nullptr;
+
+SerEvnPtr ServerEvent::GetInstance()
+{
+	static PRIVATE_KEY key;
+	static SerEvnPtr se = std::make_shared<ServerEvent>(key);
+	return se;
+}
+
+ServerEvent::ServerEvent(PRIVATE_KEY key)
+{
+	m_pServerGateway = std::make_unique<ServerGateway>();
+}
 
 ServerEvent::~ServerEvent()
 {
+	m_vumCliHanPtr.clear();
 	if (ev_b) {
 		event_base_free(ev_b);
 	}
@@ -31,7 +43,7 @@ ServerEvent::~ServerEvent()
 	}
 }
 
-int32_t ServerEvent::ServerInit(int32_t iPort)
+int32_t ServerEvent::Initialization(int32_t iPort)
 {
 	struct sockaddr_in sin {};
 	sin.sin_family = AF_INET;
@@ -54,50 +66,69 @@ int32_t ServerEvent::ServerInit(int32_t iPort)
 		return FAILED;
 	}
 
-	ev_l = evconnlistener_new_bind(ev_b, Accept, ev_b, LEV_OPT_REUSEABLE | LEV_OPT_CLOSE_ON_FREE, 10, (struct sockaddr*)&sin, sizeof(struct sockaddr_in));
+	ev_l = evconnlistener_new_bind(ev_b, AcceptConnectCb, ev_b, LEV_OPT_REUSEABLE | LEV_OPT_CLOSE_ON_FREE, 10, (struct sockaddr*)&sin, sizeof(struct sockaddr_in));
 	if (!ev_l) {
 		LOG_WARN("evconnlistener_new_bind failed, ev_l is nullptr");
 		return FAILED;
 	}
 
-	std::thread(&ServerEvent::Disconnect, this).detach(); // 启动超时断开线程
+	LOG_DEBUG("initialization success");
 
 	return SUCCESS;
 }
 
-void ServerEvent::ServerStart()
+void ServerEvent::StartServer()
 {
-	std::thread(event_base_dispatch, ev_b).detach();
+	std::thread(&ServerGateway::DataDealCenter, m_pServerGateway.get()).detach(); // 数据处理线程
+	std::thread(event_base_dispatch, ev_b).detach(); // 消息监听线程
+	std::thread(&ServerEvent::DeleteClient, this).detach(); // 超时断开线程
 }
 
-void ServerEvent::Accept(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg)
+CliHanPtr ServerEvent::GetClientHandle(bufferevent* bev)
 {
-	event_base *base = (event_base*)arg;
+	if (m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(bev)] != nullptr) {
+		return m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(bev)];
+	}
+	return m_vumCliHanPtr[INDEX_BEFORE(m_record_index)][GetStringFd(bev)];
+}
+
+CliHanPtr ServerEvent::GetClientHandle(const std::string& uuid)
+{
+	if (m_vumCliHanPtr[INDEX_CURREN(m_record_index)][uuid] != nullptr) {
+		return m_vumCliHanPtr[INDEX_CURREN(m_record_index)][uuid];
+	}
+	return m_vumCliHanPtr[INDEX_BEFORE(m_record_index)][uuid];
+}
+
+void ServerEvent::AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg)
+{
+	event_base *base = reinterpret_cast<event_base*>(arg);
 	bufferevent *bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
 
-	bufferevent_setcb(bev, ReadData, nullptr, ServerEventCb, nullptr);
+	bufferevent_setcb(bev, ReadDataCb, nullptr, ClientEventCb, nullptr);
 	bufferevent_enable(bev, EV_READ | EV_PERSIST);
 
 	CliHanPtr cli_han = std::make_shared<ClientHandle>();
 	if (!cli_han) {
 		bufferevent_free(bev);
+		LOG_ERROR("CliHanPtr create failed");
 		return;
 	}
 	cli_han->SetEvutilSocket(fd);
 	cli_han->SetBufferevent(bev);
-	m_vumCliHanPtr[record_index % 4][fd] = cli_han;
-	LOG_INFO("accept a client:{}, record_index:{}", fd, record_index % 4);
+	cli_han->SetStatus(true);
+	m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(fd)] = cli_han;
+	LOG_INFO("accept a client:{}, index:{}", fd, INDEX_CURREN(m_record_index));
 }
 
-void ServerEvent::ReadData(bufferevent* bev, void *arg)
+void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 {
 	RecordClient(bev);
-	
 
-	char buf[1024 * 10 + 1] = {};
-	uint32_t data_len = 0;
-	uint32_t ret = 0;
-	uint32_t save_len = 0;
+	uint8_t data_buf[1024 * 10] = {};
+	uint16_t data_len = 0;
+	uint16_t ret_len = 0;
+	uint16_t read_len = 0;
 	
 	std::string msg;
 	do {
@@ -106,37 +137,36 @@ void ServerEvent::ReadData(bufferevent* bev, void *arg)
 			if (data_len == 0) {
 				return;
 			}
+
 			if (data_len > 1024 * 10) {
-				LOG_INFO("data size out of range, data_len:{}", data_len);
+				LOG_INFO("data size out of range, data len:{}", data_len);
 				return;
 			}
-		}
-		// LOG_INFO("len:{}, save_len:{}", len, save_len);
-		ret = bufferevent_read(bev, buf + save_len, data_len - save_len);
-
-		if (ret <= 0) {
-			LOG_INFO("data error, ret:{}", ret);
-			return;
+			msg.reserve(data_len);
 		}
 
-		save_len += ret;
-		if (save_len == data_len) {
-			msg.reserve(save_len);
-			msg.insert(msg.end(), buf, buf + save_len);
-			message ma;
-			ma.ParseFromString(msg);
-			LOG_INFO("type:{}", ma.mess_type());
-			acc_register ar;
-			ar.ParseFromString(ma.mess_data());
-			LOG_INFO("type:{}", ar.type());
-			LOG_INFO("email:{}", ar.email());
-			LOG_INFO("passwd:{}", ar.passwd());
-			return;
+		ret_len = bufferevent_read(bev, data_buf + read_len, data_len - read_len);
+
+		if (0 == ret_len) {
+			if (EAGAIN == errno) {
+				continue;
+			}
+			else {
+				LOG_WARN("data read error:{}", strerror(errno));
+			}
+		}
+
+		read_len += ret_len;
+		if (read_len == data_len) {
+			msg.insert(msg.end(), data_buf, data_buf + read_len);
+			read_len = data_len = 0;
+			std::pair<bufferevent*, std::string> bev_msg{bev, std::move(msg)};
+			m_pServerGateway->PushMsg(bev_msg);
 		}
 	} while (true);
 }
 
-void ServerEvent::ServerEventCb(bufferevent *bev, short events, void *arg)
+void ServerEvent::ClientEventCb(bufferevent* bev, short events, void* arg)
 {
 	if (events & BEV_EVENT_EOF) {
 		LOG_INFO("client actively disconnect");
@@ -144,16 +174,26 @@ void ServerEvent::ServerEventCb(bufferevent *bev, short events, void *arg)
 	else if (events & BEV_EVENT_ERROR) {
 		LOG_WARN("unknown error, the server will be passively disconnected");
 	}
-	m_vumCliHanPtr[INDEX_BEFORE(record_index)][bev->ev_read.ev_fd]  = nullptr;
-	m_vumCliHanPtr[INDEX_CURREN(record_index)][bev->ev_read.ev_fd] = nullptr;
+
+	CliHanPtr chptr = GetClientHandle(bev);
+	if (nullptr != chptr) {
+		chptr->SetStatus(false);
+	}
 }
 
-void ServerEvent::Disconnect()
+void ServerEvent::RecordClient(bufferevent* bev)
+{
+	if (m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(bev)] == nullptr) {
+		m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(bev)] = m_vumCliHanPtr[INDEX_BEFORE(m_record_index)][GetStringFd(bev)];
+	}
+}
+
+void ServerEvent::DeleteClient()
 {
 	while(true) {
 		Booster::Timer(10, 0, 0);
-		ClearMap(clear_index++ % 4);
-		++record_index;
+		ClearMap(m_clear_index++ % 4);
+		++m_record_index;
 	}
 }
 
@@ -162,11 +202,14 @@ void ServerEvent::ClearMap(size_t index)
 	m_vumCliHanPtr[index].clear();
 }
 
-void ServerEvent::RecordClient(bufferevent *bev)
+std::string ServerEvent::GetStringFd(bufferevent* bev)
 {
-	if (m_vumCliHanPtr[INDEX_CURREN(record_index)].find(bufferevent_getfd(bev)) == m_vumCliHanPtr[INDEX_CURREN(record_index)].end()) {
-		m_vumCliHanPtr[INDEX_CURREN(record_index)][bufferevent_getfd(bev)] = m_vumCliHanPtr[INDEX_BEFORE(record_index)][bufferevent_getfd(bev)];
-	}
+	return std::move(std::to_string(bufferevent_getfd(bev)));
+}
+
+std::string ServerEvent::GetStringFd(const evutil_socket_t fd)
+{
+	return std::move(std::to_string(fd));
 }
 
 } /* town */
