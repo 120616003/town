@@ -1,12 +1,3 @@
-/*******************************************************
- * @brief: Json解析模块
- * @Copyright: Copyleft
- * @license: GPL
- * @birth: created by yan on 2020-12-9
- * @version: V0.0.1
- * @revision: last revised by yan on 2020-12-9
- *******************************************************/
-
 #ifndef JSONER_H
 #define JSONER_H
 

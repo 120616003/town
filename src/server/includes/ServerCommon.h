@@ -8,6 +8,11 @@
 #include <vector>
 #include <string>
 
+struct event_config;
+struct event_base;
+struct evconnlistener;
+struct bufferevent;
+
 namespace town {
 
 #undef LOG_DEBUG

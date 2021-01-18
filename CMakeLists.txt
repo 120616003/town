@@ -9,10 +9,19 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/lib)      #设置库文件�
 if(Release)
     SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")         # Release模式下的编译指令
 else()
-    SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")  # Debug模式下的编译指令
+    SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdbGetClientHandle")  # Debug模式下的编译指令
 endif()
 
 set(CXX_FLAGS -std=c++17)
+
+
+
+find_program(CCACHE_PROGRAM ccache)
+if (CCACHE_PROGRAM)
+  SET(CMAKE_CXX_COMPILER      "ccache")
+  SET(CMAKE_CXX_COMPILER_ARG1 "g++")
+endif()
+
 
 
 if(LOG STREQUAL "STDLOG")
@@ -40,12 +49,13 @@ include_directories(${PROJECT_SOURCE_DIR}/third_party/boost_1_75_0)
 #core
 configure_file (${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/src/common/config.h)
 include_directories(${PROJECT_SOURCE_DIR}/src/includes)
-include_directories(${PROJECT_SOURCE_DIR}/src/server/inc)
+include_directories(${PROJECT_SOURCE_DIR}/src/server/includes)
+include_directories(${PROJECT_SOURCE_DIR}/src/server/platform/inc)
 include_directories(${PROJECT_SOURCE_DIR}/src/common)
 include_directories(${PROJECT_SOURCE_DIR}/src/proto/src)
 
 #lib
-add_subdirectory(third_party/googletest-release-1.10.0)
+# add_subdirectory(third_party/googletest-release-1.10.0)
 add_subdirectory(third_party/protobuf-3.14.0/cmake)
 add_subdirectory(src/proto)
 add_subdirectory(src/mysql)

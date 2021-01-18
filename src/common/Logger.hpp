@@ -1,12 +1,3 @@
-/*******************************************************
- * @brief: Log输出模块
- * @Copyright: Copyleft
- * @license: GPL
- * @birth: created by yan on 2020-12-9
- * @version: V0.0.1
- * @revision: last revised by yan on 2020-12-9
- *******************************************************/
-
 #ifndef LOGGER_H
 #define LOGGER_H
 

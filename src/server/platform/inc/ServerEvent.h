@@ -3,12 +3,7 @@
 
 #include <event2/util.h> // evutil_socket_t
 
-#include <ServerCommon.h>
-
-struct event_config;
-struct event_base;
-struct evconnlistener;
-struct bufferevent;
+#include "ServerCommon.h"
 
 namespace town {
 
