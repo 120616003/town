@@ -1,8 +1,6 @@
 #ifndef SERVER_EVENT_H
 #define SERVER_EVENT_H
 
-#include <event2/util.h> // evutil_socket_t
-
 #include "ServerCommon.h"
 
 namespace town {
@@ -34,7 +32,7 @@ private:
 	static std::string GetStringFd(const evutil_socket_t fd);
 
 private: // 消息网关对象
-	static std::unique_ptr<ServerGateway> m_pServerGateway;
+	static SerGatPtr m_pServerGateway;
 
 private: // libevent事件库
 	event_config* ev_c = nullptr;

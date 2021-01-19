@@ -1,10 +1,4 @@
-#include <event2/bufferevent.h>
-#include <event2/bufferevent_struct.h>
-
-#include "ServerCommon.h"
 #include "ServerGateway.h"
-#include "ServerEvent.h"
-#include "ClientHandle.h"
 
 #include "MsgDeal.h"
 #include "RegisterMsgDeal.h"
@@ -24,9 +18,9 @@ void ServerGateway::MsgForwardCenter()
 {
 	MsgFactory();
 	RunFactoryMsg();
-	message m;
+
 	while (true) {
-		std::pair<bufferevent*, std::string> bev_msg;
+		std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string> bev_msg;
 		{
 			std::unique_lock<std::mutex> lk(m_lock);
 			while (m_read_index == m_write_index) {
@@ -34,14 +28,15 @@ void ServerGateway::MsgForwardCenter()
 			}
 			PopMsg(bev_msg);
 		}
-		m.ParseFromString(bev_msg.second);
-		if (m_eMsgDeal.find(m.mess_type()) != m_eMsgDeal.end()) {
-			m_eMsgDeal[m.mess_type()]->PushMsg(bev_msg);
+
+		if (m_eMsgDeal.find(std::get<1>(bev_msg)) != m_eMsgDeal.end()) {
+			std::pair<bufferevent*, std::string> bmsg{std::get<0>(bev_msg), std::move(std::get<2>(bev_msg))};
+			m_eMsgDeal[std::get<1>(bev_msg)]->PushMsg(bmsg);
 		}
 	}
 }
 
-void ServerGateway::PushMsg(std::pair<bufferevent*, std::string>& bev_msg)
+void ServerGateway::PushMsg(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg)
 {
 	{
 		std::unique_lock<std::mutex> lk(m_lock);
@@ -51,7 +46,7 @@ void ServerGateway::PushMsg(std::pair<bufferevent*, std::string>& bev_msg)
 	m_cv.notify_one();
 }
 
-void ServerGateway::PopMsg(std::pair<bufferevent*, std::string>& bev_msg)
+void ServerGateway::PopMsg(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg)
 {
 	bev_msg = std::move(m_queue.front());
 	m_queue.pop();
@@ -60,14 +55,14 @@ void ServerGateway::PopMsg(std::pair<bufferevent*, std::string>& bev_msg)
 
 void ServerGateway::MsgFactory()
 {
-	m_eMsgDeal[common_enum::MESS_REGISTER] = std::make_shared<RegisterMsgDeal>();
-	m_eMsgDeal[common_enum::MESS_LOGIN] = std::make_shared<LoginMsgDeal>();
+	m_eMsgDeal[MSG_INFO::MESS_REGISTER] = std::make_shared<RegisterMsgDeal>();
+	m_eMsgDeal[MSG_INFO::MESS_LOGIN] = std::make_shared<LoginMsgDeal>();
 }
 
 void ServerGateway::RunFactoryMsg()
 {
 	for (auto& eMsgDeal : m_eMsgDeal) {
-		std::thread(&MsgDeal::MsgDealCenter, eMsgDeal.second.get()).detach();
+		std::thread(&MsgDeal::MsgForward, eMsgDeal.second.get()).detach();
 	}
 }
 

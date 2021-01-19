@@ -1,11 +1,6 @@
 syntax = "proto3";
 
 message common_enum {
-    enum MESSAGE_TYPE {
-        MESS_REGISTER = 0;
-        MESS_LOGIN = 1;
-    }
-
     enum ACC_TYPE {
         ACC_EMAIL = 0;
         ACC_PHONE = 1;
@@ -29,9 +24,4 @@ message acc_login {
     string accname = 4; // server
     string passwd = 5; // server
     string uuid = 6; // client
-}
-
-message message {
-    common_enum.MESSAGE_TYPE mess_type = 1;
-    string mess_data = 2;
 }

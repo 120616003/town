@@ -1,11 +1,3 @@
-#include <event2/event.h>
-#include <event2/bufferevent.h>
-#include <event2/bufferevent_struct.h>
-#include <event2/listener.h>
-#include <errno.h>
-#include <cstring>
-#include <thread>
-
 #include "ServerEvent.h"
 #include "ClientHandle.h"
 #include "ServerGateway.h"
@@ -18,7 +10,7 @@ namespace town {
 VUMCliHanPtr ServerEvent::m_vumCliHanPtr = VUMCliHanPtr(4);
 uint64_t ServerEvent::m_clear_index = 0;
 uint64_t ServerEvent::m_record_index = 2;
-std::unique_ptr<ServerGateway> ServerEvent::m_pServerGateway = nullptr;
+SerGatPtr ServerEvent::m_pServerGateway = nullptr;
 
 SerEvnPtr ServerEvent::GetInstance()
 {
@@ -123,18 +115,21 @@ void ServerEvent::AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, 
 
 void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 {
-	if (!GetClientHandle(bev)->GetStatus()) return;
+	if (!GetClientHandle(bev)->GetStatus()) {
+		LOG_INFO("device message error");
+		return;
+	}
 	RecordClient(bev);
 
 	uint8_t data_buf[1024 * 10] = {};
 	uint16_t ret_len = 0;
 	uint16_t read_len = 0;
-	Msg_Info msg_info{};
+	MSG_INFO msg_info{};
 	
 	std::string msg;
 	do {
 		if (!msg_info.msg_len) {
-			bufferevent_read(bev, &msg_info, sizeof(msg_info));
+			bufferevent_read(bev, &msg_info, sizeof(MSG_INFO));
 			if (msg_info.msg_len == 0) {
 				return;
 			}
@@ -159,14 +154,15 @@ void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 
 		read_len += ret_len;
 		if (read_len == msg_info.msg_len) {
-
 			if (Booster::Crc(data_buf, msg_info.msg_len) != msg_info.msg_crc) {
 				GetClientHandle(bev)->SetStatus(false);
+				LOG_ERROR("msg crc error, msg_type:{}", static_cast<uint32_t>(msg_info.msg_type));
+				return;
 			}
 
 			msg.insert(msg.end(), data_buf, data_buf + read_len);
 			read_len = msg_info.msg_len = 0;
-			std::pair<bufferevent*, std::string> bev_msg{bev, std::move(msg)};
+			std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string> bev_msg{bev, msg_info.msg_type, std::move(msg)};
 			m_pServerGateway->PushMsg(bev_msg);
 		}
 	} while (true);

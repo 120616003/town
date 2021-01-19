@@ -23,7 +23,9 @@ else()
   set(LOG_TYPE "STDLOG")
 endif()
 
+include_directories(${PROJECT_SOURCE_DIR}/../third_party/boost_1_75_0)
 include_directories(${PROJECT_SOURCE_DIR}/../third_party/protobuf-3.14.0/src/)
+include_directories(${PROJECT_SOURCE_DIR}/../src/common)
 include_directories(${PROJECT_SOURCE_DIR}/../src/proto/src)
 link_directories(${PROJECT_SOURCE_DIR}/../build/lib/)
 

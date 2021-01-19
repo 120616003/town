@@ -3,15 +3,12 @@
 
 #include "common.h"
 
-#include <memory>
-#include <map>
-#include <unordered_map>
-#include <vector>
-#include <string>
-#include <queue>
-#include <mutex>
-#include <condition_variable>
-#include <chrono>
+#include <event2/bufferevent.h>
+#include <event2/bufferevent_struct.h>
+#include <event2/util.h> // evutil_socket_t
+#include <event2/listener.h>
+
+#include "user.pb.h"
 
 using namespace std::chrono_literals;
 
@@ -41,10 +38,11 @@ class ServerEvent;
 typedef std::shared_ptr<ServerEvent> SerEvnPtr;
 
 class ServerGateway;
+typedef std::unique_ptr<ServerGateway> SerGatPtr;
 
-struct Msg_Info{
+struct MSG_INFO{
 	std::size_t msg_len = 0;
-	enum msg_type : uint32_t {
+	enum MSG_TYPE : uint32_t {
 		MESS_REGISTER = 0,
 		MESS_LOGIN = 1
 	} msg_type = MESS_REGISTER;

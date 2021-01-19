@@ -7,6 +7,21 @@
 #include "Jsoner.hpp"
 #include "Booster.hpp"
 
+#include <memory>
+#include <map>
+#include <unordered_map>
+#include <vector>
+#include <string>
+#include <queue>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <chrono>
+#include <tuple>
+#include <cstring>
+#include <errno.h>
+#include <unistd.h>
+
 namespace town
 {
 

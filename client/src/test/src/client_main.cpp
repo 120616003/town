@@ -18,6 +18,16 @@
 #include <sstream>
 #include <cstring>
 #include "user.pb.h"
+#include "Booster.hpp"
+
+struct MSG_INFO{
+    std::size_t msg_len = 0;
+    enum MSG_TYPE : uint32_t {
+        MESS_REGISTER = 0,
+        MESS_LOGIN = 1
+    } msg_type = MESS_REGISTER;
+    std::size_t msg_crc = 0;
+};
 
 void cmd_msg_cb(int fd, short events, void* arg);
 void server_msg_cb(struct bufferevent* bev, void* arg);
@@ -68,6 +78,8 @@ int main(int argc, char** argv)
     return 0;
 }
 
+int count = 0;
+
 void cmd_msg_cb(int fd, short events, void* arg)
 {
     char buf[1024] = {};
@@ -82,22 +94,34 @@ void cmd_msg_cb(int fd, short events, void* arg)
     struct bufferevent* bev = (struct bufferevent*)arg;
  
     // 把终端的消息发送给服务器端
-    acc_register ar;
-    ar.set_type(common_enum::ACC_EMAIL);
-    ar.set_email("120616003@qq.com");
-    ar.set_passwd("123456");
 
-    message ma;
-    ma.set_mess_type(common_enum::MESS_REGISTER);
-    ma.set_mess_data(std::move(ar.SerializeAsString()));
-    std::string msg = std::move(ma.SerializeAsString());
-    uint32_t len = msg.size();
+    std::string msg;
+    MSG_INFO msg_info{};
+    if (count % 2) {
+        acc_login al;
+        al.set_type(common_enum::ACC_PHONE);
+        al.set_email("1249152106@qq.com");
+        al.set_passwd("000000");
+        msg = std::move(al.SerializeAsString());
+        msg_info.msg_type = MSG_INFO::MESS_LOGIN;
+    }
+    else {
+        acc_register ar;
+        ar.set_type(common_enum::ACC_EMAIL);
+        ar.set_email("120616003@qq.com");
+        ar.set_passwd("123456");
+        msg = std::move(ar.SerializeAsString());
+        msg_info.msg_type = MSG_INFO::MESS_REGISTER;
+    }
 
-    memcpy(buf, &len, sizeof(len));
-    memcpy(buf + sizeof(len), msg.data(), len);
-    bufferevent_write(bev, buf, len + sizeof(len));
-    // bufferevent_write(bev, buf, len + sizeof(len));
-    // bufferevent_flush(bev, EV_WRITE, BEV_FLUSH);
+    
+    msg_info.msg_len = msg.size();
+    msg_info.msg_crc = town::Booster::Crc(reinterpret_cast<uint8_t*>(const_cast<char*>(msg.data())), msg_info.msg_len);
+
+    memcpy(buf, &msg_info, sizeof(MSG_INFO));
+    memcpy(buf + sizeof(MSG_INFO), msg.data(), msg_info.msg_len);
+    bufferevent_write(bev, buf, msg_info.msg_len + sizeof(MSG_INFO));
+    count++;
 }
 
 void server_msg_cb(struct bufferevent* bev, void* arg)

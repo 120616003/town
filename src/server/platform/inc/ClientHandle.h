@@ -1,8 +1,6 @@
 #ifndef CLIENT_HANDLE_H
 #define CLIENT_HANDLE_H
 
-#include <event2/bufferevent.h>
-#include <string>
 #include "ServerCommon.h"
 
 namespace town {
