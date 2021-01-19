@@ -4,9 +4,16 @@
 #include "common.h"
 
 #include <memory>
+#include <map>
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 struct event_config;
 struct event_base;
@@ -34,6 +41,15 @@ class ServerEvent;
 typedef std::shared_ptr<ServerEvent> SerEvnPtr;
 
 class ServerGateway;
+
+struct Msg_Info{
+	std::size_t msg_len = 0;
+	enum msg_type : uint32_t {
+		MESS_REGISTER = 0,
+		MESS_LOGIN = 1
+	} msg_type = MESS_REGISTER;
+	std::size_t msg_crc = 0;
+};
 
 } /* town */
 

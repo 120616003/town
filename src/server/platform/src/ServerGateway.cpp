@@ -1,4 +1,3 @@
-#include <chrono>
 #include <event2/bufferevent.h>
 #include <event2/bufferevent_struct.h>
 
@@ -6,9 +5,10 @@
 #include "ServerGateway.h"
 #include "ServerEvent.h"
 #include "ClientHandle.h"
-#include "user.pb.h"
 
-using namespace std::chrono_literals;
+#include "MsgDeal.h"
+#include "RegisterMsgDeal.h"
+#include "LoginMsgDeal.h"
 
 namespace town {
 
@@ -20,8 +20,11 @@ ServerGateway::~ServerGateway()
 {
 }
 
-void ServerGateway::DataDealCenter()
+void ServerGateway::MsgForwardCenter()
 {
+	MsgFactory();
+	RunFactoryMsg();
+	message m;
 	while (true) {
 		std::pair<bufferevent*, std::string> bev_msg;
 		{
@@ -31,8 +34,10 @@ void ServerGateway::DataDealCenter()
 			}
 			PopMsg(bev_msg);
 		}
-
-		DataForward(bev_msg);
+		m.ParseFromString(bev_msg.second);
+		if (m_eMsgDeal.find(m.mess_type()) != m_eMsgDeal.end()) {
+			m_eMsgDeal[m.mess_type()]->PushMsg(bev_msg);
+		}
 	}
 }
 
@@ -53,38 +58,17 @@ void ServerGateway::PopMsg(std::pair<bufferevent*, std::string>& bev_msg)
 	++m_read_index;
 }
 
-void ServerGateway::DataForward(std::pair<bufferevent*, std::string>& bev_msg)
+void ServerGateway::MsgFactory()
 {
-	message m;
-	m.ParseFromString(bev_msg.second);
+	m_eMsgDeal[common_enum::MESS_REGISTER] = std::make_shared<RegisterMsgDeal>();
+	m_eMsgDeal[common_enum::MESS_LOGIN] = std::make_shared<LoginMsgDeal>();
+}
 
-	switch (m.mess_type()) {
-		case common_enum::MESS_REGISTER: {
-			RegisterMsg(bev_msg.first, m.mess_data());
-			break;
-		}
-		case common_enum::MESS_LOGIN: {
-			LoginMsg(bev_msg.first, m.mess_data());
-			break;
-		}
-		default:
-		LOG_ERROR("message type unknow:{}", m.mess_type());
-		break;
+void ServerGateway::RunFactoryMsg()
+{
+	for (auto& eMsgDeal : m_eMsgDeal) {
+		std::thread(&MsgDeal::MsgDealCenter, eMsgDeal.second.get()).detach();
 	}
-}
-
-void ServerGateway::RegisterMsg(bufferevent* bev, const std::string& msg)
-{
-	acc_register ar;
-	ar.ParseFromString(msg);
-	// LOG_INFO("fd:{}", ServerEvent::GetInstance()->GetClientHandle(bev)->GetEvutilSocket());
-	// LOG_INFO("type:{}", ar.type());
-	// LOG_INFO("email:{}", ar.email());
-	// LOG_INFO("passwd:{}", ar.passwd());
-}
-
-void ServerGateway::LoginMsg(bufferevent* bev, const std::string& msg)
-{
 }
 
 } /* town */

@@ -79,7 +79,7 @@ int32_t ServerEvent::Initialization(int32_t iPort)
 
 void ServerEvent::StartServer()
 {
-	std::thread(&ServerGateway::DataDealCenter, m_pServerGateway.get()).detach(); // 数据处理线程
+	std::thread(&ServerGateway::MsgForwardCenter, m_pServerGateway.get()).detach(); // 数据处理线程
 	std::thread(event_base_dispatch, ev_b).detach(); // 消息监听线程
 	std::thread(&ServerEvent::DeleteClient, this).detach(); // 超时断开线程
 }
@@ -123,29 +123,30 @@ void ServerEvent::AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, 
 
 void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 {
+	if (!GetClientHandle(bev)->GetStatus()) return;
 	RecordClient(bev);
 
 	uint8_t data_buf[1024 * 10] = {};
-	uint16_t data_len = 0;
 	uint16_t ret_len = 0;
 	uint16_t read_len = 0;
+	Msg_Info msg_info{};
 	
 	std::string msg;
 	do {
-		if (!data_len) {
-			bufferevent_read(bev, &data_len, sizeof(uint32_t));
-			if (data_len == 0) {
+		if (!msg_info.msg_len) {
+			bufferevent_read(bev, &msg_info, sizeof(msg_info));
+			if (msg_info.msg_len == 0) {
 				return;
 			}
 
-			if (data_len > 1024 * 10) {
-				LOG_INFO("data size out of range, data len:{}", data_len);
+			if (msg_info.msg_len > 1024 * 10) {
+				LOG_INFO("data size out of range, data len:{}", msg_info.msg_len);
 				return;
 			}
-			msg.reserve(data_len);
+			msg.reserve(msg_info.msg_len);
 		}
 
-		ret_len = bufferevent_read(bev, data_buf + read_len, data_len - read_len);
+		ret_len = bufferevent_read(bev, data_buf + read_len, msg_info.msg_len - read_len);
 
 		if (0 == ret_len) {
 			if (EAGAIN == errno) {
@@ -157,9 +158,14 @@ void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 		}
 
 		read_len += ret_len;
-		if (read_len == data_len) {
+		if (read_len == msg_info.msg_len) {
+
+			if (Booster::Crc(data_buf, msg_info.msg_len) != msg_info.msg_crc) {
+				GetClientHandle(bev)->SetStatus(false);
+			}
+
 			msg.insert(msg.end(), data_buf, data_buf + read_len);
-			read_len = data_len = 0;
+			read_len = msg_info.msg_len = 0;
 			std::pair<bufferevent*, std::string> bev_msg{bev, std::move(msg)};
 			m_pServerGateway->PushMsg(bev_msg);
 		}

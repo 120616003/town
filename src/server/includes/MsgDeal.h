@@ -3,13 +3,17 @@
 
 #include "ServerCommon.h"
 
+namespace town {
+
 class MsgDeal
 {
 public:
 	MsgDeal() {}
 	virtual ~MsgDeal() {}
-
-	virtual void PushMsg(bufferevent* bev, std::string& msg) = 0;
+	virtual void MsgDealCenter() = 0;
+	virtual void PushMsg(std::pair<bufferevent*, std::string>& bev_msg) = 0;
 };
+
+} /* town */
 
 #endif /* MSG_DEAL_H */

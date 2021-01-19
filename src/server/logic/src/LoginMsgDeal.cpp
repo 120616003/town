@@ -1,22 +1,22 @@
 #include <event2/bufferevent.h>
 #include <event2/bufferevent_struct.h>
 
-#include "RegisterMsgDeal.h"
+#include "LoginMsgDeal.h"
 #include "user.pb.h"
 #include "ServerEvent.h"
 #include "ClientHandle.h"
 
 namespace town {
 
-RegisterMsgDeal::RegisterMsgDeal()
+LoginMsgDeal::LoginMsgDeal()
 {
 }
 
-RegisterMsgDeal::~RegisterMsgDeal()
+LoginMsgDeal::~LoginMsgDeal()
 {
 }
 
-void RegisterMsgDeal::MsgDealCenter()
+void LoginMsgDeal::MsgDealCenter()
 {
 	message m;
 	while (true) {
@@ -30,16 +30,15 @@ void RegisterMsgDeal::MsgDealCenter()
 		}
 		m.ParseFromString(bev_msg.second);
 
-		acc_register ar;
-		ar.ParseFromString(m.mess_data());
-		LOG_INFO("fd:{}", ServerEvent::GetInstance()->GetClientHandle(bev_msg.first)->GetEvutilSocket());
-		LOG_INFO("type:{}", ar.type());
-		LOG_INFO("email:{}", ar.email());
-		LOG_INFO("passwd:{}", ar.passwd());
+		// LOG_INFO("fd:{}", ServerEvent::GetInstance()->GetClientHandle(bev_msg.first)->GetEvutilSocket());
+		// LOG_INFO("type:{}", ar.type());
+		// LOG_INFO("email:{}", ar.email());
+		// LOG_INFO("passwd:{}", ar.passwd());
 	}
 }
 
-void RegisterMsgDeal::PushMsg(std::pair<bufferevent*, std::string>& bev_msg)
+
+void LoginMsgDeal::PushMsg(std::pair<bufferevent*, std::string>& bev_msg)
 {
 	m_queue.push(std::move(bev_msg));
 	++m_write_index;
@@ -47,7 +46,7 @@ void RegisterMsgDeal::PushMsg(std::pair<bufferevent*, std::string>& bev_msg)
 }
 
 
-void RegisterMsgDeal::PopMsg(std::pair<bufferevent*, std::string>& bev_msg)
+void LoginMsgDeal::PopMsg(std::pair<bufferevent*, std::string>& bev_msg)
 {
 	bev_msg = std::move(m_queue.front());
 	m_queue.pop();

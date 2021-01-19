@@ -1,15 +1,16 @@
-#ifndef REGISTER_MSG_DEAL_H
-#define REGISTER_MSG_DEAL_H
+#ifndef LOGIN_MSG_DEAL_H
+#define LOGIN_MSG_DEAL_H
 
+#include "ServerCommon.h"
 #include "MsgDeal.h"
 
 namespace town {
 
-class RegisterMsgDeal : public MsgDeal
+class LoginMsgDeal : public MsgDeal
 {
 public:
-	RegisterMsgDeal();
-	~RegisterMsgDeal();
+	LoginMsgDeal();
+	~LoginMsgDeal();
 	
 	void MsgDealCenter() override;
 	void PushMsg(std::pair<bufferevent*, std::string>& bev_msg) override;
@@ -27,4 +28,4 @@ private:
 
 } /* town */
 
-#endif /* REGISTER_MSG_DEAL_H */
+#endif /* LOGIN_MSG_DEAL_H */
