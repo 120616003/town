@@ -71,7 +71,7 @@ int32_t ServerEvent::Initialization(int32_t iPort)
 
 void ServerEvent::StartServer()
 {
-	std::thread(&ServerGateway::MsgForwardCenter, m_pServerGateway.get()).detach(); // 数据处理线程
+	m_pServerGateway->Initialization(); // 数据处理线程
 	std::thread(event_base_dispatch, ev_b).detach(); // 消息监听线程
 	std::thread(&ServerEvent::DeleteClient, this).detach(); // 超时断开线程
 }
@@ -163,7 +163,7 @@ void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 			msg.insert(msg.end(), data_buf, data_buf + read_len);
 			read_len = msg_info.msg_len = 0;
 			std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string> bev_msg{bev, msg_info.msg_type, std::move(msg)};
-			m_pServerGateway->PushMsg(bev_msg);
+			m_pServerGateway->MsgGate(bev_msg);
 		}
 	} while (true);
 }

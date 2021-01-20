@@ -26,10 +26,6 @@ class acc_loginDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<acc_login> _instance;
 } _acc_login_default_instance_;
-class messageDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<message> _instance;
-} _message_default_instance_;
 static void InitDefaultsscc_info_acc_login_user_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -69,21 +65,8 @@ static void InitDefaultsscc_info_common_enum_user_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_common_enum_user_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_common_enum_user_2eproto}, {}};
 
-static void InitDefaultsscc_info_message_user_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::_message_default_instance_;
-    new (ptr) ::message();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_message_user_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_message_user_2eproto}, {}};
-
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_user_2eproto[4];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_user_2eproto[2];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_user_2eproto[3];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_user_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_user_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_user_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -114,84 +97,50 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_user_2eproto::offsets[] PROTOB
   PROTOBUF_FIELD_OFFSET(::acc_login, accname_),
   PROTOBUF_FIELD_OFFSET(::acc_login, passwd_),
   PROTOBUF_FIELD_OFFSET(::acc_login, uuid_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::message, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::message, mess_type_),
-  PROTOBUF_FIELD_OFFSET(::message, mess_data_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::common_enum)},
   { 5, -1, sizeof(::acc_register)},
   { 16, -1, sizeof(::acc_login)},
-  { 27, -1, sizeof(::message)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_common_enum_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_acc_register_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_acc_login_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_message_default_instance_),
 };
 
 const char descriptor_table_protodef_user_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nuser.proto\"x\n\013common_enum\"1\n\014MESSAGE_T"
-  "YPE\022\021\n\rMESS_REGISTER\020\000\022\016\n\nMESS_LOGIN\020\001\"6"
-  "\n\010ACC_TYPE\022\r\n\tACC_EMAIL\020\000\022\r\n\tACC_PHONE\020\001"
-  "\022\014\n\010ACC_NAME\020\002\"\177\n\014acc_register\022#\n\004type\030\001"
-  " \001(\0162\025.common_enum.ACC_TYPE\022\r\n\005email\030\002 \001"
-  "(\t\022\r\n\005phone\030\003 \001(\t\022\017\n\007accname\030\004 \001(\t\022\016\n\006pa"
-  "sswd\030\005 \001(\t\022\013\n\003res\030\006 \001(\t\"}\n\tacc_login\022#\n\004"
-  "type\030\001 \001(\0162\025.common_enum.ACC_TYPE\022\r\n\005ema"
-  "il\030\002 \001(\t\022\r\n\005phone\030\003 \001(\t\022\017\n\007accname\030\004 \001(\t"
-  "\022\016\n\006passwd\030\005 \001(\t\022\014\n\004uuid\030\006 \001(\t\"J\n\007messag"
-  "e\022,\n\tmess_type\030\001 \001(\0162\031.common_enum.MESSA"
-  "GE_TYPE\022\021\n\tmess_data\030\002 \001(\tb\006proto3"
+  "\n\nuser.proto\"E\n\013common_enum\"6\n\010ACC_TYPE\022"
+  "\r\n\tACC_EMAIL\020\000\022\r\n\tACC_PHONE\020\001\022\014\n\010ACC_NAM"
+  "E\020\002\"\177\n\014acc_register\022#\n\004type\030\001 \001(\0162\025.comm"
+  "on_enum.ACC_TYPE\022\r\n\005email\030\002 \001(\t\022\r\n\005phone"
+  "\030\003 \001(\t\022\017\n\007accname\030\004 \001(\t\022\016\n\006passwd\030\005 \001(\t\022"
+  "\013\n\003res\030\006 \001(\t\"}\n\tacc_login\022#\n\004type\030\001 \001(\0162"
+  "\025.common_enum.ACC_TYPE\022\r\n\005email\030\002 \001(\t\022\r\n"
+  "\005phone\030\003 \001(\t\022\017\n\007accname\030\004 \001(\t\022\016\n\006passwd\030"
+  "\005 \001(\t\022\014\n\004uuid\030\006 \001(\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_user_2eproto_sccs[4] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_user_2eproto_sccs[3] = {
   &scc_info_acc_login_user_2eproto.base,
   &scc_info_acc_register_user_2eproto.base,
   &scc_info_common_enum_user_2eproto.base,
-  &scc_info_message_user_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_user_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_2eproto = {
-  false, false, descriptor_table_protodef_user_2eproto, "user.proto", 474,
-  &descriptor_table_user_2eproto_once, descriptor_table_user_2eproto_sccs, descriptor_table_user_2eproto_deps, 4, 0,
+  false, false, descriptor_table_protodef_user_2eproto, "user.proto", 347,
+  &descriptor_table_user_2eproto_once, descriptor_table_user_2eproto_sccs, descriptor_table_user_2eproto_deps, 3, 0,
   schemas, file_default_instances, TableStruct_user_2eproto::offsets,
-  file_level_metadata_user_2eproto, 4, file_level_enum_descriptors_user_2eproto, file_level_service_descriptors_user_2eproto,
+  file_level_metadata_user_2eproto, 3, file_level_enum_descriptors_user_2eproto, file_level_service_descriptors_user_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_user_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_user_2eproto)), true);
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* common_enum_MESSAGE_TYPE_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_user_2eproto);
-  return file_level_enum_descriptors_user_2eproto[0];
-}
-bool common_enum_MESSAGE_TYPE_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-      return true;
-    default:
-      return false;
-  }
-}
-
-#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-constexpr common_enum_MESSAGE_TYPE common_enum::MESS_REGISTER;
-constexpr common_enum_MESSAGE_TYPE common_enum::MESS_LOGIN;
-constexpr common_enum_MESSAGE_TYPE common_enum::MESSAGE_TYPE_MIN;
-constexpr common_enum_MESSAGE_TYPE common_enum::MESSAGE_TYPE_MAX;
-constexpr int common_enum::MESSAGE_TYPE_ARRAYSIZE;
-#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* common_enum_ACC_TYPE_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_user_2eproto);
-  return file_level_enum_descriptors_user_2eproto[1];
+  return file_level_enum_descriptors_user_2eproto[0];
 }
 bool common_enum_ACC_TYPE_IsValid(int value) {
   switch (value) {
@@ -1147,240 +1096,6 @@ void acc_login::InternalSwap(acc_login* other) {
 }
 
 
-// ===================================================================
-
-class message::_Internal {
- public:
-};
-
-message::message(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:message)
-}
-message::message(const message& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  mess_data_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_mess_data().empty()) {
-    mess_data_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_mess_data(), 
-      GetArena());
-  }
-  mess_type_ = from.mess_type_;
-  // @@protoc_insertion_point(copy_constructor:message)
-}
-
-void message::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_message_user_2eproto.base);
-  mess_data_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  mess_type_ = 0;
-}
-
-message::~message() {
-  // @@protoc_insertion_point(destructor:message)
-  SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-void message::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
-  mess_data_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-
-void message::ArenaDtor(void* object) {
-  message* _this = reinterpret_cast< message* >(object);
-  (void)_this;
-}
-void message::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
-void message::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const message& message::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_message_user_2eproto.base);
-  return *internal_default_instance();
-}
-
-
-void message::Clear() {
-// @@protoc_insertion_point(message_clear_start:message)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  mess_data_.ClearToEmpty();
-  mess_type_ = 0;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* message::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-    switch (tag >> 3) {
-      // .common_enum.MESSAGE_TYPE mess_type = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_mess_type(static_cast<::common_enum_MESSAGE_TYPE>(val));
-        } else goto handle_unusual;
-        continue;
-      // string mess_data = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          auto str = _internal_mutable_mess_data();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "message.mess_data"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
-          ctx->SetLastTag(tag);
-          goto success;
-        }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
-      }
-    }  // switch
-  }  // while
-success:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* message::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:message)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .common_enum.MESSAGE_TYPE mess_type = 1;
-  if (this->mess_type() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      1, this->_internal_mess_type(), target);
-  }
-
-  // string mess_data = 2;
-  if (this->mess_data().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_mess_data().data(), static_cast<int>(this->_internal_mess_data().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "message.mess_data");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_mess_data(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:message)
-  return target;
-}
-
-size_t message::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:message)
-  size_t total_size = 0;
-
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // string mess_data = 2;
-  if (this->mess_data().size() > 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_mess_data());
-  }
-
-  // .common_enum.MESSAGE_TYPE mess_type = 1;
-  if (this->mess_type() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_mess_type());
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void message::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:message)
-  GOOGLE_DCHECK_NE(&from, this);
-  const message* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<message>(
-          &from);
-  if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:message)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:message)
-    MergeFrom(*source);
-  }
-}
-
-void message::MergeFrom(const message& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:message)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.mess_data().size() > 0) {
-    _internal_set_mess_data(from._internal_mess_data());
-  }
-  if (from.mess_type() != 0) {
-    _internal_set_mess_type(from._internal_mess_type());
-  }
-}
-
-void message::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:message)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void message::CopyFrom(const message& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:message)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool message::IsInitialized() const {
-  return true;
-}
-
-void message::InternalSwap(message* other) {
-  using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  mess_data_.Swap(&other->mess_data_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  swap(mess_type_, other->mess_type_);
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata message::GetMetadata() const {
-  return GetMetadataStatic();
-}
-
-
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::common_enum* Arena::CreateMaybeMessage< ::common_enum >(Arena* arena) {
@@ -1391,9 +1106,6 @@ template<> PROTOBUF_NOINLINE ::acc_register* Arena::CreateMaybeMessage< ::acc_re
 }
 template<> PROTOBUF_NOINLINE ::acc_login* Arena::CreateMaybeMessage< ::acc_login >(Arena* arena) {
   return Arena::CreateMessageInternal< ::acc_login >(arena);
-}
-template<> PROTOBUF_NOINLINE ::message* Arena::CreateMaybeMessage< ::message >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::message >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

@@ -14,43 +14,23 @@ ServerGateway::~ServerGateway()
 {
 }
 
-void ServerGateway::MsgForwardCenter()
+void ServerGateway::Initialization()
 {
 	MsgFactory();
 	RunFactoryMsg();
-
-	while (true) {
-		std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string> bev_msg;
-		{
-			std::unique_lock<std::mutex> lk(m_lock);
-			while (m_read_index == m_write_index) {
-				m_cv.wait_for(lk, 1s);
-			}
-			PopMsg(bev_msg);
-		}
-
-		if (m_eMsgDeal.find(std::get<1>(bev_msg)) != m_eMsgDeal.end()) {
-			std::pair<bufferevent*, std::string> bmsg{std::get<0>(bev_msg), std::move(std::get<2>(bev_msg))};
-			m_eMsgDeal[std::get<1>(bev_msg)]->PushMsg(bmsg);
-		}
-	}
 }
 
-void ServerGateway::PushMsg(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg)
+void ServerGateway::MsgGate(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg)
 {
-	{
-		std::unique_lock<std::mutex> lk(m_lock);
-		m_queue.push(std::move(bev_msg));
+	switch (std::get<1>(bev_msg)) {
+		case MSG_INFO::MESS_REGISTER :
+		case MSG_INFO::MESS_LOGIN : {
+			MsgForward(bev_msg);
+			break;
+		}
+		default:
+			break;
 	}
-	++m_write_index;
-	m_cv.notify_one();
-}
-
-void ServerGateway::PopMsg(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg)
-{
-	bev_msg = std::move(m_queue.front());
-	m_queue.pop();
-	++m_read_index;
 }
 
 void ServerGateway::MsgFactory()
@@ -63,6 +43,14 @@ void ServerGateway::RunFactoryMsg()
 {
 	for (auto& eMsgDeal : m_eMsgDeal) {
 		std::thread(&MsgDeal::MsgForward, eMsgDeal.second.get()).detach();
+	}
+}
+
+void ServerGateway::MsgForward(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg)
+{
+	if (m_eMsgDeal.find(std::get<1>(bev_msg)) != m_eMsgDeal.end()) {
+		std::pair<bufferevent*, std::string> bmsg{std::get<0>(bev_msg), std::move(std::get<2>(bev_msg))};
+		m_eMsgDeal[std::get<1>(bev_msg)]->PushMsg(bmsg);
 	}
 }
 

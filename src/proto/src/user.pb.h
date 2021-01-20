@@ -47,7 +47,7 @@ struct TableStruct_user_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -63,41 +63,12 @@ extern acc_registerDefaultTypeInternal _acc_register_default_instance_;
 class common_enum;
 class common_enumDefaultTypeInternal;
 extern common_enumDefaultTypeInternal _common_enum_default_instance_;
-class message;
-class messageDefaultTypeInternal;
-extern messageDefaultTypeInternal _message_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::acc_login* Arena::CreateMaybeMessage<::acc_login>(Arena*);
 template<> ::acc_register* Arena::CreateMaybeMessage<::acc_register>(Arena*);
 template<> ::common_enum* Arena::CreateMaybeMessage<::common_enum>(Arena*);
-template<> ::message* Arena::CreateMaybeMessage<::message>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
-enum common_enum_MESSAGE_TYPE : int {
-  common_enum_MESSAGE_TYPE_MESS_REGISTER = 0,
-  common_enum_MESSAGE_TYPE_MESS_LOGIN = 1,
-  common_enum_MESSAGE_TYPE_common_enum_MESSAGE_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  common_enum_MESSAGE_TYPE_common_enum_MESSAGE_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool common_enum_MESSAGE_TYPE_IsValid(int value);
-constexpr common_enum_MESSAGE_TYPE common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MIN = common_enum_MESSAGE_TYPE_MESS_REGISTER;
-constexpr common_enum_MESSAGE_TYPE common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MAX = common_enum_MESSAGE_TYPE_MESS_LOGIN;
-constexpr int common_enum_MESSAGE_TYPE_MESSAGE_TYPE_ARRAYSIZE = common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* common_enum_MESSAGE_TYPE_descriptor();
-template<typename T>
-inline const std::string& common_enum_MESSAGE_TYPE_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, common_enum_MESSAGE_TYPE>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function common_enum_MESSAGE_TYPE_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    common_enum_MESSAGE_TYPE_descriptor(), enum_t_value);
-}
-inline bool common_enum_MESSAGE_TYPE_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, common_enum_MESSAGE_TYPE* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<common_enum_MESSAGE_TYPE>(
-    common_enum_MESSAGE_TYPE_descriptor(), name, value);
-}
 enum common_enum_ACC_TYPE : int {
   common_enum_ACC_TYPE_ACC_EMAIL = 0,
   common_enum_ACC_TYPE_ACC_PHONE = 1,
@@ -234,36 +205,6 @@ class common_enum PROTOBUF_FINAL :
   public:
 
   // nested types ----------------------------------------------------
-
-  typedef common_enum_MESSAGE_TYPE MESSAGE_TYPE;
-  static constexpr MESSAGE_TYPE MESS_REGISTER =
-    common_enum_MESSAGE_TYPE_MESS_REGISTER;
-  static constexpr MESSAGE_TYPE MESS_LOGIN =
-    common_enum_MESSAGE_TYPE_MESS_LOGIN;
-  static inline bool MESSAGE_TYPE_IsValid(int value) {
-    return common_enum_MESSAGE_TYPE_IsValid(value);
-  }
-  static constexpr MESSAGE_TYPE MESSAGE_TYPE_MIN =
-    common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MIN;
-  static constexpr MESSAGE_TYPE MESSAGE_TYPE_MAX =
-    common_enum_MESSAGE_TYPE_MESSAGE_TYPE_MAX;
-  static constexpr int MESSAGE_TYPE_ARRAYSIZE =
-    common_enum_MESSAGE_TYPE_MESSAGE_TYPE_ARRAYSIZE;
-  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
-  MESSAGE_TYPE_descriptor() {
-    return common_enum_MESSAGE_TYPE_descriptor();
-  }
-  template<typename T>
-  static inline const std::string& MESSAGE_TYPE_Name(T enum_t_value) {
-    static_assert(::std::is_same<T, MESSAGE_TYPE>::value ||
-      ::std::is_integral<T>::value,
-      "Incorrect type passed to function MESSAGE_TYPE_Name.");
-    return common_enum_MESSAGE_TYPE_Name(enum_t_value);
-  }
-  static inline bool MESSAGE_TYPE_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
-      MESSAGE_TYPE* value) {
-    return common_enum_MESSAGE_TYPE_Parse(name, value);
-  }
 
   typedef common_enum_ACC_TYPE ACC_TYPE;
   static constexpr ACC_TYPE ACC_EMAIL =
@@ -758,160 +699,6 @@ class acc_login PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr passwd_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uuid_;
   int type_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_user_2eproto;
-};
-// -------------------------------------------------------------------
-
-class message PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message) */ {
- public:
-  inline message() : message(nullptr) {}
-  virtual ~message();
-
-  message(const message& from);
-  message(message&& from) noexcept
-    : message() {
-    *this = ::std::move(from);
-  }
-
-  inline message& operator=(const message& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline message& operator=(message&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const message& default_instance();
-
-  static inline const message* internal_default_instance() {
-    return reinterpret_cast<const message*>(
-               &_message_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    3;
-
-  friend void swap(message& a, message& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(message* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(message* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline message* New() const final {
-    return CreateMaybeMessage<message>(nullptr);
-  }
-
-  message* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<message>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const message& from);
-  void MergeFrom(const message& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(message* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "message";
-  }
-  protected:
-  explicit message(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_user_2eproto);
-    return ::descriptor_table_user_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kMessDataFieldNumber = 2,
-    kMessTypeFieldNumber = 1,
-  };
-  // string mess_data = 2;
-  void clear_mess_data();
-  const std::string& mess_data() const;
-  void set_mess_data(const std::string& value);
-  void set_mess_data(std::string&& value);
-  void set_mess_data(const char* value);
-  void set_mess_data(const char* value, size_t size);
-  std::string* mutable_mess_data();
-  std::string* release_mess_data();
-  void set_allocated_mess_data(std::string* mess_data);
-  private:
-  const std::string& _internal_mess_data() const;
-  void _internal_set_mess_data(const std::string& value);
-  std::string* _internal_mutable_mess_data();
-  public:
-
-  // .common_enum.MESSAGE_TYPE mess_type = 1;
-  void clear_mess_type();
-  ::common_enum_MESSAGE_TYPE mess_type() const;
-  void set_mess_type(::common_enum_MESSAGE_TYPE value);
-  private:
-  ::common_enum_MESSAGE_TYPE _internal_mess_type() const;
-  void _internal_set_mess_type(::common_enum_MESSAGE_TYPE value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:message)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr mess_data_;
-  int mess_type_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_user_2eproto;
 };
@@ -1584,96 +1371,9 @@ inline void acc_login::set_allocated_uuid(std::string* uuid) {
   // @@protoc_insertion_point(field_set_allocated:acc_login.uuid)
 }
 
-// -------------------------------------------------------------------
-
-// message
-
-// .common_enum.MESSAGE_TYPE mess_type = 1;
-inline void message::clear_mess_type() {
-  mess_type_ = 0;
-}
-inline ::common_enum_MESSAGE_TYPE message::_internal_mess_type() const {
-  return static_cast< ::common_enum_MESSAGE_TYPE >(mess_type_);
-}
-inline ::common_enum_MESSAGE_TYPE message::mess_type() const {
-  // @@protoc_insertion_point(field_get:message.mess_type)
-  return _internal_mess_type();
-}
-inline void message::_internal_set_mess_type(::common_enum_MESSAGE_TYPE value) {
-  
-  mess_type_ = value;
-}
-inline void message::set_mess_type(::common_enum_MESSAGE_TYPE value) {
-  _internal_set_mess_type(value);
-  // @@protoc_insertion_point(field_set:message.mess_type)
-}
-
-// string mess_data = 2;
-inline void message::clear_mess_data() {
-  mess_data_.ClearToEmpty();
-}
-inline const std::string& message::mess_data() const {
-  // @@protoc_insertion_point(field_get:message.mess_data)
-  return _internal_mess_data();
-}
-inline void message::set_mess_data(const std::string& value) {
-  _internal_set_mess_data(value);
-  // @@protoc_insertion_point(field_set:message.mess_data)
-}
-inline std::string* message::mutable_mess_data() {
-  // @@protoc_insertion_point(field_mutable:message.mess_data)
-  return _internal_mutable_mess_data();
-}
-inline const std::string& message::_internal_mess_data() const {
-  return mess_data_.Get();
-}
-inline void message::_internal_set_mess_data(const std::string& value) {
-  
-  mess_data_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArena());
-}
-inline void message::set_mess_data(std::string&& value) {
-  
-  mess_data_.Set(
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:message.mess_data)
-}
-inline void message::set_mess_data(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  mess_data_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:message.mess_data)
-}
-inline void message::set_mess_data(const char* value,
-    size_t size) {
-  
-  mess_data_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:message.mess_data)
-}
-inline std::string* message::_internal_mutable_mess_data() {
-  
-  return mess_data_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
-}
-inline std::string* message::release_mess_data() {
-  // @@protoc_insertion_point(field_release:message.mess_data)
-  return mess_data_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline void message::set_allocated_mess_data(std::string* mess_data) {
-  if (mess_data != nullptr) {
-    
-  } else {
-    
-  }
-  mess_data_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), mess_data,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:message.mess_data)
-}
-
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -1684,11 +1384,6 @@ inline void message::set_allocated_mess_data(std::string* mess_data) {
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::common_enum_MESSAGE_TYPE> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::common_enum_MESSAGE_TYPE>() {
-  return ::common_enum_MESSAGE_TYPE_descriptor();
-}
 template <> struct is_proto_enum< ::common_enum_ACC_TYPE> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::common_enum_ACC_TYPE>() {

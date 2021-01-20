@@ -11,14 +11,13 @@ class ServerGateway
 public:
 	ServerGateway();
 	~ServerGateway();
-
-	void MsgForwardCenter();
-	void PushMsg(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg);
+	void Initialization();
+	void MsgGate(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg);
 
 private:
-	void PopMsg(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg);
 	void MsgFactory();
 	void RunFactoryMsg();
+	void MsgForward(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg);
 
 private:
 	std::queue<std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>> m_queue;
