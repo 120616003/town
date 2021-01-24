@@ -1,0 +1,20 @@
+{
+	"LogType" : [
+		{
+			"LogName" : "mysql",
+			"LogSwitch" : true
+		},
+		{
+			"LogName" : "redis",
+			"LogSwitch" : true
+		},
+		{
+			"LogName" : "server",
+			"LogSwitch" : true
+		},
+		{
+			"LogName" : "main",
+			"LogSwitch" : true
+		}
+	]
+}

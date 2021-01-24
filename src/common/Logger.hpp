@@ -1,14 +1,11 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include "config.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
-
-#include <map>
-#include <string>
-#include <memory>
+#include "JsonParse.hpp"
+const std::string strLogConfig = "config/LogConfig.json";
 
 namespace town {
 
@@ -23,33 +20,47 @@ public:
 
     void RegisterModule(const std::string& module)
     {
-        std::lock_guard<std::mutex> lck(m_mutex);
-        if (m_mapLogger.find(module) == m_mapLogger.end()) {
-            m_mapLogger[module] = std::make_shared<spdlog::logger>(module, m_pPublicLogger);
-            m_mapLogger[module]->flush_on(spdlog::level::debug); 
-            m_mapLogger[module]->set_level(spdlog::level::debug);
-            spdlog::set_default_logger(m_mapLogger[module]);
+        if (m_umapLogger.find(module) == m_umapLogger.end()) {
+            m_umapLogger[module] = std::make_shared<spdlog::logger>(module, m_pPublicLogger);
+            m_umapLogger[module]->flush_on(spdlog::level::trace); 
+            m_umapLogger[module]->set_level(spdlog::level::trace);
+            spdlog::set_default_logger(m_umapLogger[module]);
         }
     }
 
     std::shared_ptr<spdlog::logger> GetModuleLogger(const std::string& module)
     {
-        std::lock_guard<std::mutex> lck(m_mutex);
-        return m_mapLogger[module];
+        return m_umapLogger[m_umapKeyValue[module]];
     }
 
-    uint8_t GetLevel()
+    uint8_t GetLogLevel()
     {
         return m_iLoglevel;
     }
 
-    uint8_t SetLevel(uint8_t iLoglevel)
+    void SetLogLevel(uint8_t iLoglevel)
     {
         m_iLoglevel = iLoglevel;
     }
 
 private:
-    Logger() {}
+    Logger()
+    {
+        // m_root.Parse(strLogConfig, JsonParse::PARSE_TYPE::FILE);
+        // size_t len = m_root["LogType"].size();
+        // for (int i = 0; i < len; i++) {
+        //     if (m_root["LogType"][i][].asBool()) {
+        //         // m_umapKeyValue[m_root["LogType"][i]] = m_root["LogType"][i].asString() + std::string(10 - m_root["LogType"][i].asString().size(), " ");
+        //     }
+        // }
+        m_umapKeyValue["mysql"]  = "mysql  ";
+        m_umapKeyValue["redis"]  = "redis  ";
+        m_umapKeyValue["server"] = "server ";
+        m_umapKeyValue["main"]   = "main   ";
+        for (auto pair : m_umapKeyValue) {
+            RegisterModule(pair.second);
+        }
+    }
 
 #ifdef FILELOG
     std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> m_pPublicLogger = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("./log.txt", 1024 * 1024 * 40, 100);
@@ -57,55 +68,50 @@ private:
     std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> m_pPublicLogger = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 #endif /* FILELOG */
 
-    std::map<std::string,std::shared_ptr<spdlog::logger>> m_mapLogger;
-    std::mutex m_mutex;
-    uint8_t m_iLoglevel = 0;
+    std::unordered_map<std::string, std::shared_ptr<spdlog::logger>> m_umapLogger;
+    std::unordered_map<std::string, std::string> m_umapKeyValue;
+    uint8_t m_iLoglevel = SPDLOG_LEVEL_TRACE;
+    JsonParse m_root;
 }; /* Logger */
 
 #define TRACE(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLevel() <= 0) { \
-        Logger::GetInstance()->RegisterModule(module); \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_TRACE) { \
         SPDLOG_LOGGER_TRACE(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define DEBUG(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLevel() <= 1) { \
-        Logger::GetInstance()->RegisterModule(module); \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_DEBUG) { \
         SPDLOG_LOGGER_DEBUG(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define INFO(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLevel() <= 2) { \
-        Logger::GetInstance()->RegisterModule(module); \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_INFO) { \
         SPDLOG_LOGGER_INFO(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define WARN(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLevel() <= 3) { \
-        Logger::GetInstance()->RegisterModule(module); \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_WARN) { \
         SPDLOG_LOGGER_WARN(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define ERROR(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLevel() <= 4) { \
-        Logger::GetInstance()->RegisterModule(module); \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_ERROR) { \
         SPDLOG_LOGGER_ERROR(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define CRITICAL(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLevel() <= 5) { \
-        Logger::GetInstance()->RegisterModule(module); \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_CRITICAL) { \
         SPDLOG_CRITICAL(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)

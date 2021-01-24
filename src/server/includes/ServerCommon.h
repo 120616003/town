@@ -1,7 +1,7 @@
 #ifndef SERVER_COMMON_H
 #define SERVER_COMMON_H
 
-#include "common.h"
+#include "town_config.h"
 
 #include <event2/bufferevent.h>
 #include <event2/bufferevent_struct.h>
@@ -19,15 +19,19 @@ struct bufferevent;
 
 namespace town {
 
+#undef LOG_TRACE
 #undef LOG_DEBUG
 #undef LOG_INFO
 #undef LOG_WARN
 #undef LOG_ERROR
+#undef LOG_CRITICAL
 
-#define LOG_DEBUG(...) DEBUG("  server ", __VA_ARGS__)
-#define LOG_INFO(...)  INFO("  server  ", __VA_ARGS__)
-#define LOG_WARN(...)  WARN("  server  ", __VA_ARGS__)
-#define LOG_ERROR(...) ERROR("  server  ", __VA_ARGS__)
+#define LOG_TRACE(...) TRACE("server", __VA_ARGS__)
+#define LOG_DEBUG(...) DEBUG("server", __VA_ARGS__)
+#define LOG_INFO(...)  INFO("server", __VA_ARGS__)
+#define LOG_WARN(...)  WARN("server", __VA_ARGS__)
+#define LOG_ERROR(...) ERROR("server", __VA_ARGS__)
+#define LOG_CRITICAL(...) CRITICAL("server", __VA_ARGS__)
 
 class ClientHandle;
 typedef std::shared_ptr<ClientHandle> CliHanPtr;

@@ -50,7 +50,7 @@ include_directories(${PROJECT_SOURCE_DIR}/third_party/boost_1_75_0)
 include_directories(/usr/include/mysql)
 
 #core
-configure_file (${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/src/common/config.h)
+configure_file (${PROJECT_SOURCE_DIR}/town_config.h.in ${PROJECT_SOURCE_DIR}/src/common/town_config.h)
 include_directories(${PROJECT_SOURCE_DIR}/src/includes)
 include_directories(${PROJECT_SOURCE_DIR}/src/server/includes)
 include_directories(${PROJECT_SOURCE_DIR}/src/server/platform/inc)
