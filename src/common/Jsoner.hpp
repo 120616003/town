@@ -282,6 +282,11 @@ private:
 	mutable int m_ArrayIndex = -1;
 };
 
+#undef LOG_DEBUG
+#undef LOG_INFO
+#undef LOG_WARN
+#undef LOG_ERROR
+
 } /* town */
 
 #endif /* JSONER_H */

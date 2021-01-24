@@ -14,15 +14,17 @@ endif()
 
 set(CXX_FLAGS -std=c++17)
 
-
+# if(CONAN_LIBCXX STREQUAL "libstdc++11")
+#     add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+# elseif(CONAN_LIBCXX STREQUAL "libstdc++")
+#     add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+# endif()
 
 find_program(CCACHE_PROGRAM ccache)
 if (CCACHE_PROGRAM)
   SET(CMAKE_CXX_COMPILER      "ccache")
   SET(CMAKE_CXX_COMPILER_ARG1 "g++")
 endif()
-
-
 
 if(LOG STREQUAL "STDLOG")
   set(LOG_TYPE "STDLOG")
@@ -45,6 +47,7 @@ include_directories(${PROJECT_SOURCE_DIR}/third_party/protobuf-3.14.0/src/)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/spdlog-1.8.1/include)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/rapidjson-1.1.0/include)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/boost_1_75_0)
+include_directories(/usr/include/mysql)
 
 #core
 configure_file (${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/src/common/config.h)

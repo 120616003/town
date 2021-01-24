@@ -1,8 +1,6 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include "mysql_define.h"
-
 #include "Logger.hpp"
 #include "Jsoner.hpp"
 #include "Booster.hpp"

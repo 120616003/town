@@ -1,38 +1,49 @@
-#include <iostream>
-#include <unistd.h>
-
-#include "MysqlAccess.h"
+#include "MysqlAccessImpl.h"
 #include "ServerEvent.h"
+
+
 #include "common.h"
 using namespace town;
-using namespace rapidjson;
 
 int main()
 {
-	// Jsoner json("/home/yan/Project/town/src/config/MysqlInfo.json", Jsoner::PARSE_TYPE::FILE);
-	// if (!json.ParseWhetherSuccess()) {
-	// 	return 0;
-	// }
+	Jsoner json("/home/yan/Project/town/src/config/MysqlInfo.json", Jsoner::PARSE_TYPE::FILE);
+	if (!json.ParseWhetherSuccess()) {
+		return 0;
+	}
 
-	// MysqlAccess::GetInstance()->Initialization(json["ip"].asString(), json["dba"].asString(), json["dba_passwd"].asString(), json["db"].asString(), json["db_port"].asInt());
-	// MysqlAccess::GetInstance()->ExecuteSql(create_town_database);
-	// MysqlAccess::GetInstance()->ExecuteSql(create_user_table);
-	// MysqlAccess::GetInstance()->ExecuteSql(create_user_info_table);
+	MysqlAccessImpl impl;
+	impl.ConnectDb(json["db"].asString().c_str(), json["ip"].asString().c_str(), json["dba"].asString().c_str(), json["dba_passwd"].asString().c_str(), json["db_port"].asInt());
 
-	ServerEvent::GetInstance()->Initialization(20000);
-	ServerEvent::GetInstance()->StartServer();
+	const std::string exe = R"(
 
-	// int cnt = 0;
-	// while (cnt != 10) {
-	// 	LOG_INFO("cnt:{}", cnt++);
-	// 	sleep(1);
-	// }
+	select id from user where id = %0q:what;
 
-	// serverevent.ClearMap(0);
+	)";
+
+	SQLTypeAdapter strParseSql("3");
+	StoreQueryResult res = impl.ExecuteSql(exe, strParseSql);
+
+	try {
+		for (int i = 0; i < res.num_rows(); i++) {
+			LOG_INFO("id:{}", res[i]["id"]);
+		}
+	}
+	catch (std::exception& e) {
+		LOG_WARN("{}", e.what());
+	}
+	catch (...) {
+	    LOG_WARN("unknow error!!!");
+	}
+
+
+
+
+	// ServerEvent::GetInstance()->Initialization(20000);
+	// ServerEvent::GetInstance()->StartServer();
 
 	while (true) {
-		// LOG_INFO("{}", Booster::GetUUID6());
-		sleep(1);
+		sleep(3600);
 	}
 	return 0;
 }
