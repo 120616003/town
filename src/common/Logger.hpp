@@ -5,7 +5,8 @@
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "JsonParse.hpp"
-const std::string strLogConfig = "config/LogConfig.json";
+const std::string strLogConfig = "/home/yan/Project/town/src/config/LogConfig.json";
+#include <iostream>
 
 namespace town {
 
@@ -46,13 +47,14 @@ public:
 private:
     Logger()
     {
-        // m_root.Parse(strLogConfig, JsonParse::PARSE_TYPE::FILE);
-        // size_t len = m_root["LogType"].size();
-        // for (int i = 0; i < len; i++) {
-        //     if (m_root["LogType"][i][].asBool()) {
-        //         // m_umapKeyValue[m_root["LogType"][i]] = m_root["LogType"][i].asString() + std::string(10 - m_root["LogType"][i].asString().size(), " ");
-        //     }
-        // }
+        m_root.Parse(strLogConfig, JsonParse::PARSE_TYPE::FILE);
+        size_t len = m_root["LogType"].size();
+        for (int i = 0; i < len; i++) {
+            if (m_root["LogType"][i]["LogSwitch"].asBool()) {
+                // std::cout << m_root["LogType"][i]["LogName"].asString() << std::endl;
+                // m_umapKeyValue[m_root["LogType"][i]] = m_root["LogType"][i].asString() + std::string(10 - m_root["LogType"][i].asString().size(), " ");
+            }
+        }
         m_umapKeyValue["mysql"]  = "mysql  ";
         m_umapKeyValue["redis"]  = "redis  ";
         m_umapKeyValue["server"] = "server ";

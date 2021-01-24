@@ -3,6 +3,7 @@
 
 #include "rapidjson/document.h"
 #include <fstream>
+#include <iostream>
 
 using namespace rapidjson;
 
@@ -72,7 +73,9 @@ public: // 取值
     JsonParse& operator[] (size_t i)
     {
         m_ArrayIndex = i;
-        // GetValue()
+        const Value* value = &GetValue();
+        std::cout << "address:" << value << std::endl;
+        m_queue.push({i,value});
         return *this;
     }
 
@@ -143,6 +146,8 @@ public: // 取值
 
     size_t size() const
     {
+        const Value* value = &GetValue();
+        std::cout << "address size:" << value << std::endl;
         return GetValue().GetArray().Size();
     }
 
@@ -270,7 +275,27 @@ private: // 私有函数
 
     const Value& GetValue() const
     {
-        if (m_document.HasMember(m_strKeyVec[0].c_str())) {
+        if (m_queue.size() && m_strKeyVec.size()) {
+            std::cout  << "m_queue.size() && m_strKeyVec.size()\n";
+            std::pair<int, const Value*> pair = m_queue.front();
+            m_queue.pop();
+            if ((*pair.second)[pair.first].HasMember(m_strKeyVec[0].c_str())) {
+                std::cout  << "(*pair.second)[pair.first].HasMember(m_strKeyVec[0].c_str())\n";
+                return GetValue((*pair.second)[pair.first][m_strKeyVec[0].c_str()], std::vector<std::string>(m_strKeyVec.begin() + 1, m_strKeyVec.end()));
+            }
+            else {
+                throw std::runtime_error("key:[" + m_strKeyVec[0] + "] not exist");
+            }
+
+        }
+        else if (m_queue.size() && !m_strKeyVec.size()) {
+            std::cout  << "m_queue.size() && !m_strKeyVec.size()\n";
+            std::pair<int, const Value*> pair = m_queue.front();
+            m_queue.pop();
+            return GetValue((*pair.second)[pair.first], {});
+        }
+        else if (m_document.HasMember(m_strKeyVec[0].c_str())) {
+            std::cout  << "m_document.HasMember(m_strKeyVec[0].c_str()):" << m_strKeyVec.size() << std::endl;
             return GetValue(m_document[m_strKeyVec[0].c_str()], std::vector<std::string>(m_strKeyVec.begin() + 1, m_strKeyVec.end()));
         }
         else {
@@ -280,16 +305,20 @@ private: // 私有函数
 
     const Value& GetValue(const Value& value, const std::vector<std::string>& strKeyVec) const
     {
+        std::cout  << "GetValue0\n";
         if (0 == strKeyVec.size()) {
             m_strKeyVec.clear();
+            std::cout  << "GetValue1\n";
             if (m_ArrayIndex != -1) {
+                std::cout  << "GetValue2\n";
                 int index = m_ArrayIndex;
                 m_ArrayIndex = -1;
                 return value[index];
             }
+            std::cout  << "GetValue3\n";
             return value;
         }
-
+        std::cout  << "GetValue3\n";
         if (value.HasMember(strKeyVec[0].c_str())) {
             if (1 == strKeyVec.size())  {
                 m_strKeyVec.clear();
@@ -324,7 +353,7 @@ private:
 
 private:
     Document m_document;
-    Value m_value;
+    mutable std::queue<std::pair<int, const Value*>> m_queue;
     mutable std::vector<std::string> m_strKeyVec;
     mutable int m_ArrayIndex = -1;
 };
