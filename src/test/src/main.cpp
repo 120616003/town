@@ -28,9 +28,13 @@ int main()
 	}
 
 	// try {
-		bool tmp = json["dddb"].isNull();
+		JsonParse tmp2("123");
+		json["dba"] = tmp2;
 		// std::string tmp1 = json["dd"].asString();
-		LOG_INFO("tmp:{}", tmp);
+		LOG_INFO("json:{}", json.AsString());
+
+		
+		// LOG_INFO("res:{}", tmp2.AsString());		
 		// LOG_INFO("tmp1:{}", tmp1);
 	// }
 	// catch (std::exception& e) {

@@ -2,8 +2,11 @@
 #define JSONPARSE_H
 
 #include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
 #include <fstream>
 #include <iostream>
+#include <tuple>
 
 using namespace rapidjson;
 
@@ -21,7 +24,7 @@ public:
 public: // 解析
     JsonParse() {}
 
-    JsonParse(const std::string& strJson, PARSE_TYPE eParseType = PARSE_TYPE::STRING)
+    JsonParse(const std::string& strJson, PARSE_TYPE eParseType)
     {
         if (PARSE_TYPE::STRING == eParseType) {
             m_document.Parse(strJson.c_str());
@@ -30,16 +33,19 @@ public: // 解析
         m_document.Parse(ReadFile(strJson).c_str());
     }
 
-    void operator () (const std::string& strJson, PARSE_TYPE eParseType = PARSE_TYPE::STRING)
+    JsonParse(const JsonParse& rhs)
     {
-        if (PARSE_TYPE::STRING == eParseType) {
-            m_document.Parse(strJson.c_str());
-            return;
+        m_document.CopyFrom(rhs.GetValue(), rhs.m_document.GetAllocator());
+        if (rhs.m_queue.size() != 0) {
+            std::tuple<const Value&, int, std::vector<std::string>> t = rhs.m_queue.front();
+            m_ArrayIndex = std::get<1>(t);
+            m_strKeyVec = std::get<2>(t);
+            std::tuple<Value&, int, std::vector<std::string>> tt = {GetValue(), std::get<1>(t), std::get<2>(t)};
+            m_queue.push(tt);
         }
-        m_document.Parse(ReadFile(strJson).c_str());
     }
 
-    void Parse(const std::string& strJson, PARSE_TYPE eParseType = PARSE_TYPE::STRING)
+    void Parse(const std::string& strJson, PARSE_TYPE eParseType)
     {
         if (PARSE_TYPE::STRING == eParseType) {
             m_document.Parse(strJson.c_str());
@@ -63,6 +69,70 @@ public: // 解析
         return !m_document.HasParseError();
     }
 
+public: // 拷贝
+    JsonParse& operator = (const JsonParse& rhs)
+    {
+        if (this != &rhs) {
+            // if (m_document.GetType() == rhs.m_document.GetType())
+            if (m_strKeyVec.size()) {
+                Value& value = GetValue();
+                if (value.GetType() == rhs.m_document.GetType()) {
+                    std::cout << "type sync\n";
+                    Value vv;
+                    vv.CopyFrom(rhs.m_document, rhs.m_document.GetAllocator());
+                    value = vv;
+                }
+            }
+            else {
+                m_document.CopyFrom(rhs.GetValue(), rhs.m_document.GetAllocator());
+                if (rhs.m_queue.size() != 0) {
+                    std::tuple<Value&, int, std::vector<std::string>> t = rhs.m_queue.front();
+                    m_ArrayIndex = std::get<1>(t);
+                    m_strKeyVec = std::get<2>(t);
+                    std::tuple<Value&, int, std::vector<std::string>> tt = {GetValue(), std::get<1>(t), std::get<2>(t)};
+                    m_queue.push(tt);
+                }
+            }
+        }
+        return *this;
+    }
+
+    void operator () (const std::string& strJson, PARSE_TYPE eParseType)
+    {
+        if (PARSE_TYPE::STRING == eParseType) {
+            m_document.Parse(strJson.c_str());
+            return;
+        }
+        m_document.Parse(ReadFile(strJson).c_str());
+    }
+
+public: // 隐式转换
+    JsonParse(const std::string& value)
+    {
+        m_document.SetString(value.c_str(), value.size());
+    }
+    // void operator = (const std::string& rhs)
+    // {
+    //     if (this != &rhs) {
+    //         m_document.CopyFrom(rhs.GetValue(), rhs.m_document.GetAllocator());
+    //         if (rhs.m_queue.size() != 0) {
+    //             std::tuple<const Value&, int, std::vector<std::string>> t = rhs.m_queue.front();
+    //             m_ArrayIndex = std::get<1>(t);
+    //             m_strKeyVec = std::get<2>(t);
+    //             m_queue.push({GetValue(), std::get<1>(t), std::get<2>(t)});
+    //         }
+    //     }
+    //     return *this;
+    // }
+public: // 生成字符串
+    std::string AsString()
+    {
+        StringBuffer buffer;
+        Writer<StringBuffer> writer(buffer);
+        m_document.Accept(writer);
+        return buffer.GetString();
+    }
+
 public: // 取值
     JsonParse& operator[] (const std::string& strKey)
     {
@@ -73,9 +143,8 @@ public: // 取值
     JsonParse& operator[] (size_t i)
     {
         m_ArrayIndex = i;
-        const Value* value = &GetValue();
-        std::cout << "address:" << value << std::endl;
-        m_queue.push({i,value});
+        std::tuple<Value&, int, std::vector<std::string>> tt = {GetValue(), i, m_strKeyVec};
+        m_queue.push(tt);
         return *this;
     }
 
@@ -146,8 +215,6 @@ public: // 取值
 
     size_t size() const
     {
-        const Value* value = &GetValue();
-        std::cout << "address size:" << value << std::endl;
         return GetValue().GetArray().Size();
     }
 
@@ -276,27 +343,56 @@ private: // 私有函数
     const Value& GetValue() const
     {
         if (m_queue.size() && m_strKeyVec.size()) {
-            std::cout  << "m_queue.size() && m_strKeyVec.size()\n";
-            std::pair<int, const Value*> pair = m_queue.front();
+            std::tuple<const Value&, int, std::vector<std::string>> t = m_queue.front();
             m_queue.pop();
-            if ((*pair.second)[pair.first].HasMember(m_strKeyVec[0].c_str())) {
-                std::cout  << "(*pair.second)[pair.first].HasMember(m_strKeyVec[0].c_str())\n";
-                return GetValue((*pair.second)[pair.first][m_strKeyVec[0].c_str()], std::vector<std::string>(m_strKeyVec.begin() + 1, m_strKeyVec.end()));
+            if (std::get<0>(t).HasMember(m_strKeyVec[0].c_str())) {
+                return GetValue(std::get<0>(t)[m_strKeyVec[0].c_str()], std::vector<std::string>(m_strKeyVec.begin() + 1, m_strKeyVec.end()));
             }
             else {
                 throw std::runtime_error("key:[" + m_strKeyVec[0] + "] not exist");
             }
-
         }
         else if (m_queue.size() && !m_strKeyVec.size()) {
-            std::cout  << "m_queue.size() && !m_strKeyVec.size()\n";
-            std::pair<int, const Value*> pair = m_queue.front();
+            std::tuple<const Value&, int, std::vector<std::string>> t = m_queue.front();
             m_queue.pop();
-            return GetValue((*pair.second)[pair.first], {});
+            return GetValue(std::get<0>(t), {});
+        }
+        else if (!m_strKeyVec.size()) {
+            return GetValue(m_document, {});
         }
         else if (m_document.HasMember(m_strKeyVec[0].c_str())) {
-            std::cout  << "m_document.HasMember(m_strKeyVec[0].c_str()):" << m_strKeyVec.size() << std::endl;
             return GetValue(m_document[m_strKeyVec[0].c_str()], std::vector<std::string>(m_strKeyVec.begin() + 1, m_strKeyVec.end()));
+        }
+        else {
+            throw std::runtime_error("key:[" + m_strKeyVec[0] + "] not exist");
+        }
+    }
+
+    Value& GetValue()
+    {
+        if (m_queue.size() && m_strKeyVec.size()) {
+            std::tuple<Value&, int, std::vector<std::string>> t = m_queue.front();
+            m_queue.pop();
+            if (std::get<0>(t).HasMember(m_strKeyVec[0].c_str())) {
+                Value& value = std::get<0>(t)[m_strKeyVec[0].c_str()];
+                return GetValue(value, std::vector<std::string>(m_strKeyVec.begin() + 1, m_strKeyVec.end()));
+            }
+            else {
+                throw std::runtime_error("key:[" + m_strKeyVec[0] + "] not exist");
+            }
+        }
+        else if (m_queue.size() && !m_strKeyVec.size()) {
+            std::tuple<Value&, int, std::vector<std::string>> t = m_queue.front();
+            m_queue.pop();
+            Value& value = std::get<0>(t);
+            return GetValue(value, {});
+        }
+        else if (!m_strKeyVec.size()) {
+            return GetValue(m_document, {});
+        }
+        else if (m_document.HasMember(m_strKeyVec[0].c_str())) {
+            Value& value = m_document[m_strKeyVec[0].c_str()];
+            return GetValue(value, std::vector<std::string>(m_strKeyVec.begin() + 1, m_strKeyVec.end()));
         }
         else {
             throw std::runtime_error("key:[" + m_strKeyVec[0] + "] not exist");
@@ -305,20 +401,40 @@ private: // 私有函数
 
     const Value& GetValue(const Value& value, const std::vector<std::string>& strKeyVec) const
     {
-        std::cout  << "GetValue0\n";
         if (0 == strKeyVec.size()) {
             m_strKeyVec.clear();
-            std::cout  << "GetValue1\n";
             if (m_ArrayIndex != -1) {
-                std::cout  << "GetValue2\n";
                 int index = m_ArrayIndex;
                 m_ArrayIndex = -1;
                 return value[index];
             }
-            std::cout  << "GetValue3\n";
             return value;
         }
-        std::cout  << "GetValue3\n";
+
+        if (value.HasMember(strKeyVec[0].c_str())) {
+            if (1 == strKeyVec.size())  {
+                m_strKeyVec.clear();
+                return value[strKeyVec[0].c_str()];
+            }
+            return GetValue(value[strKeyVec[0].c_str()], std::vector<std::string>(strKeyVec.begin() + 1, strKeyVec.end()));
+        }
+        else {
+            throw std::runtime_error("key:[" + strKeyVec[0] + "] not exist");
+        }
+    }
+
+    Value& GetValue(Value& value, const std::vector<std::string>& strKeyVec)
+    {
+        if (0 == strKeyVec.size()) {
+            m_strKeyVec.clear();
+            if (m_ArrayIndex != -1) {
+                int index = m_ArrayIndex;
+                m_ArrayIndex = -1;
+                return value[index];
+            }
+            return value;
+        }
+
         if (value.HasMember(strKeyVec[0].c_str())) {
             if (1 == strKeyVec.size())  {
                 m_strKeyVec.clear();
@@ -352,8 +468,8 @@ private:
     }
 
 private:
-    Document m_document;
-    mutable std::queue<std::pair<int, const Value*>> m_queue;
+    mutable Document m_document;
+    mutable std::queue<std::tuple<Value&, int, std::vector<std::string>>> m_queue;
     mutable std::vector<std::string> m_strKeyVec;
     mutable int m_ArrayIndex = -1;
 };

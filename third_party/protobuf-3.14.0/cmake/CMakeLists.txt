@@ -28,6 +28,8 @@ else()
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
+set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -g -ggdb")
+
 # The Intel compiler isn't able to deal with noinline member functions of
 # template classes defined in headers.  As such it spams the output with
 #   warning #2196: routine is both "inline" and "noinline"
