@@ -10,10 +10,6 @@ bool MysqlAccessImpl::ConnectDb(const std::string& strDbName, const std::string&
 
 StoreQueryResult MysqlAccessImpl::ExecuteSql(const std::string& strSql, const SQLTypeAdapter& strParseSql)
 {
-	if (!m_MysqlCon.connected()) {
-		LOG_ERROR("data base connect failed, sql:[{}]", strSql);
-		return StoreQueryResult();
-	}
 	Query query(&m_MysqlCon, true, strSql.c_str());
 	query.parse();
 	if (strParseSql.size()) {

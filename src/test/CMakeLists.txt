@@ -9,6 +9,7 @@ add_executable(main ${main_SRC})
 
 target_link_libraries(main 
 	server-massage event proto 
-	mysql-access mysqlpp mysqlclient)
+	mysql-access mysqlpp mysqlclient
+	jsoncpp)
 
 install(TARGETS main DESTINATION bin)

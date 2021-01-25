@@ -16,22 +16,26 @@
 #define LOG_INFO(...)  INFO("main", __VA_ARGS__)
 #define LOG_WARN(...)  WARN("main", __VA_ARGS__)
 #define LOG_ERROR(...) ERROR("main", __VA_ARGS__)
-#define LOG_CRITICAL(...) ERROR("main", __VA_ARGS__)
+#define LOG_CRITICAL(...) CRITICAL("main", __VA_ARGS__)
 
 using namespace town;
 
 int main()
 {
-	JsonParse json("config/MysqlConfig.json", JsonParse::PARSE_TYPE::FILE);
-	if (!json.ParseWhetherSuccess()) {
-		return 0;
-	}
+	// JsonParse json("config/MysqlConfig.json", JsonParse::PARSE_TYPE::FILE);
+	// if (!json.ParseWhetherSuccess()) {
+	// 	return 0;
+	// }
+
+	// TownJson root("config/LogConfig.json", JSON_TYPE::FILE);
+	// LOG_INFO("LogName:{}", root["LogType"][0]["LogName"].asString());
+	
 
 	// try {
-		JsonParse tmp2("123");
-		json["dba"] = tmp2;
+		// JsonParse tmp2("123");
+		// json["dba"] = tmp2;
 		// std::string tmp1 = json["dd"].asString();
-		LOG_INFO("json:{}", json.AsString());
+		// LOG_INFO("json:{}", json.AsString());
 
 		
 		// LOG_INFO("res:{}", tmp2.AsString());		

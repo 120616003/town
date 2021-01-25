@@ -4,9 +4,8 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
-#include "JsonParse.hpp"
-const std::string strLogConfig = "/home/yan/Project/town/src/config/LogConfig.json";
-#include <iostream>
+#include "TownJson.hpp"
+const std::string strLogConfig = "config/LogConfig.json";
 
 namespace town {
 
@@ -47,25 +46,19 @@ public:
 private:
     Logger()
     {
-        // m_root.Parse(strLogConfig, JsonParse::PARSE_TYPE::FILE);
-        // size_t len = m_root["LogType"].size();
-        // JsonParse tmp = m_root["LogType"];
-        // for (size_t i = 0; i < len; i++) {
-        //     // if (m_root["LogType"][i]["LogSwitch"].asBool()) {
-        //         // std::cout << m_root["LogType"][i]["LogName"].asString() << std::endl;
-        //         // m_umapKeyValue[m_root["LogType"][i]] = m_root["LogType"][i].asString() + std::string(10 - m_root["LogType"][i].asString().size(), " ");
-        //     // }
-        //     size_t len2 = tmp[i]["test"].size();
-        //     std::cout << "len2:" << len2 << std::endl;
-        //     for (size_t j = 0; j < len2; j++) {
-        //         JsonParse tmp2 = tmp[i]["test"];
-        //         std::cout << tmp2.size() << std::endl;
-        //     }
-        // }
-        m_umapKeyValue["mysql"]  = "mysql  ";
-        m_umapKeyValue["redis"]  = "redis  ";
-        m_umapKeyValue["server"] = "server ";
-        m_umapKeyValue["main"]   = "main   ";
+        TownJson root(strLogConfig, JSON_TYPE::FILE);
+        size_t len = root["LogType"].size();
+        TownJson data = root["LogType"];
+        for (size_t i = 0; i < len; ++i) {
+            if (data[i]["LogSwitch"].asBool()) {
+                std::string strValue = data[i]["LogName"].asString();
+                int iSuffixLen = 10 - strValue.size();
+                m_umapKeyValue[strValue] = strValue;
+                for (int i = 0; i < iSuffixLen; ++i) {
+                    m_umapKeyValue[strValue] += " ";
+                }
+            }
+        }
         for (auto pair : m_umapKeyValue) {
             RegisterModule(pair.second);
         }
@@ -80,7 +73,6 @@ private:
     std::unordered_map<std::string, std::shared_ptr<spdlog::logger>> m_umapLogger;
     std::unordered_map<std::string, std::string> m_umapKeyValue;
     uint8_t m_iLoglevel = SPDLOG_LEVEL_TRACE;
-    JsonParse m_root;
 }; /* Logger */
 
 #define TRACE(module,...) \
