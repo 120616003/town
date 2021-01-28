@@ -12,20 +12,14 @@ public:
 	ServerGateway();
 	~ServerGateway();
 	void Initialization();
-	void MsgGate(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg);
+	void MsgGate(std::unique_ptr<MSG_DATA>& pMsgData);
 
 private:
 	void MsgFactory();
 	void RunFactoryMsg();
-	void MsgForward(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg);
 
 private:
-	std::queue<std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>> m_queue;
-	std::map<MSG_INFO::MSG_TYPE, std::shared_ptr<MsgDeal>> m_eMsgDeal;
-	uint64_t m_write_index = 0;
-	uint64_t m_read_index = 0;
-	std::mutex m_lock;
-	std::condition_variable m_cv;
+	std::map<MSG_TYPE, std::shared_ptr<MsgDeal>> m_eMsgDeal;
 };
 
 } /* town */

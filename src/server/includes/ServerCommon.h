@@ -44,13 +44,23 @@ typedef std::shared_ptr<ServerEvent> SerEvnPtr;
 class ServerGateway;
 typedef std::unique_ptr<ServerGateway> SerGatPtr;
 
-struct MSG_INFO{
+enum MSG_TYPE : uint32_t {
+	MESS_REGISTER = 0,
+	MESS_LOGIN = 1
+};
+
+const std::vector<std::string> convert_msg_type = {"mess_register", "mess_login"};
+
+struct MSG_INFO {
 	std::size_t msg_len = 0;
-	enum MSG_TYPE : uint32_t {
-		MESS_REGISTER = 0,
-		MESS_LOGIN = 1
-	} msg_type = MESS_REGISTER;
+	MSG_TYPE msg_type = MESS_REGISTER;
 	std::size_t msg_crc = 0;
+};
+
+struct MSG_DATA {
+	bufferevent* bev = nullptr;
+	MSG_INFO info {};
+	std::unique_ptr<uint8_t[]> data = nullptr;
 };
 
 } /* town */

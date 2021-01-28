@@ -21,7 +21,6 @@ SerEvnPtr ServerEvent::GetInstance()
 
 ServerEvent::ServerEvent(PRIVATE_KEY key)
 {
-	m_pServerGateway = std::make_unique<ServerGateway>();
 }
 
 ServerEvent::~ServerEvent()
@@ -64,6 +63,8 @@ int32_t ServerEvent::Initialization(int32_t iPort)
 		return FAILED;
 	}
 
+	m_pServerGateway = std::make_unique<ServerGateway>();
+
 	LOG_DEBUG("initialization success");
 
 	return SUCCESS;
@@ -72,8 +73,14 @@ int32_t ServerEvent::Initialization(int32_t iPort)
 void ServerEvent::StartServer()
 {
 	m_pServerGateway->Initialization(); // 数据处理线程
-	std::thread(event_base_dispatch, ev_b).detach(); // 消息监听线程
-	std::thread(&ServerEvent::DeleteClient, this).detach(); // 超时断开线程
+
+	auto bufferevent = std::thread(event_base_dispatch, ev_b); // 消息监听线程
+	pthread_setname_np(bufferevent.native_handle(), "bufferevent");
+	bufferevent.detach();
+
+	auto serverevent = std::thread(&ServerEvent::ClearClient, this); // 超时断开线程
+	pthread_setname_np(serverevent.native_handle(), "clearclient");
+	serverevent.detach();
 }
 
 CliHanPtr ServerEvent::GetClientHandle(bufferevent* bev)
@@ -90,6 +97,12 @@ CliHanPtr ServerEvent::GetClientHandle(const std::string& uuid)
 		return m_vumCliHanPtr[INDEX_CURREN(m_record_index)][uuid];
 	}
 	return m_vumCliHanPtr[INDEX_BEFORE(m_record_index)][uuid];
+}
+
+void ServerEvent::DeleteClient(bufferevent* bev)
+{
+	m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(bev)] = nullptr;
+	m_vumCliHanPtr[INDEX_BEFORE(m_record_index)][GetStringFd(bev)] = nullptr;
 }
 
 void ServerEvent::AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg)
@@ -114,21 +127,13 @@ void ServerEvent::AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, 
 }
 
 void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
-{
-	if (!GetClientHandle(bev)->GetStatus()) {
-		LOG_INFO("device message error");
-		return;
-	}
-	RecordClient(bev);
-
-	uint8_t data_buf[1024 * 10] = {};
+{	
 	uint16_t ret_len = 0;
 	uint16_t read_len = 0;
 	MSG_INFO msg_info{};
-	
-	std::string msg;
+
 	do {
-		if (!msg_info.msg_len) {
+		if (!read_len) {
 			bufferevent_read(bev, &msg_info, sizeof(MSG_INFO));
 			if (msg_info.msg_len == 0) {
 				return;
@@ -138,10 +143,10 @@ void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 				LOG_INFO("data size out of range, data len:{}", msg_info.msg_len);
 				return;
 			}
-			msg.reserve(msg_info.msg_len);
 		}
 
-		ret_len = bufferevent_read(bev, data_buf + read_len, msg_info.msg_len - read_len);
+		std::unique_ptr<uint8_t[]> data_buf(new uint8_t[msg_info.msg_len]());
+		ret_len = bufferevent_read(bev, data_buf.get() + read_len, msg_info.msg_len - read_len);
 
 		if (0 == ret_len) {
 			if (EAGAIN == errno) {
@@ -154,16 +159,23 @@ void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 
 		read_len += ret_len;
 		if (read_len == msg_info.msg_len) {
-			if (Booster::Crc(data_buf, msg_info.msg_len) != msg_info.msg_crc) {
+			if (Booster::Crc(data_buf.get(), msg_info.msg_len) != msg_info.msg_crc) {
 				GetClientHandle(bev)->SetStatus(false);
+				DeleteClient(bev);
 				LOG_ERROR("msg crc error, msg_type:{}", static_cast<uint32_t>(msg_info.msg_type));
 				return;
 			}
 
-			msg.insert(msg.end(), data_buf, data_buf + read_len);
+			RecordClient(bev);
+
+			std::unique_ptr<MSG_DATA> pMsgData = std::make_unique<MSG_DATA>();
+			pMsgData->bev = bev;
+			pMsgData->info = msg_info;
+			pMsgData->data = std::move(data_buf);
+
+			// std::tuple<bufferevent*, MSG_INFO, std::unique_ptr<uint8_t[]>> bev_msg{bev, msg_info, std::move(data_buf)};
+			m_pServerGateway->MsgGate(pMsgData);
 			read_len = msg_info.msg_len = 0;
-			std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string> bev_msg{bev, msg_info.msg_type, std::move(msg)};
-			m_pServerGateway->MsgGate(bev_msg);
 		}
 	} while (true);
 }
@@ -190,7 +202,7 @@ void ServerEvent::RecordClient(bufferevent* bev)
 	}
 }
 
-void ServerEvent::DeleteClient()
+void ServerEvent::ClearClient()
 {
 	while(true) {
 		Booster::Timer(10, 0, 0);

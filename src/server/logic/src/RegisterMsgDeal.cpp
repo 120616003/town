@@ -16,11 +16,11 @@ RegisterMsgDeal::~RegisterMsgDeal()
 {
 }
 
-void RegisterMsgDeal::MsgDealCenter(std::pair<bufferevent*, std::string>& bev_msg)
+void RegisterMsgDeal::MsgDealCenter(std::unique_ptr<MSG_DATA>& pMsgData)
 {
 	acc_register ar;
-	ar.ParseFromString(bev_msg.second);
-	LOG_INFO("fd:{}", ServerEvent::GetInstance()->GetClientHandle(bev_msg.first)->GetEvutilSocket());
+	ar.ParseFromArray(pMsgData->data.get(), pMsgData->info.msg_len);
+	LOG_INFO("fd:{}", ServerEvent::GetInstance()->GetClientHandle(pMsgData->bev)->GetEvutilSocket());
 	LOG_INFO("type:{}", ar.type());
 	LOG_INFO("email:{}", ar.email());
 	LOG_INFO("passwd:{}", ar.passwd());

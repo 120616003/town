@@ -14,7 +14,8 @@ else()
     set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 endif()
 
-set(CXX_FLAGS -std=c++17)
+# set(CXX_FLAGS -std=c++20)
+set(CMAKE_CXX_STANDARD 14)
 
 # if(CONAN_LIBCXX STREQUAL "libstdc++11")
 #     add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)

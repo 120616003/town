@@ -11,7 +11,7 @@ class RegisterMsgDeal : public MsgDeal
 public:
 	RegisterMsgDeal();
 	~RegisterMsgDeal();
-	void MsgDealCenter(std::pair<bufferevent*, std::string>& bev_msg) override;
+	void MsgDealCenter(std::unique_ptr<MSG_DATA>& pMsgData) override;
 };
 
 } /* town */

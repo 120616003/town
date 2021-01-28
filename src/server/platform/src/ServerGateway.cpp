@@ -20,12 +20,12 @@ void ServerGateway::Initialization()
 	RunFactoryMsg();
 }
 
-void ServerGateway::MsgGate(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg)
+void ServerGateway::MsgGate(std::unique_ptr<MSG_DATA>& pMsgData)
 {
-	switch (std::get<1>(bev_msg)) {
-		case MSG_INFO::MESS_REGISTER :
-		case MSG_INFO::MESS_LOGIN : {
-			MsgForward(bev_msg);
+	switch (pMsgData->info.msg_type) {
+		case MESS_REGISTER :
+		case MESS_LOGIN : {
+			m_eMsgDeal[pMsgData->info.msg_type]->PushMsg(pMsgData);
 			break;
 		}
 		default:
@@ -35,22 +35,16 @@ void ServerGateway::MsgGate(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::st
 
 void ServerGateway::MsgFactory()
 {
-	m_eMsgDeal[MSG_INFO::MESS_REGISTER] = std::make_shared<RegisterMsgDeal>();
-	m_eMsgDeal[MSG_INFO::MESS_LOGIN] = std::make_shared<LoginMsgDeal>();
+	m_eMsgDeal[MESS_REGISTER] = std::make_shared<RegisterMsgDeal>();
+	m_eMsgDeal[MESS_LOGIN] = std::make_shared<LoginMsgDeal>();
 }
 
 void ServerGateway::RunFactoryMsg()
 {
 	for (auto& eMsgDeal : m_eMsgDeal) {
-		std::thread(&MsgDeal::MsgForward, eMsgDeal.second.get()).detach();
-	}
-}
-
-void ServerGateway::MsgForward(std::tuple<bufferevent*, MSG_INFO::MSG_TYPE, std::string>& bev_msg)
-{
-	if (m_eMsgDeal.find(std::get<1>(bev_msg)) != m_eMsgDeal.end()) {
-		std::pair<bufferevent*, std::string> bmsg{std::get<0>(bev_msg), std::move(std::get<2>(bev_msg))};
-		m_eMsgDeal[std::get<1>(bev_msg)]->PushMsg(bmsg);
+		auto msgdeal = std::thread(&MsgDeal::MsgForward, eMsgDeal.second.get());
+		pthread_setname_np(msgdeal.native_handle(), convert_msg_type[static_cast<uint32_t>(eMsgDeal.first)].c_str());
+		msgdeal.detach();
 	}
 }
 

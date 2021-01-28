@@ -75,8 +75,8 @@ int main()
 
 
 
-	// ServerEvent::GetInstance()->Initialization(20000);
-	// ServerEvent::GetInstance()->StartServer();
+	ServerEvent::GetInstance()->Initialization(20000);
+	ServerEvent::GetInstance()->StartServer();
 
 	while (true) {
 		sleep(3600);
