@@ -20,4 +20,4 @@ add_custom_command(TARGET protoc
 	VERBATIM
 )
 
-include(${PROJECT_SOURCE_DIR}/src/proto/compile_proto.cmake)
+# include(${PROJECT_SOURCE_DIR}/src/proto/compile_proto.cmake)

@@ -14,7 +14,6 @@ else()
     set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 endif()
 
-# set(CXX_FLAGS -std=c++20)
 set(CMAKE_CXX_STANDARD 14)
 
 # if(CONAN_LIBCXX STREQUAL "libstdc++11")
@@ -26,7 +25,7 @@ set(CMAKE_CXX_STANDARD 14)
 find_program(CCACHE_PROGRAM ccache)
 if (CCACHE_PROGRAM)
   SET(CMAKE_CXX_COMPILER      "ccache")
-  SET(CMAKE_CXX_COMPILER_ARG1 "g++")
+  SET(CMAKE_CXX_COMPILER_ARG1 "/usr/bin/c++")
 endif()
 
 if(LOG STREQUAL "STDLOG")
@@ -43,7 +42,7 @@ execute_process(COMMAND bash
 	${CMAKE_BINARY_DIR}/bin/protoc
 	${CMAKE_CURRENT_SOURCE_DIR}/src/proto/protofile/)
 
-#third_party
+# third_party include
 set(protobuf_SOURCE_DIR ${PROJECT_SOURCE_DIR}/third_party/protobuf-3.14.0/cmake)
 set(BUILD_SHARED_LIBS 1)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/protobuf-3.14.0/src/)
@@ -52,18 +51,14 @@ include_directories(${PROJECT_SOURCE_DIR}/third_party/rapidjson-1.1.0/include)
 include_directories(${PROJECT_SOURCE_DIR}/third_party/boost_1_75_0)
 include_directories(/usr/include/mysql)
 
-#core
+# core include
 configure_file (${PROJECT_SOURCE_DIR}/town_config.h.in ${PROJECT_SOURCE_DIR}/src/common/town_config.h)
-include_directories(${PROJECT_SOURCE_DIR}/src/includes)
-include_directories(${PROJECT_SOURCE_DIR}/src/server/includes)
-include_directories(${PROJECT_SOURCE_DIR}/src/server/platform/inc)
 include_directories(${PROJECT_SOURCE_DIR}/src/common)
-include_directories(${PROJECT_SOURCE_DIR}/src/proto/src)
+include_directories(${PROJECT_SOURCE_DIR}/src/proto/inc)
 
-#lib
-# add_subdirectory(third_party/googletest-release-1.10.0)
+# lib
 add_subdirectory(third_party/protobuf-3.14.0/cmake)
 add_subdirectory(src/proto)
-add_subdirectory(src/mysql)
+add_subdirectory(src/database)
 add_subdirectory(src/server)
-add_subdirectory(src/test)
+add_subdirectory(src/main)
