@@ -14,10 +14,11 @@ public:
     ~MysqlAccessImpl() {}
 
     bool ConnectDb(const std::string& strDbName, const std::string& strIp, const std::string& strDbaName, const std::string& strPasswd, unsigned int uiPort = 0);
-    StoreQueryResult ExecuteSql(const std::string& strSql, const SQLTypeAdapter& strParseSql);
+    std::pair<bool, StoreQueryResult> ExecuteSql(const std::string& strSql, const SQLQueryParms& strParam);
 
 private:
     Connection m_MysqlCon;
+
 };
 
 } /* town */

@@ -66,7 +66,7 @@ static void InitDefaultsscc_info_common_enum_user_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_common_enum_user_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_user_2eproto[3];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_user_2eproto[1];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_user_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_user_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_user_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -111,15 +111,21 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_user_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nuser.proto\"E\n\013common_enum\"6\n\010ACC_TYPE\022"
-  "\r\n\tACC_EMAIL\020\000\022\r\n\tACC_PHONE\020\001\022\014\n\010ACC_NAM"
-  "E\020\002\"\177\n\014acc_register\022#\n\004type\030\001 \001(\0162\025.comm"
-  "on_enum.ACC_TYPE\022\r\n\005email\030\002 \001(\t\022\r\n\005phone"
-  "\030\003 \001(\t\022\017\n\007accname\030\004 \001(\t\022\016\n\006passwd\030\005 \001(\t\022"
-  "\013\n\003res\030\006 \001(\t\"}\n\tacc_login\022#\n\004type\030\001 \001(\0162"
-  "\025.common_enum.ACC_TYPE\022\r\n\005email\030\002 \001(\t\022\r\n"
-  "\005phone\030\003 \001(\t\022\017\n\007accname\030\004 \001(\t\022\016\n\006passwd\030"
-  "\005 \001(\t\022\014\n\004uuid\030\006 \001(\tb\006proto3"
+  "\n\nuser.proto\"\241\002\n\013common_enum\"6\n\010ACC_TYPE"
+  "\022\r\n\tACC_EMAIL\020\000\022\r\n\tACC_PHONE\020\001\022\014\n\010ACC_NA"
+  "ME\020\002\"\331\001\n\nERROR_CODE\022\014\n\010ERR_NONE\020\000\022\021\n\rERR"
+  "_EMAI_TYPE\020\001\022\022\n\016ERR_PHONE_TYPE\020\002\022\021\n\rERR_"
+  "NAME_TYPE\020\003\022\023\n\017ERR_EMAIL_EXIST\020\004\022\023\n\017ERR_"
+  "PHONE_EXIST\020\005\022\022\n\016ERR_NAME_EXIST\020\006\022\026\n\022ERR"
+  "_EMAIL_NO_EXIST\020\007\022\026\n\022ERR_PHONE_NO_EXIST\020"
+  "\010\022\025\n\021ERR_NAME_NO_EXIST\020\t\"\177\n\014acc_register"
+  "\022#\n\004type\030\001 \001(\0162\025.common_enum.ACC_TYPE\022\r\n"
+  "\005email\030\002 \001(\t\022\r\n\005phone\030\003 \001(\t\022\017\n\007accname\030\004"
+  " \001(\t\022\016\n\006passwd\030\005 \001(\t\022\013\n\003res\030\006 \001(\t\"}\n\tacc"
+  "_login\022#\n\004type\030\001 \001(\0162\025.common_enum.ACC_T"
+  "YPE\022\r\n\005email\030\002 \001(\t\022\r\n\005phone\030\003 \001(\t\022\017\n\007acc"
+  "name\030\004 \001(\t\022\016\n\006passwd\030\005 \001(\t\022\014\n\004uuid\030\006 \001(\t"
+  "b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_user_2eproto_deps[1] = {
 };
@@ -130,7 +136,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_use
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_user_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_2eproto = {
-  false, false, descriptor_table_protodef_user_2eproto, "user.proto", 347,
+  false, false, descriptor_table_protodef_user_2eproto, "user.proto", 568,
   &descriptor_table_user_2eproto_once, descriptor_table_user_2eproto_sccs, descriptor_table_user_2eproto_deps, 3, 0,
   schemas, file_default_instances, TableStruct_user_2eproto::offsets,
   file_level_metadata_user_2eproto, 3, file_level_enum_descriptors_user_2eproto, file_level_service_descriptors_user_2eproto,
@@ -160,6 +166,43 @@ constexpr common_enum_ACC_TYPE common_enum::ACC_NAME;
 constexpr common_enum_ACC_TYPE common_enum::ACC_TYPE_MIN;
 constexpr common_enum_ACC_TYPE common_enum::ACC_TYPE_MAX;
 constexpr int common_enum::ACC_TYPE_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* common_enum_ERROR_CODE_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_user_2eproto);
+  return file_level_enum_descriptors_user_2eproto[1];
+}
+bool common_enum_ERROR_CODE_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr common_enum_ERROR_CODE common_enum::ERR_NONE;
+constexpr common_enum_ERROR_CODE common_enum::ERR_EMAI_TYPE;
+constexpr common_enum_ERROR_CODE common_enum::ERR_PHONE_TYPE;
+constexpr common_enum_ERROR_CODE common_enum::ERR_NAME_TYPE;
+constexpr common_enum_ERROR_CODE common_enum::ERR_EMAIL_EXIST;
+constexpr common_enum_ERROR_CODE common_enum::ERR_PHONE_EXIST;
+constexpr common_enum_ERROR_CODE common_enum::ERR_NAME_EXIST;
+constexpr common_enum_ERROR_CODE common_enum::ERR_EMAIL_NO_EXIST;
+constexpr common_enum_ERROR_CODE common_enum::ERR_PHONE_NO_EXIST;
+constexpr common_enum_ERROR_CODE common_enum::ERR_NAME_NO_EXIST;
+constexpr common_enum_ERROR_CODE common_enum::ERROR_CODE_MIN;
+constexpr common_enum_ERROR_CODE common_enum::ERROR_CODE_MAX;
+constexpr int common_enum::ERROR_CODE_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================

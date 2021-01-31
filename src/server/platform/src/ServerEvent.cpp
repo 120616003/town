@@ -1,6 +1,7 @@
 #include "ServerEvent.h"
 #include "ClientHandle.h"
-#include "ServerGateway.h"
+#include <errno.h>
+#include <cstring>
 
 namespace town {
 
@@ -10,16 +11,9 @@ namespace town {
 VUMCliHanPtr ServerEvent::m_vumCliHanPtr = VUMCliHanPtr(4);
 uint64_t ServerEvent::m_clear_index = 0;
 uint64_t ServerEvent::m_record_index = 2;
-SerGatPtr ServerEvent::m_pServerGateway = nullptr;
+ServerGatewayInfcPtr ServerEvent::m_pServerGatewayInfc = nullptr;
 
-SerEvnPtr ServerEvent::GetInstance()
-{
-	static PRIVATE_KEY key;
-	static SerEvnPtr se = std::make_shared<ServerEvent>(key);
-	return se;
-}
-
-ServerEvent::ServerEvent(PRIVATE_KEY key)
+ServerEvent::ServerEvent()
 {
 }
 
@@ -34,7 +28,7 @@ ServerEvent::~ServerEvent()
 	}
 }
 
-int32_t ServerEvent::Initialization(int32_t iPort)
+int32_t ServerEvent::Initialization(int32_t iPort, ServerGatewayInfcPtr pServerGatewayInfc)
 {
 	struct sockaddr_in sin {};
 	sin.sin_family = AF_INET;
@@ -59,11 +53,12 @@ int32_t ServerEvent::Initialization(int32_t iPort)
 
 	ev_l = evconnlistener_new_bind(ev_b, AcceptConnectCb, ev_b, LEV_OPT_REUSEABLE | LEV_OPT_CLOSE_ON_FREE, 10, (struct sockaddr*)&sin, sizeof(struct sockaddr_in));
 	if (!ev_l) {
-		LOG_WARN("evconnlistener_new_bind failed, ev_l is nullptr");
+		LOG_WARN("evconnlistener_new_bind failed, ev_l is nullptr, error msg:{}", strerror(errno));
 		return FAILED;
 	}
 
-	m_pServerGateway = std::make_unique<ServerGateway>();
+	m_pServerGatewayInfc = pServerGatewayInfc;
+	m_pServerGatewayInfc->RegisterServerHandle(ServerEventPtr(this));
 
 	LOG_DEBUG("initialization success");
 
@@ -72,8 +67,6 @@ int32_t ServerEvent::Initialization(int32_t iPort)
 
 void ServerEvent::StartServer()
 {
-	m_pServerGateway->Initialization(); // 数据处理线程
-
 	auto bufferevent = std::thread(event_base_dispatch, ev_b); // 消息监听线程
 	pthread_setname_np(bufferevent.native_handle(), "bufferevent");
 	bufferevent.detach();
@@ -173,8 +166,7 @@ void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 			pMsgData->info = msg_info;
 			pMsgData->data = std::move(data_buf);
 
-			// std::tuple<bufferevent*, MSG_INFO, std::unique_ptr<uint8_t[]>> bev_msg{bev, msg_info, std::move(data_buf)};
-			m_pServerGateway->MsgGate(pMsgData);
+			m_pServerGatewayInfc->MsgGate(pMsgData);
 			read_len = msg_info.msg_len = 0;
 		}
 	} while (true);
@@ -189,10 +181,8 @@ void ServerEvent::ClientEventCb(bufferevent* bev, short events, void* arg)
 		LOG_WARN("unknown error, the server will be passively disconnected");
 	}
 
-	CliHanPtr chptr = GetClientHandle(bev);
-	if (nullptr != chptr) {
-		chptr->SetStatus(false);
-	}
+	GetClientHandle(bev)->SetStatus(false);
+	DeleteClient(bev);
 }
 
 void ServerEvent::RecordClient(bufferevent* bev)

@@ -2,17 +2,27 @@
 #define MSG_DEAL_H
 
 #include "ServerCommon.h"
+#include "MysqlOptHandleInfc.h"
+#include "ServerEvent.h"
 
 namespace town {
 
 class MsgDeal
 {
 public:
-	MsgDeal()
-	{
-	}
+	MsgDeal() {}
 	virtual ~MsgDeal() {}
 	virtual void MsgDealCenter(std::unique_ptr<MSG_DATA>& bev_msg) = 0;
+
+	void RegisterDBLogicHandle(MysqlOptHandleInfcPtr pMysqlOptHandleInfc)
+	{
+		m_pMysqlOptHandleInfc = pMysqlOptHandleInfc;
+	}
+
+	MysqlOptHandleInfcPtr GetMysqlOpt()
+	{
+		return m_pMysqlOptHandleInfc;
+	}
 
 	void MsgForward()
 	{
@@ -31,6 +41,16 @@ public:
 		m_cv.notify_one();
 	}
 
+	void RegisterServerHandle(ServerEventPtr pServerEvent)
+	{
+		m_pServerEvent = pServerEvent;
+	}
+
+	ServerEventPtr GetServerHandle()
+	{
+		return m_pServerEvent;
+	}
+
 private:
 	void PopMsg(std::unique_ptr<MSG_DATA>& pMsgData)
 	{
@@ -42,6 +62,8 @@ private:
 	std::queue<std::unique_ptr<MSG_DATA>> m_queue;
 	std::mutex m_lock;
 	std::condition_variable m_cv;
+	MysqlOptHandleInfcPtr m_pMysqlOptHandleInfc;
+	ServerEventPtr m_pServerEvent;
 };
 
 } /* town */

@@ -1,3 +1,7 @@
+include_directories(${PROJECT_SOURCE_DIR}/src/database/includes)
+include_directories(${PROJECT_SOURCE_DIR}/src/database/logic/inc)
+include_directories(${PROJECT_SOURCE_DIR}/src/database/platform/inc)
+
 include_directories(includes)
 include_directories(platform/inc)
 include_directories(logic/inc)

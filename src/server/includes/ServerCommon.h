@@ -38,12 +38,6 @@ typedef std::shared_ptr<ClientHandle> CliHanPtr;
 typedef std::unordered_map<std::string, CliHanPtr> UMCliHanPtr;
 typedef std::vector<UMCliHanPtr> VUMCliHanPtr;
 
-class ServerEvent;
-typedef std::shared_ptr<ServerEvent> SerEvnPtr;
-
-class ServerGateway;
-typedef std::unique_ptr<ServerGateway> SerGatPtr;
-
 enum MSG_TYPE : uint32_t {
 	MESS_REGISTER = 0,
 	MESS_LOGIN = 1

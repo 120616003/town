@@ -3,7 +3,7 @@
 
 #include "MysqlCommon.h"
 #include "MysqlAccessImpl.h"
-#include "MysqlInterface.h"
+#include "MysqlAccessInfc.h"
 
 namespace town
 {
@@ -12,14 +12,14 @@ class MysqlAccessManage;
 using MysqlManagePtr = std::shared_ptr<MysqlAccessManage>;
 using MysqlImplPtr = std::unique_ptr<MysqlAccessImpl>;
 
-class MysqlAccessManage : public MysqlInterface
+class MysqlAccessManage : public MysqlAccessInfc
 {
 public:
 	MysqlAccessManage() {}
 	~MysqlAccessManage() {}
 
 	bool Initialization(int iConNum, const std::string& strDbName, const std::string& strIp, const std::string& strDbaName, const std::string& strPasswd, unsigned int uiPort);
-	StoreQueryResult ExecuteSql(const std::string& strSql, const SQLTypeAdapter& strParseSql);
+	std::pair<bool, StoreQueryResult> ExecuteSql(const std::string& strSql, const SQLQueryParms& strParam);
 
 private:
 	MysqlImplPtr PopMysqlHandle();

@@ -19,13 +19,6 @@ namespace town {
 #define LOG_ERROR(...) ERROR("mysql", __VA_ARGS__)
 #define LOG_CRITICAL(...) ERROR("mysql", __VA_ARGS__)
 
-enum MYSQL_OPT_TYPE : uint32_t {
-	ADD = 0,
-	DELETE,
-	CHANGE,
-	SEARCH
-};
-
 const std::string create_town_database = R"(
 
 create database if not exists town;
@@ -36,12 +29,12 @@ const std::string create_user_table = R"(
 
 create table if not exists town.user (
 	id int (15) auto_increment primary key not null,
-	uuid varchar (32) not null,
+	uuid varchar(32) not null,
 	time timestamp not null,
-	acc_email varchar (30),
-	acc_phone varchar (11),
-	acc_name varchar (30),
-	password varchar (20) not null
+	acc_email varchar(255) ,
+	acc_phone varchar(11) ,
+	acc_name varchar(255) ,
+	password varchar(20) not null
 );
 
 )";

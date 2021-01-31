@@ -6,6 +6,18 @@ message common_enum {
         ACC_PHONE = 1;
         ACC_NAME = 2;
     }
+    enum ERROR_CODE {
+        ERR_NONE = 0;
+        ERR_EMAI_TYPE = 1;
+        ERR_PHONE_TYPE = 2;
+        ERR_NAME_TYPE = 3;
+        ERR_EMAIL_EXIST = 4;
+        ERR_PHONE_EXIST = 5;
+        ERR_NAME_EXIST = 6;
+        ERR_EMAIL_NO_EXIST = 7;
+        ERR_PHONE_NO_EXIST = 8;
+        ERR_NAME_NO_EXIST = 9;
+    }
 }
 
 message acc_register {

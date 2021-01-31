@@ -1,13 +1,14 @@
 #ifndef MYSQL_OPT_HANDLE_G
 #define MYSQL_OPT_HANDLE_G
 
-#include "MysqlCommon.h"
 #include "MysqlOpt.h"
 #include "MysqlAddOpt.h"
 #include "MysqlChangeOpt.h"
 #include "MysqlDeleteOpt.h"
 #include "MysqlSearchOpt.h"
 #include "MysqlOptHandleInfc.h"
+
+#include <unordered_map>
 
 namespace town
 {

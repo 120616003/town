@@ -1,6 +1,5 @@
 #include "MysqlOptHandleInfc.h"
 #include "MysqlOptHandle.h"
-#include <memory>
 
 namespace town
 {
@@ -25,7 +24,7 @@ void MysqlOptHandleInfc::Initialization()
 	impl->Initialization();
 }
 
-MysqlOptPtr MysqlOptHandleInfc::operator [] (MYSQL_OPT_TYPE eType)
+MysqlOptPtr MysqlOptHandleInfc::GetOptHandle(MYSQL_OPT_TYPE eType)
 {
 	MysqlOptHandle* impl = reinterpret_cast<MysqlOptHandle*>(this);
 	return impl->GetOptHandle(eType);

@@ -1,21 +1,23 @@
 #ifndef SERVER_EVENT_H
 #define SERVER_EVENT_H
 
-#include "ServerCommon.h"
+#include "ServerGatewayInfc.h"
+#include "ServerEventInfc.h"
+#include "ClientHandle.h"
 
 namespace town {
 
-class ServerEvent
-{
-private:
-	struct PRIVATE_KEY {};
+class ServerEvent;
+using ServerEventPtr = std::shared_ptr<ServerEvent>;
 
+class ServerEvent : public ServerEventInfc, std::enable_shared_from_this<ServerEvent> 
+{
 public:
-	static SerEvnPtr GetInstance();
-	explicit ServerEvent(PRIVATE_KEY key);
+	ServerEvent();
 	~ServerEvent();
-	int32_t Initialization(int32_t iPort);
+	int32_t Initialization(int32_t iPort, ServerGatewayInfcPtr pServerGatewayInfc);
 	void StartServer();
+
 	static CliHanPtr GetClientHandle(bufferevent* bev);
 	static CliHanPtr GetClientHandle(const std::string& uuid);
 	static void DeleteClient(bufferevent* bev);
@@ -33,7 +35,7 @@ private:
 	static std::string GetStringFd(const evutil_socket_t fd);
 
 private: // 消息网关对象
-	static SerGatPtr m_pServerGateway;
+	static ServerGatewayInfcPtr m_pServerGatewayInfc;
 
 private: // libevent事件库
 	event_config* ev_c = nullptr;

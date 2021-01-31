@@ -16,12 +16,12 @@ bool MysqlAccessManage::Initialization(int iConNum, const std::string& strDbName
 	return true;
 }
 
-StoreQueryResult MysqlAccessManage::ExecuteSql(const std::string& strSql, const SQLTypeAdapter& strParseSql)
+std::pair<bool, StoreQueryResult> MysqlAccessManage::ExecuteSql(const std::string& strSql, const SQLQueryParms& strParam)
 {
 	MysqlImplPtr mysqlAccImPtr = PopMysqlHandle();
-	StoreQueryResult res = mysqlAccImPtr->ExecuteSql(strSql, strParseSql);
+	std::pair<bool, StoreQueryResult> res = mysqlAccImPtr->ExecuteSql(strSql, strParam);
 	PushMysqlHandle(mysqlAccImPtr);
-	return StoreQueryResult();
+	return res;
 }
 
 MysqlImplPtr MysqlAccessManage::PopMysqlHandle()

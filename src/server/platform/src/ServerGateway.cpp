@@ -14,9 +14,9 @@ ServerGateway::~ServerGateway()
 {
 }
 
-void ServerGateway::Initialization()
+void ServerGateway::Initialization(MysqlOptHandleInfcPtr pMysqlOptHandleInfc)
 {
-	MsgFactory();
+	MsgFactory(pMysqlOptHandleInfc);
 	RunFactoryMsg();
 }
 
@@ -33,10 +33,20 @@ void ServerGateway::MsgGate(std::unique_ptr<MSG_DATA>& pMsgData)
 	}
 }
 
-void ServerGateway::MsgFactory()
+void ServerGateway::RegisterServerHandle(ServerEventPtr pServerEvent)
+{
+	m_pServerEvent = pServerEvent;
+	for (auto& eMsgDeal : m_eMsgDeal) {
+		eMsgDeal.second->RegisterServerHandle(pServerEvent);
+	}
+}
+
+void ServerGateway::MsgFactory(MysqlOptHandleInfcPtr pMysqlOptHandleInfc)
 {
 	m_eMsgDeal[MESS_REGISTER] = std::make_shared<RegisterMsgDeal>();
+	m_eMsgDeal[MESS_REGISTER]->RegisterDBLogicHandle(pMysqlOptHandleInfc);
 	m_eMsgDeal[MESS_LOGIN] = std::make_shared<LoginMsgDeal>();
+	m_eMsgDeal[MESS_LOGIN]->RegisterDBLogicHandle(pMysqlOptHandleInfc);
 }
 
 void ServerGateway::RunFactoryMsg()

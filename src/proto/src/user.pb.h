@@ -95,6 +95,39 @@ inline bool common_enum_ACC_TYPE_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<common_enum_ACC_TYPE>(
     common_enum_ACC_TYPE_descriptor(), name, value);
 }
+enum common_enum_ERROR_CODE : int {
+  common_enum_ERROR_CODE_ERR_NONE = 0,
+  common_enum_ERROR_CODE_ERR_EMAI_TYPE = 1,
+  common_enum_ERROR_CODE_ERR_PHONE_TYPE = 2,
+  common_enum_ERROR_CODE_ERR_NAME_TYPE = 3,
+  common_enum_ERROR_CODE_ERR_EMAIL_EXIST = 4,
+  common_enum_ERROR_CODE_ERR_PHONE_EXIST = 5,
+  common_enum_ERROR_CODE_ERR_NAME_EXIST = 6,
+  common_enum_ERROR_CODE_ERR_EMAIL_NO_EXIST = 7,
+  common_enum_ERROR_CODE_ERR_PHONE_NO_EXIST = 8,
+  common_enum_ERROR_CODE_ERR_NAME_NO_EXIST = 9,
+  common_enum_ERROR_CODE_common_enum_ERROR_CODE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  common_enum_ERROR_CODE_common_enum_ERROR_CODE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool common_enum_ERROR_CODE_IsValid(int value);
+constexpr common_enum_ERROR_CODE common_enum_ERROR_CODE_ERROR_CODE_MIN = common_enum_ERROR_CODE_ERR_NONE;
+constexpr common_enum_ERROR_CODE common_enum_ERROR_CODE_ERROR_CODE_MAX = common_enum_ERROR_CODE_ERR_NAME_NO_EXIST;
+constexpr int common_enum_ERROR_CODE_ERROR_CODE_ARRAYSIZE = common_enum_ERROR_CODE_ERROR_CODE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* common_enum_ERROR_CODE_descriptor();
+template<typename T>
+inline const std::string& common_enum_ERROR_CODE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, common_enum_ERROR_CODE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function common_enum_ERROR_CODE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    common_enum_ERROR_CODE_descriptor(), enum_t_value);
+}
+inline bool common_enum_ERROR_CODE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, common_enum_ERROR_CODE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<common_enum_ERROR_CODE>(
+    common_enum_ERROR_CODE_descriptor(), name, value);
+}
 // ===================================================================
 
 class common_enum PROTOBUF_FINAL :
@@ -236,6 +269,52 @@ class common_enum PROTOBUF_FINAL :
   static inline bool ACC_TYPE_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
       ACC_TYPE* value) {
     return common_enum_ACC_TYPE_Parse(name, value);
+  }
+
+  typedef common_enum_ERROR_CODE ERROR_CODE;
+  static constexpr ERROR_CODE ERR_NONE =
+    common_enum_ERROR_CODE_ERR_NONE;
+  static constexpr ERROR_CODE ERR_EMAI_TYPE =
+    common_enum_ERROR_CODE_ERR_EMAI_TYPE;
+  static constexpr ERROR_CODE ERR_PHONE_TYPE =
+    common_enum_ERROR_CODE_ERR_PHONE_TYPE;
+  static constexpr ERROR_CODE ERR_NAME_TYPE =
+    common_enum_ERROR_CODE_ERR_NAME_TYPE;
+  static constexpr ERROR_CODE ERR_EMAIL_EXIST =
+    common_enum_ERROR_CODE_ERR_EMAIL_EXIST;
+  static constexpr ERROR_CODE ERR_PHONE_EXIST =
+    common_enum_ERROR_CODE_ERR_PHONE_EXIST;
+  static constexpr ERROR_CODE ERR_NAME_EXIST =
+    common_enum_ERROR_CODE_ERR_NAME_EXIST;
+  static constexpr ERROR_CODE ERR_EMAIL_NO_EXIST =
+    common_enum_ERROR_CODE_ERR_EMAIL_NO_EXIST;
+  static constexpr ERROR_CODE ERR_PHONE_NO_EXIST =
+    common_enum_ERROR_CODE_ERR_PHONE_NO_EXIST;
+  static constexpr ERROR_CODE ERR_NAME_NO_EXIST =
+    common_enum_ERROR_CODE_ERR_NAME_NO_EXIST;
+  static inline bool ERROR_CODE_IsValid(int value) {
+    return common_enum_ERROR_CODE_IsValid(value);
+  }
+  static constexpr ERROR_CODE ERROR_CODE_MIN =
+    common_enum_ERROR_CODE_ERROR_CODE_MIN;
+  static constexpr ERROR_CODE ERROR_CODE_MAX =
+    common_enum_ERROR_CODE_ERROR_CODE_MAX;
+  static constexpr int ERROR_CODE_ARRAYSIZE =
+    common_enum_ERROR_CODE_ERROR_CODE_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  ERROR_CODE_descriptor() {
+    return common_enum_ERROR_CODE_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& ERROR_CODE_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, ERROR_CODE>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function ERROR_CODE_Name.");
+    return common_enum_ERROR_CODE_Name(enum_t_value);
+  }
+  static inline bool ERROR_CODE_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      ERROR_CODE* value) {
+    return common_enum_ERROR_CODE_Parse(name, value);
   }
 
   // accessors -------------------------------------------------------
@@ -1388,6 +1467,11 @@ template <> struct is_proto_enum< ::common_enum_ACC_TYPE> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::common_enum_ACC_TYPE>() {
   return ::common_enum_ACC_TYPE_descriptor();
+}
+template <> struct is_proto_enum< ::common_enum_ERROR_CODE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::common_enum_ERROR_CODE>() {
+  return ::common_enum_ERROR_CODE_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

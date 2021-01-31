@@ -2,9 +2,9 @@
 #include <event2/bufferevent_struct.h>
 
 #include "RegisterMsgDeal.h"
-#include "user.pb.h"
 #include "ServerEvent.h"
 #include "ClientHandle.h"
+#include "MysqlOptHandleInfc.h"
 
 namespace town {
 
@@ -18,12 +18,11 @@ RegisterMsgDeal::~RegisterMsgDeal()
 
 void RegisterMsgDeal::MsgDealCenter(std::unique_ptr<MSG_DATA>& pMsgData)
 {
-	acc_register ar;
-	ar.ParseFromArray(pMsgData->data.get(), pMsgData->info.msg_len);
-	LOG_INFO("fd:{}", ServerEvent::GetInstance()->GetClientHandle(pMsgData->bev)->GetEvutilSocket());
-	LOG_INFO("type:{}", ar.type());
-	LOG_INFO("email:{}", ar.email());
-	LOG_INFO("passwd:{}", ar.passwd());
+	std::string strUuid = Booster::GetUUID();
+	int ret = GetMysqlOpt()->GetOptHandle(ADD)->RegisterUser(pMsgData->data.get(), pMsgData->info.msg_len, strUuid);
+	if (-1 == ret) {
+		LOG_WARN("acc exists");
+	}
 }
 
 } /* town */
