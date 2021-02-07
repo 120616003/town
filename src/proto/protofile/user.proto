@@ -41,4 +41,5 @@ message acc_login {
     common_enum.ERROR_CODE err_type = 6; // server -> client
     string err_msg                  = 7; // server -> client
     string uuid                     = 8; // server -> client
+
 }
