@@ -20,23 +20,14 @@ AddProtoCmd() {
 ErgodicFile() {
     GetProtoFile $1
     local flag=0
-    if [ ! -d \"../inc\" ]; then 
+    if [ ! -d  ../inc ]; then 
         mkdir ../inc 
     fi 
-    if [ ! -d \"../src\" ]; then 
+    if [ ! -d ../src ]; then 
         mkdir ../src 
     fi
     echo "" > ../compile_proto.cmake
-    # echo "execute_process(COMMAND
-    # if [ ! -d \"inc\" ]; then 
- #      mkdir inc 
-    # fi 
-    # WORKING_DIRECTORY \${CMAKE_CURRENT_SOURCE_DIR}/../../../../src/proto/)" > ../compile_proto.cmake
-    # echo "execute_process(COMMAND 
-    # if [ ! -d \"src\" ]; then 
- #      mkdir src 
-    # fi
-    # WORKING_DIRECTORY \${CMAKE_CURRENT_SOURCE_DIR}/../../../../src/proto/)" >> ../compile_proto.cmake
+
     for file in "${!proto_array[@]}"
     do
         md5_file="."`echo "${proto_array[$file]}" | awk -F "." '{print $1}'`".md5"

@@ -1,6 +1,6 @@
 include_directories(inc)
 
-file(GLOB_RECURSE proto_SRC src/*.cc)
+file(GLOB_RECURSE proto_SRC src/*.cc protofile/*.proto)
 
 add_library(proto SHARED ${proto_SRC})
 

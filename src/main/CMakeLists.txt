@@ -11,8 +11,9 @@ file(GLOB_RECURSE main_SRC main.cpp)
 add_executable(main ${main_SRC})
 
 target_link_libraries(main 
-	server-massage event proto 
+	server-massage event
 	database-access mysqlpp mysqlclient
+	proto
 	jsoncpp)
 
 install(TARGETS main DESTINATION bin)
