@@ -6,3 +6,5 @@ build
 *.pb.h
 *.pb.cc
 compile_proto.cmake
+build-town*/
+*.pro.user

@@ -1,0 +1,44 @@
+{
+	"error_msg" : [
+		{
+			"error_type" : 0,
+			"error_msg" : "正确"
+		},
+		{
+			"error_type" : 1,
+			"error_msg" : "邮箱类型错误"
+		},
+		{
+			"error_type" : 2,
+			"error_msg" : "手机号码类型错误"
+		},
+		{
+			"error_type" : 3,
+			"error_msg" : "用户名类型错误"
+		},
+		{
+			"error_type" : 4,
+			"error_msg" : "邮箱存在"
+		},
+		{
+			"error_type" : 5,
+			"error_msg" : "手机号存在"
+		},
+		{
+			"error_type" : 6,
+			"error_msg" : "用户名存在"
+		},
+		{
+			"error_type" : 7,
+			"error_msg" : "邮箱不存在"
+		},
+		{
+			"error_type" : 8,
+			"error_msg" : "手机号存在"
+		},
+		{
+			"error_type" : 9,
+			"error_msg" : "用户名存在"
+		}
+	]
+}

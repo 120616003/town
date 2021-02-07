@@ -2,9 +2,9 @@ syntax = "proto3";
 
 message common_enum {
     enum ACC_TYPE {
-        ACC_EMAIL = 0;
-        ACC_PHONE = 1;
-        ACC_NAME = 2;
+        ACC_EMAIL = 0; // 邮箱账号
+        ACC_PHONE = 1; // 手机账号
+        ACC_NAME = 2;  // 字符账号
     }
     enum ERROR_CODE {
         ERR_NONE           = 0; // 正确
@@ -21,21 +21,24 @@ message common_enum {
 }
 
 message acc_register {
-    common_enum.ACC_TYPE type = 1;       // server
-    string email = 2;                    // server
-    string phone = 3;                    // server
-    string name = 4;                     // server
-    string passwd = 5;                   // server
-    common_enum.ERROR_CODE err_type = 6; // client
-    string err_msg = 7;                  // client
+    common_enum.ACC_TYPE type       = 1; // client -> server
+    string email                    = 2; // client -> server
+    string phone                    = 3; // client -> server
+    string name                     = 4; // client -> server
+    string passwd                   = 5; // client -> server
+
+    common_enum.ERROR_CODE err_type = 6; // server -> client
+    string err_msg                  = 7; // server -> client
 }
 
 message acc_login {
-    common_enum.ACC_TYPE type = 1; // server
-    string email = 2;              // server
-    string phone = 3;              // server
-    string name = 4;               // server
-    string passwd = 5;             // server
-    string uuid = 6;               // client
-    string uuid1 = 7;              // client
+    common_enum.ACC_TYPE type       = 1; // client -> server
+    string email                    = 2; // client -> server
+    string phone                    = 3; // client -> server
+    string name                     = 4; // client -> server
+    string passwd                   = 5; // client -> server
+
+    common_enum.ERROR_CODE err_type = 6; // server -> client
+    string err_msg                  = 7; // server -> client
+    string uuid                     = 8; // server -> client
 }
