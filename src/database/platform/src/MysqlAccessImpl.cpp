@@ -21,7 +21,7 @@ std::pair<bool, StoreQueryResult> MysqlAccessImpl::ExecuteSql(const std::string&
 			res = query.store();
 		}
 	}
-	catch (std::exception e) {
+	catch (std::exception& e) {
 		LOG_WARN("[{}] is error, detail:{}", e.what());
 	}
 	catch (...) {

@@ -3,3 +3,6 @@ build
 .tags
 .tags_sorted_by_file
 .*.md5
+*.pb.h
+*.pb.cc
+compile_proto.cmake

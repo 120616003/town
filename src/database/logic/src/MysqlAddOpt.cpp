@@ -33,7 +33,7 @@ int MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len, std::string uuid)
 		strParms << "acc_phone" << ar.phone();
 	}
 	else if (ar.type() == common_enum::ACC_NAME) {
-		strParms << "acc_name" << ar.accname();
+		strParms << "acc_name" << ar.name();
 	}
 	else {
 		LOG_ERROR("register user type error, type:{}", ar.type());
@@ -55,7 +55,7 @@ int MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len, std::string uuid)
 		values (%0q:uuid, NULL, %1q:acc_email, %2q:acc_phone, %3q:acc_name, %4q:password)
 	)";
 	strParms.clear();
-	strParms << uuid << ar.email() << ar.phone() << ar.accname() << ar.passwd();
+	strParms << uuid << ar.email() << ar.phone() << ar.name() << ar.passwd();
 	res = ExecuteSql(sql, strParms);
 	if (!res.first) {
 		LOG_WARN("sql error");

@@ -1,4 +1,4 @@
-include_directories(src)
+include_directories(inc)
 
 file(GLOB_RECURSE proto_SRC src/*.cc protofile/*.proto)
 

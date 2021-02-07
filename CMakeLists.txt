@@ -7,10 +7,10 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/bin)   #设置可执行�
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/lib)      #设置库文件的输出目录
 
 if(Release)
-    set(CMAKE_BUILD_TYPE Release)         # Release模式下的编译指令
+    set(CMAKE_BUILD_TYPE Release) # Release模式下的编译指令
     set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 else()
-    set(CMAKE_BUILD_TYPE Debug)  # Debug模式下的编译指令
+    set(CMAKE_BUILD_TYPE Debug) # Debug模式下的编译指令
     set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 endif()
 

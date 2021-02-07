@@ -36,7 +36,7 @@ DB_INFO ReadDBConfig()
 		info.db = root["db"].asString();
 		info.db_port = root["db_port"].asInt();
 	}
-	catch (std::exception e) {
+	catch (std::exception& e) {
 		ERROR("main", "json error msg:{}", e.what());
 		exit(1);
 	}
@@ -54,7 +54,7 @@ SERVER_INFO ReadServerConfig()
 	try {
 		info.server_port = root["server_port"].asInt();
 	}
-	catch (std::exception e) {
+	catch (std::exception& e) {
 		ERROR("main", "json error msg:{}", e.what());
 		exit(1);
 	}

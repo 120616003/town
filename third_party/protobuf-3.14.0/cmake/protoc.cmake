@@ -19,5 +19,3 @@ add_custom_command(TARGET protoc
 	COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/src/proto/compile_proto.cmake
 	VERBATIM
 )
-
-# include(${PROJECT_SOURCE_DIR}/src/proto/compile_proto.cmake)

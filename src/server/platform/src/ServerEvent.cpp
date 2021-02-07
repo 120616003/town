@@ -120,11 +120,9 @@ void ServerEvent::AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, 
 }
 
 void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
-{	
-	uint16_t ret_len = 0;
+{
 	uint16_t read_len = 0;
 	MSG_INFO msg_info{};
-
 	do {
 		if (!read_len) {
 			bufferevent_read(bev, &msg_info, sizeof(MSG_INFO));
@@ -139,7 +137,7 @@ void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 		}
 
 		std::unique_ptr<uint8_t[]> data_buf(new uint8_t[msg_info.msg_len]());
-		ret_len = bufferevent_read(bev, data_buf.get() + read_len, msg_info.msg_len - read_len);
+		uint16_t ret_len = bufferevent_read(bev, data_buf.get() + read_len, msg_info.msg_len - read_len);
 
 		if (0 == ret_len) {
 			if (EAGAIN == errno) {
