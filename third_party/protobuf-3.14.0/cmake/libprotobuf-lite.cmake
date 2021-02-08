@@ -63,23 +63,23 @@ set(libprotobuf_lite_rc_files
 )
 endif()
 
-add_library(libprotobuf-lite ${protobuf_SHARED_OR_STATIC}
+add_library(protobuf-lite ${protobuf_SHARED_OR_STATIC}
   ${libprotobuf_lite_files} ${libprotobuf_lite_includes} ${libprotobuf_lite_rc_files})
-target_link_libraries(libprotobuf-lite ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(protobuf-lite ${CMAKE_THREAD_LIBS_INIT})
 if(protobuf_LINK_LIBATOMIC)
-  target_link_libraries(libprotobuf-lite atomic)
+  target_link_libraries(protobuf-lite atomic)
 endif()
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
-	target_link_libraries(libprotobuf-lite log)
+	target_link_libraries(protobuf-lite log)
 endif()
-target_include_directories(libprotobuf-lite PUBLIC ${protobuf_source_dir}/src)
+target_include_directories(protobuf-lite PUBLIC ${protobuf_source_dir}/src)
 if(MSVC AND protobuf_BUILD_SHARED_LIBS)
-  target_compile_definitions(libprotobuf-lite
+  target_compile_definitions(protobuf-lite
     PUBLIC  PROTOBUF_USE_DLLS
     PRIVATE LIBPROTOBUF_EXPORTS)
 endif()
-set_target_properties(libprotobuf-lite PROPERTIES
-    VERSION ${protobuf_VERSION}
-    OUTPUT_NAME ${LIB_PREFIX}protobuf-lite
-    DEBUG_POSTFIX "${protobuf_DEBUG_POSTFIX}")
-add_library(protobuf::libprotobuf-lite ALIAS libprotobuf-lite)
+# set_target_properties(protobuf-lite PROPERTIES
+#     VERSION ${protobuf_VERSION}
+#     OUTPUT_NAME ${LIB_PREFIX}protobuf-lite
+#     DEBUG_POSTFIX "${protobuf_DEBUG_POSTFIX}")
+add_library(protobuf::protobuf-lite ALIAS protobuf-lite)

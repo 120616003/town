@@ -5,9 +5,9 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/protobuf.pc.cmake
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/protobuf-lite.pc.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/protobuf-lite.pc @ONLY)
 
-set(_protobuf_libraries libprotobuf-lite libprotobuf)
+set(_protobuf_libraries protobuf-lite protobuf)
 if (protobuf_BUILD_LIBPROTOC)
-    list(APPEND _protobuf_libraries libprotoc)
+    list(APPEND _protobuf_libraries protoc)
 endif (protobuf_BUILD_LIBPROTOC)
 
 foreach(_library ${_protobuf_libraries})
@@ -29,13 +29,13 @@ foreach(_library ${_protobuf_libraries})
 endforeach()
 
 if (protobuf_BUILD_PROTOC_BINARIES)
-  install(TARGETS protoc EXPORT protobuf-targets
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT protoc)
+  install(TARGETS protocb EXPORT protobuf-targets
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT protocb)
   if (UNIX AND NOT APPLE)
-    set_property(TARGET protoc
+    set_property(TARGET protocb
       PROPERTY INSTALL_RPATH "$ORIGIN/../${CMAKE_INSTALL_LIBDIR}")
   elseif (APPLE)
-    set_property(TARGET protoc
+    set_property(TARGET protocb
       PROPERTY INSTALL_RPATH "@loader_path/../lib")
   endif()
 endif (protobuf_BUILD_PROTOC_BINARIES)
@@ -121,12 +121,12 @@ configure_file(protobuf-options.cmake
 # Allows the build directory to be used as a find directory.
 
 if (protobuf_BUILD_PROTOC_BINARIES)
-  export(TARGETS libprotobuf-lite libprotobuf libprotoc protoc
+  export(TARGETS protobuf-lite protobuf protoc protocb
     NAMESPACE protobuf::
     FILE ${CMAKE_INSTALL_CMAKEDIR}/protobuf-targets.cmake
   )
 else (protobuf_BUILD_PROTOC_BINARIES)
-  export(TARGETS libprotobuf-lite libprotobuf
+  export(TARGETS protobuf-lite protobuf
     NAMESPACE protobuf::
     FILE ${CMAKE_INSTALL_CMAKEDIR}/protobuf-targets.cmake
   )

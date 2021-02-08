@@ -8,14 +8,14 @@ set(protoc_rc_files
 )
 endif()
 
-add_executable(protoc ${protoc_files} ${protoc_rc_files})
-target_link_libraries(protoc libprotoc libprotobuf)
-add_executable(protobuf::protoc ALIAS protoc)
+add_executable(protocb ${protoc_files} ${protoc_rc_files})
+target_link_libraries(protocb protoc protobuf)
+add_executable(protobuf::protocb ALIAS protocb)
 
-set_target_properties(protoc PROPERTIES
-    VERSION ${protobuf_VERSION})
+# set_target_properties(protoc PROPERTIES
+#     VERSION ${protobuf_VERSION})
 
-add_custom_command(TARGET protoc 
+add_custom_command(TARGET protocb 
 	COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/src/proto/compile_proto.cmake
 	VERBATIM
 )

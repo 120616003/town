@@ -165,18 +165,18 @@ set(libprotoc_rc_files
 )
 endif()
 
-add_library(libprotoc ${protobuf_SHARED_OR_STATIC}
+add_library(protoc ${protobuf_SHARED_OR_STATIC}
   ${libprotoc_files} ${libprotoc_headers} ${libprotoc_rc_files})
-target_link_libraries(libprotoc libprotobuf)
+target_link_libraries(protoc protobuf)
 if(MSVC AND protobuf_BUILD_SHARED_LIBS)
-  target_compile_definitions(libprotoc
+  target_compile_definitions(protoc
     PUBLIC  PROTOBUF_USE_DLLS
     PRIVATE LIBPROTOC_EXPORTS)
 endif()
-set_target_properties(libprotoc PROPERTIES
-    COMPILE_DEFINITIONS LIBPROTOC_EXPORTS
-    VERSION ${protobuf_VERSION}
-    OUTPUT_NAME ${LIB_PREFIX}protoc
-    DEBUG_POSTFIX "${protobuf_DEBUG_POSTFIX}")
-add_library(protobuf::libprotoc ALIAS libprotoc)
+# set_target_properties(protoc PROPERTIES
+#     COMPILE_DEFINITIONS LIBPROTOC_EXPORTS
+#     VERSION ${protobuf_VERSION}
+#     OUTPUT_NAME ${LIB_PREFIX}protoc
+#     DEBUG_POSTFIX "${protobuf_DEBUG_POSTFIX}")
+add_library(protobuf::protoc ALIAS protoc)
 

@@ -28,6 +28,7 @@ else()
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
+set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O0")
 set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -g -ggdb")
 
 # The Intel compiler isn't able to deal with noinline member functions of
@@ -282,7 +283,7 @@ if (protobuf_BUILD_CONFORMANCE)
   # include(conformance.cmake)
 endif (protobuf_BUILD_CONFORMANCE)
 
-# include(install.cmake)
+include(install.cmake)
 
 if (protobuf_BUILD_EXAMPLES)
   # include(examples.cmake)
