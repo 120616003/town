@@ -2,6 +2,7 @@
 #define MYSQL_OPT_G
 
 #include "town_config.h"
+#include "user.pb.h"
 #include <string>
 #include <memory>
 #include <mysql++/mysql++.h>
@@ -26,10 +27,11 @@ public:
 
 public: // ADD 业务
 	virtual void InitDB() {}
-	virtual int RegisterUser(uint8_t* data, std::size_t len, std::string uuid) { return FAILED; }
+	virtual std::string RegisterUser(uint8_t* data, std::size_t len, std::string uuid) { return ""; }
 
 protected:
 	std::pair<bool, StoreQueryResult> ExecuteSql(const std::string& strSql, const SQLQueryParms& strParam = {});
+	common_enum::ERROR_CODE ConvertErrType(common_enum::ACC_TYPE eType, bool bExist);
 
 private:
 	MysqlAccessInfcPtr m_pMysqlHandle;

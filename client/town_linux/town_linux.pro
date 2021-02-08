@@ -16,13 +16,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += communication
+INCLUDEPATH += ../../deps/protobuf/include/
+INCLUDEPATH += ../../deps/protobuf/protofile/
+INCLUDEPATH += ../../src/common
+INCLUDEPATH += ../../third_party/boost_1_75_0
+
+QML_IMPORT_PATH += $$PWD/communication
+
+unix:!macx: LIBS += -L../../build/lib/ -lproto
+unix:!macx: LIBS += -L../../deps/protobuf/lib/ -lprotobuf
 
 HEADERS += \
         communication/TcpClient.h \
+        qml/QmlRegister.h \
 
 SOURCES += \
         main.cpp \
         communication/TcpClient.cpp \
+        qml/QmlRegister.cpp \
 
 
 RESOURCES += qml.qrc

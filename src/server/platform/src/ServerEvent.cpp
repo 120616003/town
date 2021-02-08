@@ -140,12 +140,8 @@ void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 		uint16_t ret_len = bufferevent_read(bev, data_buf.get() + read_len, msg_info.msg_len - read_len);
 
 		if (0 == ret_len) {
-			if (EAGAIN == errno) {
-				continue;
-			}
-			else {
-				LOG_WARN("data read error:{}", strerror(errno));
-			}
+			LOG_DEBUG("data read err num:{}, err msg:{}", errno, strerror(errno));
+			return;
 		}
 
 		read_len += ret_len;

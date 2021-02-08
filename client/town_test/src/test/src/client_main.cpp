@@ -20,12 +20,14 @@
 #include "user.pb.h"
 #include "Booster.hpp"
 
-struct MSG_INFO{
+enum MSG_TYPE : uint32_t {
+    MESS_REGISTER = 0,
+    MESS_LOGIN = 1
+};
+
+struct MSG_INFO {
     std::size_t msg_len = 0;
-    enum MSG_TYPE : uint32_t {
-        MESS_REGISTER = 0,
-        MESS_LOGIN = 1
-    } msg_type = MESS_REGISTER;
+    MSG_TYPE msg_type = MESS_REGISTER;
     std::size_t msg_crc = 0;
 };
 

@@ -19,9 +19,10 @@ void MysqlAddOpt::InitDB()
 	ExecuteSql(create_user_info_table);
 }
 
-int MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len, std::string uuid)
+std::string MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len, std::string uuid)
 {
-	acc_register ar;
+	acc_register ar, ar_res;
+	ar_res.ParseFromArray(data, len);
 	ar.ParseFromArray(data, len);
 
 	SQLQueryParms strParms;
@@ -37,17 +38,20 @@ int MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len, std::string uuid)
 	}
 	else {
 		LOG_ERROR("register user type error, type:{}", ar.type());
-		return FAILED;
+		ar_res.set_err_type(common_enum::ERR_ACC_TYPE_NO_EXIST);
+		return ar_res.SerializeAsString();
 	}
 
 	std::pair<bool, StoreQueryResult> res = ExecuteSql(sql, strParms);
 	if (!res.first) {
-		LOG_WARN("sql error");
-		return FAILED;
+		LOG_DEBUG("execute sql error");
+		ar_res.set_err_type(common_enum::ERR_EXECUTE_SQL);
+		return ar_res.SerializeAsString();
 	}
 	if (res.second.size()) {
-		LOG_WARN("acc exists, size:{}, id:{}", res.second.size(), res.second[0]["id"]);
-		return FAILED;
+		LOG_DEBUG("acc exists, size:{}, id:{}", res.second.size(), res.second[0]["id"]);
+		ar_res.set_err_type(ConvertErrType(ar.type(), true));
+		return ar_res.SerializeAsString();
 	}
 	
 	sql = R"(
@@ -58,11 +62,13 @@ int MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len, std::string uuid)
 	strParms << uuid << ar.email() << ar.phone() << ar.name() << ar.passwd();
 	res = ExecuteSql(sql, strParms);
 	if (!res.first) {
-		LOG_WARN("sql error");
-		return FAILED;
+		LOG_DEBUG("execute sql error");
+		ar_res.set_err_type(common_enum::ERR_EXECUTE_SQL);
+		return ar_res.SerializeAsString();
 	}
 
-	return SUCCESS;
+	ar_res.set_err_type(common_enum::ERR_NONE);
+	return ar_res.SerializeAsString();
 }
 
 }

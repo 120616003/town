@@ -1,6 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Controls 2.14
+import TcpClient 1.0
 
 Window {
     visible: true
@@ -16,6 +17,11 @@ Window {
         font.pointSize: 24
     }
 
+    TcpClient
+    {
+        id:client
+    }
+
 
     Button{
         x:320  //设置按钮的横坐标
@@ -24,8 +30,8 @@ Window {
 
         //信号槽连接
         onClicked: {
-            console.log("我被点击了")
-            Qt.quit()
+            client.writeData()
+            return true;
         }
     }
 }

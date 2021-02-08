@@ -2,7 +2,6 @@
 #define MYSQL_ADD_OPT_H
 
 #include "MysqlOpt.h"
-#include "user.pb.h"
 
 namespace town
 {
@@ -15,7 +14,7 @@ public:
 
 public: // 业务
 	void InitDB() override;
-	int RegisterUser(uint8_t* data, std::size_t len, std::string uuid) override;
+	std::string RegisterUser(uint8_t* data, std::size_t len, std::string uuid) override;
 
 private:
 

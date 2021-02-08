@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QTcpSocket>
+#include <string>
+
+namespace town {
 
 class TcpClient : public QObject
 {
@@ -11,11 +14,16 @@ public:
     TcpClient();
     ~TcpClient();
 
+public:
+    Q_INVOKABLE void writeData();
+
 private slots:
     void ReadData();
 
 private:
     QScopedPointer<QTcpSocket> m_pTcpClient;
-};
+}; /* TcpClient */
+
+} /* town */
 
 #endif /* TCP_CLIENT_H */
