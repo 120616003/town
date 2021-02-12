@@ -1,9 +1,7 @@
 #ifndef MYSQL_ACCESS_IMPL_H
 #define MYSQL_ACCESS_IMPL_H
 
-#include <mysql++/mysql++.h>
-#include <string>
-using namespace mysqlpp;
+#include "MysqlAccessInfc.h"
 
 namespace town {
 
@@ -13,12 +11,13 @@ public:
     MysqlAccessImpl() {}
     ~MysqlAccessImpl() {}
 
-    bool ConnectDb(const std::string& strDbName, const std::string& strIp, const std::string& strDbaName, const std::string& strPasswd, unsigned int uiPort = 0);
+    bool ConnectDb(const DB_INFO& db_info);
     std::pair<bool, StoreQueryResult> ExecuteSql(const std::string& strSql, const SQLQueryParms& strParam);
+    void KeepAlive();
 
 private:
     Connection m_MysqlCon;
-
+    DB_INFO m_db_info;
 };
 
 } /* town */

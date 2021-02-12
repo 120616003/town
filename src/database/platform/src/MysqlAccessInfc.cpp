@@ -11,10 +11,10 @@ MysqlAccessInfcPtr MysqlAccessInfc::GetInstance()
 	return impl;
 }
 
-bool MysqlAccessInfc::Initialization(int iConNum, const std::string& strDbName, const std::string& strIp, const std::string& strDbaName, const std::string& strPasswd, unsigned int uiPort)
+bool MysqlAccessInfc::Initialization(const DB_INFO& db_info)
 {
 	MysqlAccessManage* impl = reinterpret_cast<MysqlAccessManage*>(this);
-	return impl->Initialization(iConNum, strDbName, strIp, strDbaName, strPasswd, uiPort);
+	return impl->Initialization(db_info);
 }
 
 std::pair<bool, StoreQueryResult> MysqlAccessInfc::ExecuteSql(const std::string& strSql, const SQLQueryParms& strParam)

@@ -3,7 +3,6 @@
 
 #include "MysqlCommon.h"
 #include "MysqlAccessImpl.h"
-#include "MysqlAccessInfc.h"
 
 namespace town
 {
@@ -18,7 +17,7 @@ public:
 	MysqlAccessManage() {}
 	~MysqlAccessManage() {}
 
-	bool Initialization(int iConNum, const std::string& strDbName, const std::string& strIp, const std::string& strDbaName, const std::string& strPasswd, unsigned int uiPort);
+	bool Initialization(const DB_INFO& db_info);
 	std::pair<bool, StoreQueryResult> ExecuteSql(const std::string& strSql, const SQLQueryParms& strParam);
 
 private:

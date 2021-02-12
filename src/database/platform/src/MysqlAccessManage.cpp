@@ -1,16 +1,23 @@
 #include "MysqlAccessManage.h"
+#include <thread>
 
 namespace town
 {
 
-bool MysqlAccessManage::Initialization(int iConNum, const std::string& strDbName, const std::string& strIp, const std::string& strDbaName, const std::string& strPasswd, unsigned int uiPort)
+bool MysqlAccessManage::Initialization(const DB_INFO& db_info)
 {
-	for (int i = 0; i < iConNum; i++) {
+	for (int i = 0; i < db_info.db_cnt; i++) {
 		MysqlImplPtr impl = std::make_unique<MysqlAccessImpl>();
-		if (!impl->ConnectDb(strDbName, strIp, strDbaName, strPasswd, uiPort)) {
+		if (!impl->ConnectDb(db_info)) {
 			LOG_WARN("data:{} base connect failed", i);
 			return false;
 		}
+
+		auto mysql = std::thread(&MysqlAccessImpl::KeepAlive, impl.get()); // 数据库心跳线程
+		std::string thread_name = "mysql_KA" + std::to_string(i);
+		pthread_setname_np(mysql.native_handle(), thread_name.c_str());
+		mysql.detach();
+
 		m_qMysqlAccImPtr.push(std::move(impl));
 	}
 	return true;

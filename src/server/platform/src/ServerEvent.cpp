@@ -175,8 +175,11 @@ void ServerEvent::ClientEventCb(bufferevent* bev, short events, void* arg)
 		LOG_WARN("unknown error, the server will be passively disconnected");
 	}
 
-	GetClientHandle(bev)->SetStatus(false);
-	DeleteClient(bev);
+	auto client = GetClientHandle(bev);
+	if (client) {
+		client->SetStatus(false);
+		DeleteClient(bev);
+	}
 }
 
 void ServerEvent::RecordClient(bufferevent* bev)

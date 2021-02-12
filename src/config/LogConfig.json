@@ -16,5 +16,6 @@
 			"LogName" : "main",
 			"LogSwitch" : true
 		}
-	]
+	],
+	"LogLevel" : 0
 }

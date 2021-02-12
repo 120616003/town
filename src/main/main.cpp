@@ -9,16 +9,6 @@ using namespace town;
 const std::string strMysqlConfig = "config/MysqlConfig.json";
 const std::string strServerConfig = "config/ServerConfig.json";
 
-struct DB_INFO
-{
-	int db_cnt = 0;
-	std::string ip;
-	std::string dba;
-	std::string dba_passwd;
-	std::string db;
-	unsigned int db_port = 0;
-};
-
 struct SERVER_INFO
 {
 	unsigned int server_port;
@@ -73,7 +63,7 @@ int main()
 	SERVER_INFO server_info = ReadServerConfig();
 
 	// 初始化mysql句柄
-	if (!MysqlAccessInfc::GetInstance()->Initialization(db_info.db_cnt, db_info.db, db_info.ip, db_info.dba, db_info.dba_passwd, db_info.db_port)) {
+	if (!MysqlAccessInfc::GetInstance()->Initialization(db_info)) {
 		exit(1);
 	}
 	// 初始化数据库业务逻辑句柄

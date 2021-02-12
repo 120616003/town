@@ -1,6 +1,10 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#include <vector>
+#include <atomic>
+#include <thread>
+#include <unistd.h>
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
@@ -30,7 +34,12 @@ public:
 
     std::shared_ptr<spdlog::logger> GetModuleLogger(const std::string& module)
     {
-        return m_umapLogger[m_umapKeyValue[module]];
+        return m_umapLogger[m_vumapKeyValue[m_log_index % 2][module]];
+    }
+
+    bool IsModule(const std::string& module)
+    {
+        return m_vumapKeyValue[m_log_index % 2].find(module) != m_vumapKeyValue[m_log_index % 2].end();
     }
 
     uint8_t GetLogLevel()
@@ -43,25 +52,56 @@ public:
         m_iLoglevel = iLoglevel;
     }
 
+    void ReadLogInfo()
+    {
+        TownJson root;
+        if (root.Parse(strLogConfig, JSON_TYPE::FILE) && 
+            root["LogType"].isArray() &&
+            root["LogType"].size()) {
+            static int8_t complement = 0;
+            size_t len = root["LogType"].size();
+            TownJson data = root["LogType"];
+            m_vumapKeyValue[(m_log_index + complement) % 2].clear();
+            for (size_t i = 0; i < len; ++i) {
+                if (data[i]["LogSwitch"].isBool() && 
+                    data[i]["LogSwitch"].asBool() &&
+                    data[i]["LogName"].isString() &&
+                    data[i]["LogName"].asString().size()) {
+
+                    std::string strValue = data[i]["LogName"].asString();
+                    int iSuffixLen = 10 - strValue.size();
+                    m_vumapKeyValue[(m_log_index + complement) % 2][strValue] = strValue;
+                    for (int i = 0; i < iSuffixLen; ++i) {
+                        m_vumapKeyValue[(m_log_index + complement) % 2][strValue] += " ";
+                    }
+                }
+            }
+            for (auto pair : m_vumapKeyValue[(m_log_index + complement) % 2]) {
+                RegisterModule(pair.second);
+            }
+            SetLogLevel(static_cast<uint8_t>(root["LogLevel"].asUInt()));
+            if (!complement) {
+                ++complement;
+            }
+            else {
+                ++m_log_index;
+            }
+        }
+    }
+
 private:
     Logger()
     {
-        TownJson root(strLogConfig, JSON_TYPE::FILE);
-        size_t len = root["LogType"].size();
-        TownJson data = root["LogType"];
-        for (size_t i = 0; i < len; ++i) {
-            if (data[i]["LogSwitch"].asBool()) {
-                std::string strValue = data[i]["LogName"].asString();
-                int iSuffixLen = 10 - strValue.size();
-                m_umapKeyValue[strValue] = strValue;
-                for (int i = 0; i < iSuffixLen; ++i) {
-                    m_umapKeyValue[strValue] += " ";
-                }
+        m_vumapKeyValue.resize(2);
+        ReadLogInfo();
+        auto loginfo = std::thread([this] () {
+            while (true) {
+                sleep(1);
+                this->ReadLogInfo();
             }
-        }
-        for (auto pair : m_umapKeyValue) {
-            RegisterModule(pair.second);
-        }
+        });
+        pthread_setname_np(loginfo.native_handle(), "loginfo");
+        loginfo.detach();
     }
 
 #ifdef FILELOG
@@ -71,48 +111,49 @@ private:
 #endif /* FILELOG */
 
     std::unordered_map<std::string, std::shared_ptr<spdlog::logger>> m_umapLogger;
-    std::unordered_map<std::string, std::string> m_umapKeyValue;
+    std::vector<std::unordered_map<std::string, std::string>> m_vumapKeyValue;
     uint8_t m_iLoglevel = SPDLOG_LEVEL_TRACE;
+    std::atomic_uint64_t m_log_index;
 }; /* Logger */
 
 #define TRACE(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_TRACE) { \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_TRACE && Logger::GetInstance()->IsModule(module)) { \
         SPDLOG_LOGGER_TRACE(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define DEBUG(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_DEBUG) { \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_DEBUG && Logger::GetInstance()->IsModule(module)) { \
         SPDLOG_LOGGER_DEBUG(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define INFO(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_INFO) { \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_INFO && Logger::GetInstance()->IsModule(module)) { \
         SPDLOG_LOGGER_INFO(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define WARN(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_WARN) { \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_WARN && Logger::GetInstance()->IsModule(module)) { \
         SPDLOG_LOGGER_WARN(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define ERROR(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_ERROR) { \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_ERROR && Logger::GetInstance()->IsModule(module)) { \
         SPDLOG_LOGGER_ERROR(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 
 #define CRITICAL(module,...) \
 do { \
-    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_CRITICAL) { \
+    if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_CRITICAL && Logger::GetInstance()->IsModule(module)) { \
         SPDLOG_CRITICAL(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)

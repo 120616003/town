@@ -8,12 +8,13 @@ include_directories(${PROJECT_SOURCE_DIR}/src/server/platform/inc)
 
 file(GLOB_RECURSE main_SRC main.cpp)
 
-add_executable(main ${main_SRC})
+add_executable(town ${main_SRC})
 
-target_link_libraries(main 
+target_link_libraries(town 
 	server-massage event
 	database-access mysqlpp mysqlclient
 	proto
-	jsoncpp)
+	jsoncpp
+	pthread)
 
-install(TARGETS main DESTINATION bin)
+install(TARGETS town DESTINATION bin)

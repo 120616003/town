@@ -61,7 +61,8 @@ public:
 
     Value& operator = (Value& rhs)
     {
-        return rhs;
+        m_value = rhs;
+        return m_value;
     }
 
     bool Parse(std::string strJson, JSON_TYPE eType = JSON_TYPE::STRING)
@@ -71,9 +72,7 @@ public:
         }
 
         Reader rJson(Features::all());
-        if (!rJson.parse(strJson, m_value)) {
-            throw std::runtime_error("this json:\n" + strJson + "\nparse error");
-        }
+        return rJson.parse(strJson, m_value);
     }
 
 private:

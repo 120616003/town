@@ -3,9 +3,10 @@
 
 namespace town {
 
-bool MysqlAccessImpl::ConnectDb(const std::string& strDbName, const std::string& strIp, const std::string& strDbaName, const std::string& strPasswd, unsigned int uiPort)
+bool MysqlAccessImpl::ConnectDb(const DB_INFO& db_info)
 {
-	return m_MysqlCon.connect(strDbName.c_str(), strIp.c_str(), strDbaName.c_str(), strPasswd.c_str(), uiPort);
+	m_db_info = db_info;
+	return m_MysqlCon.connect(m_db_info.db.c_str(), m_db_info.ip.c_str(), m_db_info.dba.c_str(), m_db_info.dba_passwd.c_str(), m_db_info.db_port);
 }
 
 std::pair<bool, StoreQueryResult> MysqlAccessImpl::ExecuteSql(const std::string& strSql, const SQLQueryParms& strParam)
@@ -32,6 +33,16 @@ std::pair<bool, StoreQueryResult> MysqlAccessImpl::ExecuteSql(const std::string&
 		LOG_WARN("sql execute falied, error msg:{}, error num:{}", query.error(), query.errnum());
 	}
 	return {query.errnum() == 0, res};
+}
+
+void MysqlAccessImpl::KeepAlive()
+{
+	while(true) {
+		if (!m_MysqlCon.ping()) {
+			m_MysqlCon.connect(m_db_info.db.c_str(), m_db_info.ip.c_str(), m_db_info.dba.c_str(), m_db_info.dba_passwd.c_str(), m_db_info.db_port);
+		}
+		Booster::Timer(10, 0, 0);
+	}
 }
 
 } /* town */
