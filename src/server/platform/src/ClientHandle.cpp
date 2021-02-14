@@ -11,7 +11,7 @@ ClientHandle::~ClientHandle()
 	if (m_ev) {
 		close(m_fd);
 		bufferevent_free(m_ev);
-		LOG_INFO("close client, fd:{}", m_fd);
+		LOG_DEBUG("close client, fd:{}", m_fd);
 	}
 }
 

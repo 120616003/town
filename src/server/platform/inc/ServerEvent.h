@@ -21,6 +21,7 @@ public:
 	static CliHanPtr GetClientHandle(bufferevent* bev);
 	static CliHanPtr GetClientHandle(const std::string& uuid);
 	static void DeleteClient(bufferevent* bev);
+	void WriteData(bufferevent* bev, const std::string& msg, MSG_TYPE eType);
 
 private:
 	static void AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sock, int32_t socklen, void* arg);

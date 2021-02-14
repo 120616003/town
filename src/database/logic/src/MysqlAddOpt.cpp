@@ -22,7 +22,6 @@ void MysqlAddOpt::InitDB()
 std::string MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len, std::string uuid)
 {
 	acc_register ar, ar_res;
-	ar_res.ParseFromArray(data, len);
 	ar.ParseFromArray(data, len);
 
 	SQLQueryParms strParms;

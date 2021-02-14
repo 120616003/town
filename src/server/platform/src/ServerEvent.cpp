@@ -2,6 +2,7 @@
 #include "ClientHandle.h"
 #include <errno.h>
 #include <cstring>
+#include <event2/thread.h>
 
 namespace town {
 
@@ -39,7 +40,7 @@ int32_t ServerEvent::Initialization(int32_t iPort, ServerGatewayInfcPtr pServerG
 		LOG_WARN("event_config_new failed, ev_c is nullptr");
 		return FAILED;
 	}
-
+	evthread_use_pthreads();
 	event_config_avoid_method(ev_c, "select");
 	event_config_avoid_method(ev_c, "poll");
 	event_config_require_features(ev_c, EV_FEATURE_ET);
@@ -51,7 +52,7 @@ int32_t ServerEvent::Initialization(int32_t iPort, ServerGatewayInfcPtr pServerG
 		return FAILED;
 	}
 
-	ev_l = evconnlistener_new_bind(ev_b, AcceptConnectCb, ev_b, LEV_OPT_REUSEABLE | LEV_OPT_CLOSE_ON_FREE, 10, (struct sockaddr*)&sin, sizeof(struct sockaddr_in));
+	ev_l = evconnlistener_new_bind(ev_b, AcceptConnectCb, ev_b, LEV_OPT_REUSEABLE | LEV_OPT_CLOSE_ON_FREE | BEV_OPT_THREADSAFE, 10, (struct sockaddr*)&sin, sizeof(struct sockaddr_in));
 	if (!ev_l) {
 		LOG_WARN("evconnlistener_new_bind failed, ev_l is nullptr, error msg:{}", strerror(errno));
 		return FAILED;
@@ -116,7 +117,7 @@ void ServerEvent::AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, 
 	cli_han->SetBufferevent(bev);
 	cli_han->SetStatus(true);
 	m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(fd)] = cli_han;
-	LOG_INFO("accept a client:{}, index:{}", fd, INDEX_CURREN(m_record_index));
+	LOG_DEBUG("accept a client:{}, index:{}", fd, INDEX_CURREN(m_record_index));
 }
 
 void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
@@ -166,10 +167,24 @@ void ServerEvent::ReadDataCb(bufferevent* bev, void* arg)
 	} while (true);
 }
 
+void ServerEvent::WriteData(bufferevent* bev, const std::string& msg, MSG_TYPE eType)
+{
+    MSG_INFO msg_info {};
+    msg_info.msg_len = msg.size();
+    msg_info.msg_type = eType;
+    msg_info.msg_crc = Booster::Crc(reinterpret_cast<uint8_t*>(const_cast<char*>(msg.data())), msg_info.msg_len);
+    char buf[1024] = {};
+    memcpy(buf, &msg_info, sizeof(MSG_INFO));
+    memcpy(buf + sizeof(MSG_INFO), msg.data(), msg_info.msg_len);
+    int data_size = sizeof(MSG_INFO) + msg_info.msg_len;
+    bufferevent_write(bev, buf, data_size);
+    bufferevent_flush(bev, 0, BEV_FINISHED);
+}
+
 void ServerEvent::ClientEventCb(bufferevent* bev, short events, void* arg)
 {
 	if (events & BEV_EVENT_EOF) {
-		LOG_INFO("client actively disconnect");
+		LOG_DEBUG("client actively disconnect");
 	}
 	else if (events & BEV_EVENT_ERROR) {
 		LOG_WARN("unknown error, the server will be passively disconnected");

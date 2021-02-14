@@ -51,6 +51,11 @@ public:
 		return m_pServerEvent;
 	}
 
+	void WriteData(bufferevent* bev, const std::string& msg, MSG_TYPE eType)
+	{
+		m_pServerEvent->WriteData(bev, msg, eType);
+	}
+
 private:
 	void PopMsg(std::unique_ptr<MSG_DATA>& pMsgData)
 	{

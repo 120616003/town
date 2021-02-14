@@ -12,6 +12,6 @@ add_library(server-massage SHARED ${server_SRC})
 
 add_dependencies(server-massage proto)
 
-target_link_libraries(server-massage event proto)
+target_link_libraries(server-massage event event_pthreads proto)
 
 install(TARGETS server-massage DESTINATION lib)
