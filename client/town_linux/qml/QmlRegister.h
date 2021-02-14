@@ -7,12 +7,16 @@ namespace town {
 
 class QmlRegister : public QObject
 {
+    Q_OBJECT
 public:
     QmlRegister();
     ~QmlRegister();
 
 public:
     Q_INVOKABLE void registerData();
+
+signals:
+    void signal_register();
 
 }; /* QmlRegister */
 

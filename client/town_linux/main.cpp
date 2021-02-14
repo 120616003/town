@@ -1,6 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "QmlRegister.h"
 #include "TcpClient.h"
+#include <thread>
+#include <unistd.h>
+#include <QVector>
 using namespace town;
 
 int main(int argc, char *argv[])
@@ -9,7 +13,10 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<TcpClient>("TcpClient",1,0, "TcpClient");
+//    QObject obj;
+//    obj.moveToThread(TcpClient::GetInstance());
+//    TcpClient::GetInstance()->start();
+    qmlRegisterType<QmlRegister>("QmlRegister", 1, 0, "QmlRegister");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -19,8 +26,6 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
-
-
 
     return app.exec();
 }

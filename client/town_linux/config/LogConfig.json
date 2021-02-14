@@ -1,0 +1,13 @@
+{
+	"LogType" : [
+		{
+			"LogName" : "qml",
+			"LogSwitch" : true
+		},
+		{
+			"LogName" : "communi",
+			"LogSwitch" : true
+		}
+	],
+	"LogLevel" : 2
+}

@@ -1,7 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Controls 2.14
-import TcpClient 1.0
+import QmlRegister 1.0
 
 Window {
     visible: true
@@ -17,9 +17,9 @@ Window {
         font.pointSize: 24
     }
 
-    TcpClient
+    QmlRegister
     {
-        id:client
+        id:register
     }
 
 
@@ -30,7 +30,7 @@ Window {
 
         //信号槽连接
         onClicked: {
-            client.writeData()
+            register.registerData()
             return true;
         }
     }

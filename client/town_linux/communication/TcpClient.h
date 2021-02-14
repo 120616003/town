@@ -1,9 +1,7 @@
-#ifndef TCP_CLIENT_H
-#define TCP_CLIENT_H
+#ifndef TCPSOCKET_H
+#define TCPSOCKET_H
 
-#include <QObject>
 #include <QTcpSocket>
-#include <string>
 
 namespace town {
 
@@ -11,19 +9,20 @@ class TcpClient : public QObject
 {
     Q_OBJECT
 public:
+    static TcpClient* GetInstance();
+
+private:
     TcpClient();
     ~TcpClient();
 
-public:
-    Q_INVOKABLE void writeData();
-
-private slots:
-    void ReadData();
+public slots:
+    void WriteData();
+    void ReadDate();
 
 private:
-    QScopedPointer<QTcpSocket> m_pTcpClient;
-}; /* TcpClient */
+    QTcpSocket* m_socket;
+};
 
-} /* town */
+}
 
-#endif /* TCP_CLIENT_H */
+#endif // TCPSOCKET_H
