@@ -1,13 +1,13 @@
 #include "QmlRegister.h"
 #include "QmlCommon.h"
-#include "TcpClient.h"
+#include "GlobalTcpClient.h"
 
 
 namespace town {
 
 QmlRegister::QmlRegister()
 {
-    connect(this, SIGNAL(signal_register()), TcpClient::GetInstance(), SLOT(WriteData()));
+//    connect(this, SIGNAL(signal_register()), GlobalTcpClient::GetInstance(), SLOT(SendData()));
 }
 
 QmlRegister::~QmlRegister()

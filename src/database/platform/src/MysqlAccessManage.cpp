@@ -14,7 +14,7 @@ bool MysqlAccessManage::Initialization(const DB_INFO& db_info)
 		}
 
 		auto mysql = std::thread(&MysqlAccessImpl::KeepAlive, impl.get()); // 数据库心跳线程
-		std::string thread_name = "mysql_KA" + std::to_string(i);
+		std::string thread_name = "mysql_KA_" + std::to_string(i);
 		pthread_setname_np(mysql.native_handle(), thread_name.c_str());
 		mysql.detach();
 

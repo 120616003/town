@@ -17,6 +17,9 @@ MOC_DIR     = $$build_type/moc
 RCC_DIR     = $$build_type/rcc
 UI_DIR      = $$build_type/ui
 
+system(ln -s `pwd`/config $$PWD/../build*/$$DESTDIR 2> /dev/null)
+system(ln -s `pwd`/config $$PWD/build/$$DESTDIR 2> /dev/null)
+
 # DEFINES += FILELOG  #LOG OUT FILE
 
 # The following define makes your compiler emit warnings if you use
@@ -44,7 +47,7 @@ INCLUDEPATH += $$PWD/qml
 
 HEADERS += \
         communication/ComCommon.h \
-        communication/TcpClient.h \
+        communication/GlobalTcpClient.h \
         common/Booster.hpp \
         common/Logger.hpp \
         common/TownJson.hpp \
@@ -53,7 +56,7 @@ HEADERS += \
 
 SOURCES += \
         main.cpp \
-        communication/TcpClient.cpp \
+        communication/GlobalTcpClient.cpp \
         qml/QmlRegister.cpp \
 
 RESOURCES += qml.qrc
