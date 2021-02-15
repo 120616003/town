@@ -1,11 +1,6 @@
 #ifndef TOWN_CONFIG_H
 #define TOWN_CONFIG_H
 
-#define @LOG_TYPE@
-
-#define SUCCESS 0
-#define FAILED -1
-
 #include <initializer_list>
 #include <vector>
 #include <string>
@@ -32,9 +27,13 @@
 #include "TownJson.hpp"
 #include "Booster.hpp"
 
-
 namespace town
 {
+
+#define @LOG_TYPE@
+#define SUCCESS 0
+#define FAILED -1
+
 } /* town */
 
 #endif /* TOWN_CONFIG_H */

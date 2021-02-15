@@ -2,34 +2,43 @@
 
 ### `注册 10001`
 
-> **`class AccRegister;`**
+> **`class acc_register;`**
 
 | Field Name   | Type   |
 | ------------ | ------ |
-| type         | int    |
+| type         | enum   |
 | email        | string |
 | phone        | string |
-| accname      | string |
+| name         | string |
 | passwd       | string |
+| err_type     | enum   |
 
 ### `登录 10002`
 
-> **`class AccLogin;`**
+> **`class acc_login;`**
 
 | Field Name   | Type   |
 | ------------ | ------ |
+| type         | enum   |
 | email        | string |
 | phone        | string |
-| accname      | string |
+| name         | string |
 | passwd       | string |
+| err_type     | enum   |
+| uuid         | string |
 
 ### `登出 10003`
 
-> **`class AccLogout;`**
+> **`class acc_logout;`**
 
 | Field Name   | Type   |
 | ------------ | ------ |
-| accname      | string |
+| type         | enum   |
+| email        | string |
+| phone        | string |
+| name         | string |
+| err_type     | enum   |
+| uuid         | string |
 
 ### `注销 10004`
 

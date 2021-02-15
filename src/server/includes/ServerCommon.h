@@ -39,11 +39,14 @@ typedef std::unordered_map<std::string, CliHanPtr> UMCliHanPtr;
 typedef std::vector<UMCliHanPtr> VUMCliHanPtr;
 
 enum MSG_TYPE : uint32_t {
-	MESS_REGISTER = 0,
-	MESS_LOGIN = 1
+	MESS_REGISTER = 10001,
+	MESS_LOGIN = 10002
 };
 
-const std::vector<std::string> convert_msg_type = {"mess_register", "mess_login"};
+const std::map<MSG_TYPE, std::string> convert_msg_type = {
+	{MESS_REGISTER, "mess_register"}, 
+	{MESS_LOGIN, "mess_login"}
+};
 
 struct MSG_INFO {
 	std::size_t msg_len = 0;

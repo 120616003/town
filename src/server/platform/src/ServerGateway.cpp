@@ -53,7 +53,7 @@ void ServerGateway::RunFactoryMsg()
 {
 	for (auto& eMsgDeal : m_eMsgDeal) {
 		auto msgdeal = std::thread(&MsgDeal::MsgForward, eMsgDeal.second.get());
-		pthread_setname_np(msgdeal.native_handle(), convert_msg_type[static_cast<uint32_t>(eMsgDeal.first)].c_str());
+		pthread_setname_np(msgdeal.native_handle(), convert_msg_type.find(eMsgDeal.first)->second.c_str());
 		msgdeal.detach();
 	}
 }

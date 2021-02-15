@@ -15,3 +15,5 @@ add_dependencies(server-massage proto)
 target_link_libraries(server-massage event event_pthreads proto)
 
 install(TARGETS server-massage DESTINATION lib)
+install(FILES ${PROJECT_SOURCE_DIR}/deps/protobuf/lib/libprotobuf.so DESTINATION lib)
+install(FILES ${PROJECT_SOURCE_DIR}/deps/protobuf/lib/libprotobuf-lite.so DESTINATION lib)
