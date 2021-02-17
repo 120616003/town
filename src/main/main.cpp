@@ -16,7 +16,12 @@ struct SERVER_INFO
 
 DB_INFO ReadDBConfig()
 {
-	TownJson root(strMysqlConfig, JSON_TYPE::FILE);
+	TownJson root;
+	if (!root.Parse(strMysqlConfig, JSON_TYPE::FILE)) {
+		SPDLOG_ERROR("json parse failed");
+		exit(1);
+	}
+
 	DB_INFO info;
 	try {
 		info.db_cnt = root["db_cnt"].asInt();
@@ -27,11 +32,11 @@ DB_INFO ReadDBConfig()
 		info.db_port = root["db_port"].asInt();
 	}
 	catch (std::exception& e) {
-		ERROR("main", "json error msg:{}", e.what());
+		SPDLOG_ERROR("json error msg:{}", e.what());
 		exit(1);
 	}
 	catch (...) {
-		ERROR("main", "json unknow error");
+		SPDLOG_ERROR("json unknow error");
 		exit(1);
 	}
 	return info;
@@ -39,17 +44,22 @@ DB_INFO ReadDBConfig()
 
 SERVER_INFO ReadServerConfig()
 {
-	TownJson root(strServerConfig, JSON_TYPE::FILE);
+	TownJson root;
+	if (!root.Parse(strServerConfig, JSON_TYPE::FILE)) {
+		SPDLOG_ERROR("json parse failed");
+		exit(1);
+	}
+
 	SERVER_INFO info;
 	try {
 		info.server_port = root["server_port"].asInt();
 	}
 	catch (std::exception& e) {
-		ERROR("main", "json error msg:{}", e.what());
+		SPDLOG_ERROR("json error msg:{}", e.what());
 		exit(1);
 	}
 	catch (...) {
-		ERROR("main", "json unknow error");
+		SPDLOG_ERROR("json unknow error");
 		exit(1);
 	}
 	return info;

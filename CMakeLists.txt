@@ -17,12 +17,7 @@ else()
 endif()
 
 set(CMAKE_CXX_STANDARD 14)
-
-# if(CONAN_LIBCXX STREQUAL "libstdc++11")
-#     add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
-# elseif(CONAN_LIBCXX STREQUAL "libstdc++")
-#     add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
-# endif()
+# add_definitions(-D_GLIBCXX_USE_CXX14_ABI=1)
 
 find_program(CCACHE_PROGRAM ccache)
 if (CCACHE_PROGRAM)
@@ -64,4 +59,8 @@ else()
     add_subdirectory(src/database)
     add_subdirectory(src/server)
     add_subdirectory(src/main)
+
+    execute_process(COMMAND ln -fs ${PROJECT_SOURCE_DIR}/src/config ${PROJECT_BINARY_DIR}/)
+    execute_process(COMMAND mkdir ${PROJECT_BINARY_DIR}/bin/)
+    execute_process(COMMAND ln -fs ${PROJECT_SOURCE_DIR}/src/config ${PROJECT_BINARY_DIR}/bin/)
 endif()
