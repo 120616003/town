@@ -14,7 +14,7 @@ public:
 
 public: // 业务
 	void InitDB() override;
-	std::string RegisterUser(uint8_t* data, std::size_t len, std::string uuid) override;
+	std::string RegisterUser(uint8_t* data, std::size_t len) override;
 
 private:
 

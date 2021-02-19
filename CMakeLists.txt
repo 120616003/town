@@ -61,6 +61,6 @@ else()
     add_subdirectory(src/main)
 
     execute_process(COMMAND ln -fs ${PROJECT_SOURCE_DIR}/src/config ${PROJECT_BINARY_DIR}/)
-    execute_process(COMMAND mkdir ${PROJECT_BINARY_DIR}/bin/)
+    execute_process(COMMAND mkdir -p ${PROJECT_BINARY_DIR}/bin/)
     execute_process(COMMAND ln -fs ${PROJECT_SOURCE_DIR}/src/config ${PROJECT_BINARY_DIR}/bin/)
 endif()

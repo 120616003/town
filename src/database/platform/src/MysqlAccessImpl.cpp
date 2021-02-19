@@ -23,14 +23,14 @@ std::pair<bool, StoreQueryResult> MysqlAccessImpl::ExecuteSql(const std::string&
 		}
 	}
 	catch (std::exception& e) {
-		LOG_WARN("[{}] is error, detail:{}", e.what());
+		LOG_ERROR("[{}] is error, detail:{}", e.what());
 	}
 	catch (...) {
-		LOG_WARN("[{}] is unknow error");
+		LOG_ERROR("[{}] is unknow error");
 	}
 
 	if (query.errnum()) {
-		LOG_WARN("sql execute falied, error msg:{}, error num:{}", query.error(), query.errnum());
+		LOG_ERROR("sql execute falied, error msg:{}, error num:{}", query.error(), query.errnum());
 	}
 	return {query.errnum() == 0, res};
 }

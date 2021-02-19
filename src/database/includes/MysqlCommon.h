@@ -31,13 +31,11 @@ create table if not exists town.user (
 	id int (15) auto_increment primary key not null,
 	uuid varchar(32) not null unique,
 	time timestamp not null,
-	acc_email varchar(255) unique,
-	acc_phone varchar(11) unique,
-	acc_name varchar(20) unique,
-	password varchar(20) not null,
-	index index_email (acc_email(255)),
-	index index_phone (acc_phone(11)),
-	index index_name (acc_name(20))
+	email varchar(255) unique,
+	phone varchar(11) unique,
+	passwd varchar(20) not null,
+	index index_email (email(255)),
+	index index_phone (phone(11))
 );
 
 )";

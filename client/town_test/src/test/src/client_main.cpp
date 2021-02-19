@@ -21,8 +21,13 @@
 #include "Booster.hpp"
 
 enum MSG_TYPE : uint32_t {
-    MESS_REGISTER = 0,
-    MESS_LOGIN = 1
+    MESS_REGISTER = 10001,
+    MESS_LOGIN = 10002
+};
+
+const std::map<MSG_TYPE, std::string> convert_msg_type = {
+    {MESS_REGISTER, "mess_register"}, 
+    {MESS_LOGIN, "mess_login"}
 };
 
 struct MSG_INFO {
@@ -34,6 +39,7 @@ struct MSG_INFO {
 void cmd_msg_cb(int fd, short events, void* arg);
 void server_msg_cb(struct bufferevent* bev, void* arg);
 void event_cb(struct bufferevent *bev, short event, void *arg);
+std::pair<std::size_t, std::unique_ptr<uint8_t[]>> GetRegisterMsg(const std::string& email, const std::string& passwd);
  
 int main(int argc, char** argv)
 {
@@ -80,7 +86,25 @@ int main(int argc, char** argv)
     return 0;
 }
 
-int count = 0;
+std::pair<std::size_t, std::unique_ptr<uint8_t[]>> GetRegisterMsg(const std::string& email, const std::string& passwd)
+{
+    std::unique_ptr<uint8_t[]> buf(new uint8_t[1024]());
+    acc_register ar;
+    ar.set_type(common_enum::ACC_EMAIL);
+    ar.set_email(email);
+    ar.set_passwd(passwd);
+    std::string msg = std::move(ar.SerializeAsString());
+    MSG_INFO msg_info;
+    msg_info.msg_type = MSG_TYPE::MESS_REGISTER;
+
+    msg_info.msg_len = msg.size();
+    msg_info.msg_crc = town::Booster::Crc(reinterpret_cast<uint8_t*>(const_cast<char*>(msg.data())), msg_info.msg_len);
+
+    memcpy(buf.get(), &msg_info, sizeof(MSG_INFO));
+    memcpy(buf.get() + sizeof(MSG_INFO), msg.data(), msg_info.msg_len);
+
+    return {msg_info.msg_len + sizeof(MSG_INFO), std::move(buf)};
+}
 
 void cmd_msg_cb(int fd, short events, void* arg)
 {
@@ -93,47 +117,34 @@ void cmd_msg_cb(int fd, short events, void* arg)
         exit(1);
     }
  
-    struct bufferevent* bev = (struct bufferevent*)arg;
- 
-    // 把终端的消息发送给服务器端
-
-    std::string msg;
-    MSG_INFO msg_info{};
-    if (count % 2) {
-        acc_login al;
-        al.set_type(common_enum::ACC_PHONE);
-        al.set_email("1249152106@qq.com");
-        al.set_passwd("000000");
-        msg = std::move(al.SerializeAsString());
-        msg_info.msg_type = MSG_INFO::MESS_LOGIN;
+    std::pair<std::size_t, std::unique_ptr<uint8_t[]>> pair;
+    std::string msg(buf);
+    if (msg.substr(0, msg.size() - 1) == "0") {
+        pair = GetRegisterMsg("120616003@qq.com", "12345678");    
     }
     else {
-        acc_register ar;
-        ar.set_type(common_enum::ACC_EMAIL);
-        ar.set_email("120616003@qq.com");
-        ar.set_passwd("123456");
-        msg = std::move(ar.SerializeAsString());
-        msg_info.msg_type = MSG_INFO::MESS_REGISTER;
+        return;
     }
 
-    
-    msg_info.msg_len = msg.size();
-    msg_info.msg_crc = town::Booster::Crc(reinterpret_cast<uint8_t*>(const_cast<char*>(msg.data())), msg_info.msg_len);
-
-    memcpy(buf, &msg_info, sizeof(MSG_INFO));
-    memcpy(buf + sizeof(MSG_INFO), msg.data(), msg_info.msg_len);
-    bufferevent_write(bev, buf, msg_info.msg_len + sizeof(MSG_INFO));
-    count++;
+    struct bufferevent* bev = (struct bufferevent*)arg;
+    bufferevent_write(bev, pair.second.get(), pair.first);
+    bufferevent_flush(bev, 0, BEV_FINISHED);
 }
 
 void server_msg_cb(struct bufferevent* bev, void* arg)
 {
-    char msg[1024];
- 
-    size_t len = bufferevent_read(bev, msg, sizeof(msg));
-    msg[len] = '\0';
- 
-    printf("recv %s from server\n", msg);
+    MSG_INFO msg_info{};
+    bufferevent_read(bev, &msg_info, sizeof(MSG_INFO));
+
+    std::unique_ptr<uint8_t[]> data_buf(new uint8_t[msg_info.msg_len]());
+    bufferevent_read(bev, data_buf.get(), msg_info.msg_len);
+
+    acc_register ar;
+    if (!ar.ParseFromArray(data_buf.get(), msg_info.msg_len)) {
+        printf("parse error\n");
+        return;
+    }
+    printf("msg_info.msg_len:%lu, type:%d\n", msg_info.msg_len, ar.err_type());
 }
 
 void event_cb(struct bufferevent *bev, short event, void *arg)
