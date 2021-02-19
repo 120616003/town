@@ -40,6 +40,8 @@ void cmd_msg_cb(int fd, short events, void* arg);
 void server_msg_cb(struct bufferevent* bev, void* arg);
 void event_cb(struct bufferevent *bev, short event, void *arg);
 std::pair<std::size_t, std::unique_ptr<uint8_t[]>> GetRegisterMsg(const std::string& email, const std::string& passwd);
+std::pair<std::size_t, std::unique_ptr<uint8_t[]>> GetLoginMsg(const std::string& email, const std::string& passwd);
+std::pair<std::size_t, std::unique_ptr<uint8_t[]>> CopyData(std::string& msg, MSG_TYPE eType);
  
 int main(int argc, char** argv)
 {
@@ -86,26 +88,6 @@ int main(int argc, char** argv)
     return 0;
 }
 
-std::pair<std::size_t, std::unique_ptr<uint8_t[]>> GetRegisterMsg(const std::string& email, const std::string& passwd)
-{
-    std::unique_ptr<uint8_t[]> buf(new uint8_t[1024]());
-    acc_register ar;
-    ar.set_type(common_enum::ACC_EMAIL);
-    ar.set_email(email);
-    ar.set_passwd(passwd);
-    std::string msg = std::move(ar.SerializeAsString());
-    MSG_INFO msg_info;
-    msg_info.msg_type = MSG_TYPE::MESS_REGISTER;
-
-    msg_info.msg_len = msg.size();
-    msg_info.msg_crc = town::Booster::Crc(reinterpret_cast<uint8_t*>(const_cast<char*>(msg.data())), msg_info.msg_len);
-
-    memcpy(buf.get(), &msg_info, sizeof(MSG_INFO));
-    memcpy(buf.get() + sizeof(MSG_INFO), msg.data(), msg_info.msg_len);
-
-    return {msg_info.msg_len + sizeof(MSG_INFO), std::move(buf)};
-}
-
 void cmd_msg_cb(int fd, short events, void* arg)
 {
     char buf[1024] = {};
@@ -120,7 +102,10 @@ void cmd_msg_cb(int fd, short events, void* arg)
     std::pair<std::size_t, std::unique_ptr<uint8_t[]>> pair;
     std::string msg(buf);
     if (msg.substr(0, msg.size() - 1) == "0") {
-        pair = GetRegisterMsg("120616003@qq.com", "12345678");    
+        pair = GetRegisterMsg("120616003@qq.com", "12345678");
+    }
+    else if (msg.substr(0, msg.size() - 1) == "1") {
+        pair = GetLoginMsg("120616003@qq.com", "12345678");
     }
     else {
         return;
@@ -131,6 +116,42 @@ void cmd_msg_cb(int fd, short events, void* arg)
     bufferevent_flush(bev, 0, BEV_FINISHED);
 }
 
+std::pair<std::size_t, std::unique_ptr<uint8_t[]>> GetRegisterMsg(const std::string& email, const std::string& passwd)
+{
+    acc_register ar;
+    ar.set_type(common_enum::ACC_EMAIL);
+    ar.set_email(email);
+    ar.set_passwd(passwd);
+
+    std::string msg = ar.SerializeAsString();
+    return CopyData(msg, MESS_REGISTER);
+}
+
+std::pair<std::size_t, std::unique_ptr<uint8_t[]>> GetLoginMsg(const std::string& email, const std::string& passwd)
+{
+    acc_login al;
+    al.set_type(common_enum::ACC_EMAIL);
+    al.set_email(email);
+    al.set_passwd(passwd);
+
+    std::string msg = al.SerializeAsString();
+    return CopyData(msg, MESS_LOGIN);
+}
+
+std::pair<std::size_t, std::unique_ptr<uint8_t[]>> CopyData(std::string& msg, MSG_TYPE eType)
+{
+    MSG_INFO msg_info;
+    msg_info.msg_type = eType;
+    msg_info.msg_len = msg.size();
+    msg_info.msg_crc = town::Booster::Crc(reinterpret_cast<uint8_t*>(const_cast<char*>(msg.data())), msg_info.msg_len);
+
+    std::unique_ptr<uint8_t[]> buf(new uint8_t[1024]());
+    memcpy(buf.get(), &msg_info, sizeof(MSG_INFO));
+    memcpy(buf.get() + sizeof(MSG_INFO), msg.data(), msg_info.msg_len);
+
+    return {msg_info.msg_len + sizeof(MSG_INFO), std::move(buf)};
+}
+
 void server_msg_cb(struct bufferevent* bev, void* arg)
 {
     MSG_INFO msg_info{};
@@ -139,12 +160,24 @@ void server_msg_cb(struct bufferevent* bev, void* arg)
     std::unique_ptr<uint8_t[]> data_buf(new uint8_t[msg_info.msg_len]());
     bufferevent_read(bev, data_buf.get(), msg_info.msg_len);
 
-    acc_register ar;
-    if (!ar.ParseFromArray(data_buf.get(), msg_info.msg_len)) {
-        printf("parse error\n");
-        return;
+    if (msg_info.msg_type == MESS_REGISTER) {
+        acc_register ar;
+        if (!ar.ParseFromArray(data_buf.get(), msg_info.msg_len)) {
+            printf("parse error\n");
+            return;
+        }
+        printf("msg_info.msg_len:%lu, type:%d\n", msg_info.msg_len, ar.err_type());
     }
-    printf("msg_info.msg_len:%lu, type:%d\n", msg_info.msg_len, ar.err_type());
+    else if (msg_info.msg_type == MESS_LOGIN) {
+        acc_login al;
+        if (!al.ParseFromArray(data_buf.get(), msg_info.msg_len)) {
+            printf("parse error\n");
+            return;
+        }
+        printf("msg_info.msg_len:%lu, type:%d\n", msg_info.msg_len, al.err_type());
+        printf("uuid:%s\n", al.uuid().c_str());
+    }
+
 }
 
 void event_cb(struct bufferevent *bev, short event, void *arg)

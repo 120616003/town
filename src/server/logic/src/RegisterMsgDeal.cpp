@@ -18,7 +18,7 @@ RegisterMsgDeal::~RegisterMsgDeal()
 
 void RegisterMsgDeal::MsgDealCenter(std::unique_ptr<MSG_DATA>& pMsgData)
 {
-    std::string msg = GetMysqlOpt()->GetOptHandle(ADD)->RegisterUser(pMsgData->data.get(), pMsgData->info.msg_len);
+    std::string msg = GetMysqlOpt()->GetOptHandle(ADD)->RegisterAcc(pMsgData->data.get(), pMsgData->info.msg_len);
     WriteData(pMsgData->bev, msg, MESS_REGISTER);
 }
 

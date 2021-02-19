@@ -18,12 +18,8 @@ LoginMsgDeal::~LoginMsgDeal()
 
 void LoginMsgDeal::MsgDealCenter(std::unique_ptr<MSG_DATA>& pMsgData)
 {
-	acc_login al;
-	al.ParseFromArray(pMsgData->data.get(), pMsgData->info.msg_len);
-	LOG_INFO("fd:{}", GetServerHandle()->GetClientHandle(pMsgData->bev)->GetEvutilSocket());
-	LOG_INFO("type:{}", al.type());
-	LOG_INFO("email:{}", al.email());
-	LOG_INFO("passwd:{}", al.passwd());
+    std::string msg = GetMysqlOpt()->GetOptHandle(ADD)->LoginAcc(pMsgData->data.get(), pMsgData->info.msg_len);
+    WriteData(pMsgData->bev, msg, MESS_LOGIN);
 }
 
 } /* town */

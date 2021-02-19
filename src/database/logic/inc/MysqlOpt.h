@@ -27,7 +27,8 @@ public:
 
 public: // ADD 业务
 	virtual void InitDB() {}
-	virtual std::string RegisterUser(uint8_t* data, std::size_t len) { return ""; }
+	virtual std::string RegisterAcc(uint8_t* pData, std::size_t iLen) { return ""; }
+	virtual std::string LoginAcc(uint8_t* pData, std::size_t iLen) { return ""; }
 
 protected:
 	std::pair<bool, StoreQueryResult> ExecuteSql(const std::string& strSql, const SQLQueryParms& strParam = {});

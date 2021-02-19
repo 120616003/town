@@ -20,23 +20,19 @@ void MysqlAddOpt::InitDB()
 	ExecuteSql(create_user_info_table);
 }
 
-std::string MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len)
+std::string MysqlAddOpt::RegisterAcc(uint8_t* pData, std::size_t iLen)
 {
 	acc_register ar, ar_res;
-	if (!ar.ParseFromArray(data, len)) {
+	if (!ar.ParseFromArray(pData, iLen)) {
 		LOG_ERROR("protobuf parse failed");
 		ar_res.set_err_type(common_enum::ERR_PROTOBUF_PARSE);
 		return ar_res.SerializeAsString();
 	}
 
 	SQLQueryParms strParms;
-	// 检测当前账号是否存在
-	std::string sql = R"(select id from user where %0:wheref = %1q:what)";
 	if (ar.type() == common_enum::ACC_EMAIL) {
 		// 验证邮箱格式是否正确
-		std::wstring str = Booster::StringToWString(ar.email());
-		std::wregex reg(L"^[A-Za-z0-9\u4e00-\u9fa5]{1,200}@[a-zA-Z0-9_-]{1,20}(\\.[a-zA-Z0-9_-]{1,5}){1,7}$");
-		if (!std::regex_match(str, reg)) {
+		if (!MailboxFormatValidation(ar.email())) {
 			LOG_ERROR("email type error:{}", ar.email());
 			ar_res.set_err_type(common_enum::ERR_EMAI_TYPE);
 			return ar_res.SerializeAsString();
@@ -45,9 +41,7 @@ std::string MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len)
 	}
 	else if (ar.type() == common_enum::ACC_PHONE) {
 		// 验证手机号格式是否正确
-		std::wstring str = Booster::StringToWString(ar.phone());
-		std::wregex reg(L"^[0-9]{11}$");
-		if (!std::regex_match(str, reg)) {
+		if (!PhoneFormatValidation(ar.phone())) {
 			LOG_ERROR("phone type error:{}", ar.phone());
 			ar_res.set_err_type(common_enum::ERR_PHONE_TYPE);
 			return ar_res.SerializeAsString();
@@ -60,6 +54,8 @@ std::string MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len)
 		return ar_res.SerializeAsString();
 	}
 
+	// 检测当前账号是否存在
+	std::string sql = R"(select id from user where %0:wheref = %1q:what)";
 	std::pair<bool, StoreQueryResult> res = ExecuteSql(sql, strParms);
 	if (!res.first) {
 		LOG_ERROR("execute sql error");
@@ -73,9 +69,7 @@ std::string MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len)
 	}
 
 	// 验证密码格式是否正确
-	std::wregex reg(L"^[A-Za-z0-9\\+\\-\\*/_@\\$]{8,20}$");
-	std::wstring str = Booster::StringToWString(ar.passwd());
-	if (!std::regex_match(str, reg)) {
+	if (!PasswdFormatValidation(ar.passwd())) {
 		LOG_ERROR("passwd type error:{}", ar.passwd());
 		ar_res.set_err_type(common_enum::ERR_PASSWD_TYPE);
 		return ar_res.SerializeAsString();
@@ -96,6 +90,117 @@ std::string MysqlAddOpt::RegisterUser(uint8_t* data, std::size_t len)
 
 	ar_res.set_err_type(common_enum::ERR_NONE);
 	return ar_res.SerializeAsString();
+}
+
+std::string MysqlAddOpt::LoginAcc(uint8_t* pData, std::size_t iLen)
+{
+	acc_login al, al_res;
+	if (!al.ParseFromArray(pData, iLen)) {
+		LOG_ERROR("protobuf parse failed");
+		al_res.set_err_type(common_enum::ERR_PROTOBUF_PARSE);
+		return al_res.SerializeAsString();
+	}
+
+	SQLQueryParms strParms;
+	if (al.type() == common_enum::ACC_EMAIL) {
+		// 验证邮箱格式是否正确
+		if (!MailboxFormatValidation(al.email())) {
+			LOG_ERROR("email type error:{}", al.email());
+			al_res.set_err_type(common_enum::ERR_EMAI_TYPE);
+			return al_res.SerializeAsString();
+		}
+		strParms << "email" << al.email();
+	}
+	else if (al.type() == common_enum::ACC_PHONE) {
+		// 验证手机号格式是否正确
+		if (!PhoneFormatValidation(al.phone())) {
+			LOG_ERROR("phone type error:{}", al.phone());
+			al_res.set_err_type(common_enum::ERR_PHONE_TYPE);
+			return al_res.SerializeAsString();
+		}
+		strParms << "phone" << al.phone();
+	}
+	else if (al.type() == common_enum::ACC_NAME) {
+		// 验证手机号格式是否正确
+		if (!PhoneFormatValidation(al.name())) {
+			LOG_ERROR("name type error:{}", al.name());
+			al_res.set_err_type(common_enum::ERR_PHONE_TYPE);
+			return al_res.SerializeAsString();
+		}
+		strParms << "name" << al.name();
+	}
+	else {
+		LOG_ERROR("register user type error, type:{}", al.type());
+		al_res.set_err_type(common_enum::ERR_ACC_TYPE_NO_EXIST);
+		return al_res.SerializeAsString();
+	}
+
+	// 检测当前账号是否存
+	std::string sql = R"(select id from user where %0:wheref = %1q:what)";
+	std::pair<bool, StoreQueryResult> res = ExecuteSql(sql, strParms);
+	if (!res.first) {
+		LOG_ERROR("execute sql error");
+		al_res.set_err_type(common_enum::ERR_EXECUTE_SQL);
+		return al_res.SerializeAsString();
+	}
+	if (!res.second.size()) {
+		LOG_DEBUG("acc no exists");
+		al_res.set_err_type(ConvertErrType(al.type(), false));
+		return al_res.SerializeAsString();
+	}
+
+	// 验证密码格式是否正确
+	if (!PasswdFormatValidation(al.passwd())) {
+		LOG_ERROR("passwd type error:{}", al.passwd());
+		al_res.set_err_type(common_enum::ERR_PASSWD_TYPE);
+		return al_res.SerializeAsString();
+	}
+
+	sql = R"(select uuid from user where %0:wheref = %1q:what and %2:wheref = %3q:what)";
+	strParms << "passwd" << al.passwd();
+	res = ExecuteSql(sql, strParms);
+	if (!res.first) {
+		LOG_ERROR("execute sql error");
+		al_res.set_err_type(common_enum::ERR_EXECUTE_SQL);
+		return al_res.SerializeAsString();
+	}
+	if (!res.second.size()) {
+		LOG_DEBUG("passwd error");
+		al_res.set_err_type(common_enum::ERR_PASSWD);
+		return al_res.SerializeAsString();
+	}
+
+	al_res.set_err_type(common_enum::ERR_NONE);
+	al_res.set_uuid(res.second[0]["uuid"]);
+	return al_res.SerializeAsString();
+}
+
+bool MysqlAddOpt::MailboxFormatValidation(std::string strEmail)
+{
+	std::wstring str = Booster::StringToWString(strEmail);
+	std::wregex reg(L"^[A-Za-z0-9\u4e00-\u9fa5]{1,200}@[a-zA-Z0-9_-]{1,20}(\\.[a-zA-Z0-9_-]{1,5}){1,7}$");
+	return std::regex_match(str, reg);
+}
+
+bool MysqlAddOpt::PhoneFormatValidation(std::string strPhone)
+{
+	std::wstring str = Booster::StringToWString(strPhone);
+	std::wregex reg(L"^[0-9]{11}$");
+	return std::regex_match(str, reg);
+}
+
+bool MysqlAddOpt::NameFormatValidation(std::string strName)
+{
+	std::wstring str = Booster::StringToWString(strName);
+	std::wregex reg(L"^[\\w]{2,10}");
+	return std::regex_match(str, reg);
+}
+
+bool MysqlAddOpt::PasswdFormatValidation(std::string strPasswd)
+{
+	std::wstring str = Booster::StringToWString(strPasswd);
+	std::wregex reg(L"^[A-Za-z0-9\\+\\-\\*/_@\\$]{8,20}$");
+	return std::regex_match(str, reg);
 }
 
 }

@@ -21,6 +21,7 @@ message common_enum {
         ERR_EXECUTE_SQL       = 11; // 执行sql语句出错
         ERR_PROTOBUF_PARSE    = 12; // protobuf数据错误
         ERR_PASSWD_TYPE       = 13; // 密码类型错误 ^[A-Za-z0-9\+\-\*/_@\$]{8,20}$
+        ERR_PASSWD            = 14; // 密码错误
     }
 }
 

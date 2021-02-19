@@ -14,10 +14,14 @@ public:
 
 public: // 业务
 	void InitDB() override;
-	std::string RegisterUser(uint8_t* data, std::size_t len) override;
+	std::string RegisterAcc(uint8_t* pData, std::size_t iLen) override;
+	std::string LoginAcc(uint8_t* pData, std::size_t iLen) override;
 
 private:
-
+	bool MailboxFormatValidation(std::string strEmail);
+	bool PhoneFormatValidation(std::string strPhone);
+	bool NameFormatValidation(std::string strName);
+	bool PasswdFormatValidation(std::string strPasswd);
 };
 
 }

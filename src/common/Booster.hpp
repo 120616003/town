@@ -56,7 +56,7 @@ public:
 
         std::string dest(tmp.begin(), tmp.end() - 1);
 
-       return dest;
+        return dest;
     }
 
 };
