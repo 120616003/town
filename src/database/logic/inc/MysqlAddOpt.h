@@ -15,7 +15,7 @@ public:
 public: // 业务
 	void InitDB() override;
 	std::string RegisterAcc(uint8_t* pData, std::size_t iLen) override;
-	std::string LoginAcc(uint8_t* pData, std::size_t iLen) override;
+	std::string LoginAcc(uint8_t* pData, std::size_t iLen, std::string& strUuid) override;
 
 private:
 	bool MailboxFormatValidation(std::string strEmail);

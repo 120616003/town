@@ -92,7 +92,7 @@ std::string MysqlAddOpt::RegisterAcc(uint8_t* pData, std::size_t iLen)
 	return ar_res.SerializeAsString();
 }
 
-std::string MysqlAddOpt::LoginAcc(uint8_t* pData, std::size_t iLen)
+std::string MysqlAddOpt::LoginAcc(uint8_t* pData, std::size_t iLen, std::string& strUuid)
 {
 	acc_login al, al_res;
 	if (!al.ParseFromArray(pData, iLen)) {
@@ -151,7 +151,7 @@ std::string MysqlAddOpt::LoginAcc(uint8_t* pData, std::size_t iLen)
 
 	// 验证密码格式是否正确
 	if (!PasswdFormatValidation(al.passwd())) {
-		LOG_ERROR("passwd type error:{}", al.passwd());
+		LOG_DEBUG("passwd type error:{}", al.passwd());
 		al_res.set_err_type(common_enum::ERR_PASSWD_TYPE);
 		return al_res.SerializeAsString();
 	}
@@ -165,13 +165,14 @@ std::string MysqlAddOpt::LoginAcc(uint8_t* pData, std::size_t iLen)
 		return al_res.SerializeAsString();
 	}
 	if (!res.second.size()) {
-		LOG_DEBUG("passwd error");
+		LOG_DEBUG("passwd error:{}", al.passwd());
 		al_res.set_err_type(common_enum::ERR_PASSWD);
 		return al_res.SerializeAsString();
 	}
 
 	al_res.set_err_type(common_enum::ERR_NONE);
 	al_res.set_uuid(res.second[0]["uuid"]);
+	strUuid = res.second[0]["uuid"].c_str();
 	return al_res.SerializeAsString();
 }
 

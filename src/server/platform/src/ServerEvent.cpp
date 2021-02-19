@@ -207,7 +207,7 @@ void ServerEvent::RecordClient(bufferevent* bev)
 void ServerEvent::ClearClient()
 {
 	while(true) {
-		Booster::Timer(10, 0, 0);
+		Booster::Timer(10000, 0, 0);
 		ClearMap(m_clear_index++ % 4);
 		++m_record_index;
 	}

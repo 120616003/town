@@ -40,7 +40,8 @@ typedef std::vector<UMCliHanPtr> VUMCliHanPtr;
 
 enum MSG_TYPE : uint32_t {
 	MESS_REGISTER = 10001,
-	MESS_LOGIN = 10002
+	MESS_LOGIN = 10002,
+	MESS_FRIEND_LIST = 10003
 };
 
 const std::map<MSG_TYPE, std::string> convert_msg_type = {

@@ -18,7 +18,11 @@ LoginMsgDeal::~LoginMsgDeal()
 
 void LoginMsgDeal::MsgDealCenter(std::unique_ptr<MSG_DATA>& pMsgData)
 {
-    std::string msg = GetMysqlOpt()->GetOptHandle(ADD)->LoginAcc(pMsgData->data.get(), pMsgData->info.msg_len);
+    std::string strUuid;
+    std::string msg = GetMysqlOpt()->GetOptHandle(ADD)->LoginAcc(pMsgData->data.get(), pMsgData->info.msg_len, strUuid);
+    if (strUuid.size()) {
+        GetServerHandle()->GetClientHandle(pMsgData->bev)->SetUUID(strUuid);
+    }
     WriteData(pMsgData->bev, msg, MESS_LOGIN);
 }
 
