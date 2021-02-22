@@ -9,6 +9,12 @@
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "TownJson.hpp"
+
+#include <errno.h>
+#include <sys/inotify.h>
+#include <sys/select.h>
+#include <cstring>
+
 const std::string strLogConfig = "config/LogConfig.json";
 
 namespace town {
@@ -95,10 +101,46 @@ private:
         m_vumapKeyValue.resize(2);
         ReadLogInfo();
         auto loginfo = std::thread([this] () {
-            while (true) {
-                sleep(1);
-                this->ReadLogInfo();
+
+            int fd = inotify_init();
+            if (fd < 0) {
+                throw "inotify init failed";
             }
+            int wd = inotify_add_watch(fd, "config", IN_MODIFY | IN_CREATE);
+
+            fd_set fds;
+            int len = sizeof(struct inotify_event) + 16;
+            char buffer[len];
+
+            while (true) {
+                FD_ZERO(&fds);
+                FD_SET(fd, &fds);
+
+                int retval = select(fd + 1, &fds, nullptr, nullptr, nullptr);
+                if (retval == -1) {
+                    SPDLOG_ERROR("select error:{}", strerror(errno));
+                    continue;
+                }
+
+                if (FD_ISSET(fd, &fds)) {
+                    int length = read(fd, buffer, len);
+                    if (length < 0) {
+                        SPDLOG_ERROR("read error:{}", strerror(errno));
+                        continue;
+                    }
+
+                    struct inotify_event* event = reinterpret_cast<struct inotify_event*>(&buffer[0]);;
+                    if ((event->mask & IN_MODIFY || event->mask & IN_CREATE) && std::string(event->name) == "LogConfig.json") {
+                        static unsigned long record = 0;
+                        unsigned long current = time(nullptr);
+                        if (current - record >= 1) {
+                            record = current;
+                            this->ReadLogInfo();
+                        }
+                    }
+                }
+            }
+            inotify_rm_watch(fd, wd);
         });
         pthread_setname_np(loginfo.native_handle(), "loginfo");
         loginfo.detach();

@@ -41,7 +41,7 @@ void MysqlAccessImpl::KeepAlive()
 		if (!m_MysqlCon.ping()) {
 			m_MysqlCon.connect(m_db_info.db.c_str(), m_db_info.ip.c_str(), m_db_info.dba.c_str(), m_db_info.dba_passwd.c_str(), m_db_info.db_port);
 		}
-		Booster::Timer(10, 0, 0);
+		Booster::Timer(3600, 0, 0);
 	}
 }
 
