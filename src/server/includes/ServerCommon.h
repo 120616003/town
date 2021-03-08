@@ -26,11 +26,11 @@ namespace town {
 #undef LOG_ERROR
 #undef LOG_CRITICAL
 
-#define LOG_TRACE(...) TRACE("server", __VA_ARGS__)
-#define LOG_DEBUG(...) DEBUG("server", __VA_ARGS__)
-#define LOG_INFO(...)  INFO("server", __VA_ARGS__)
-#define LOG_WARN(...)  WARN("server", __VA_ARGS__)
-#define LOG_ERROR(...) ERROR("server", __VA_ARGS__)
+#define LOG_TRACE(...)    TRACE("server", __VA_ARGS__)
+#define LOG_DEBUG(...)    DEBUG("server", __VA_ARGS__)
+#define LOG_INFO(...)     INFO("server", __VA_ARGS__)
+#define LOG_WARN(...)     WARN("server", __VA_ARGS__)
+#define LOG_ERROR(...)    ERROR("server", __VA_ARGS__)
 #define LOG_CRITICAL(...) CRITICAL("server", __VA_ARGS__)
 
 class ClientHandle;

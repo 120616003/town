@@ -11,10 +11,6 @@
 		{
 			"LogName" : "server",
 			"LogSwitch" : true
-		},
-		{
-			"LogName" : "main",
-			"LogSwitch" : true
 		}
 	],
 	"LogLevel" : 0

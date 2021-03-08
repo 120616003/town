@@ -4,6 +4,7 @@
 #include "ServerCommon.h"
 #include "MysqlOptHandleInfc.h"
 #include "ServerEvent.h"
+#include <atomic>
 
 namespace town {
 
@@ -37,7 +38,9 @@ public:
 
 	void PushMsg(std::unique_ptr<MSG_DATA>& pMsgData)
 	{
+		while (m_atomic_lock.test_and_set(std::memory_order_acquire));
 		m_queue.push(std::move(pMsgData));
+		m_atomic_lock.clear(std::memory_order_release);
 		m_cv.notify_one();
 	}
 
@@ -59,8 +62,10 @@ public:
 private:
 	void PopMsg(std::unique_ptr<MSG_DATA>& pMsgData)
 	{
+		while (m_atomic_lock.test_and_set(std::memory_order_acquire));
 		pMsgData = std::move(m_queue.front());
 		m_queue.pop();
+		m_atomic_lock.clear(std::memory_order_release);
 	}
 
 private:
@@ -69,6 +74,7 @@ private:
 	std::condition_variable m_cv;
 	MysqlOptHandleInfcPtr m_pMysqlOptHandleInfc;
 	ServerEventPtr m_pServerEvent;
+	std::atomic_flag m_atomic_lock = ATOMIC_FLAG_INIT;
 };
 
 } /* town */

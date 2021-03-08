@@ -20,7 +20,7 @@ public:
 
 	static CliHanPtr GetClientHandle(bufferevent* bev);
 	static CliHanPtr GetClientHandle(const std::string& uuid);
-	static void DeleteClient(bufferevent* bev);
+	static void RecordClient(const std::string& uuid, bufferevent* bev);
 	void WriteData(bufferevent* bev, const std::string& msg, MSG_TYPE eType);
 
 private:
@@ -30,6 +30,7 @@ private:
 
 private:
 	static void RecordClient(bufferevent* bev);
+	static void DeleteClient(bufferevent* bev);
 	void ClearClient();
 	void ClearMap(size_t index);
 	static std::string GetStringFd(bufferevent* bev);

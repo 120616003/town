@@ -12,12 +12,12 @@ namespace town {
 #undef LOG_ERROR
 #undef LOG_CRITICAL
 
-#define LOG_TRACE(...) TRACE("communi", __VA_ARGS__)
-#define LOG_DEBUG(...) DEBUG("communi", __VA_ARGS__)
-#define LOG_INFO(...)  INFO("communi", __VA_ARGS__)
-#define LOG_WARN(...)  WARN("communi", __VA_ARGS__)
-#define LOG_ERROR(...) ERROR("communi", __VA_ARGS__)
-#define LOG_CRITICAL(...) ERROR("communi", __VA_ARGS__)
+#define LOG_TRACE(...)    TRACE("communi", __VA_ARGS__)
+#define LOG_DEBUG(...)    DEBUG("communi", __VA_ARGS__)
+#define LOG_INFO(...)     INFO("communi", __VA_ARGS__)
+#define LOG_WARN(...)     WARN("communi", __VA_ARGS__)
+#define LOG_ERROR(...)    ERROR("communi", __VA_ARGS__)
+#define LOG_CRITICAL(...) CRITICAL("communi", __VA_ARGS__)
 
 enum MSG_TYPE : uint32_t {
     MESS_REGISTER = 0,

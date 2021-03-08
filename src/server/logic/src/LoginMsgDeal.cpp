@@ -22,6 +22,8 @@ void LoginMsgDeal::MsgDealCenter(std::unique_ptr<MSG_DATA>& pMsgData)
     std::string msg = GetMysqlOpt()->GetOptHandle(ADD)->LoginAcc(pMsgData->data.get(), pMsgData->info.msg_len, strUuid);
     if (strUuid.size()) {
         GetServerHandle()->GetClientHandle(pMsgData->bev)->SetUUID(strUuid);
+        GetServerHandle()->GetClientHandle(pMsgData->bev)->SetStatus(true);
+        GetServerHandle()->RecordClient(strUuid, pMsgData->bev); // 通过uuid记录登录用户
     }
     WriteData(pMsgData->bev, msg, MESS_LOGIN);
 }

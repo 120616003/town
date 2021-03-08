@@ -12,12 +12,12 @@ namespace town {
 #undef LOG_ERROR
 #undef LOG_CRITICAL
 
-#define LOG_TRACE(...) TRACE("qml", __VA_ARGS__)
-#define LOG_DEBUG(...) DEBUG("qml", __VA_ARGS__)
-#define LOG_INFO(...)  INFO("qml", __VA_ARGS__)
-#define LOG_WARN(...)  WARN("qml", __VA_ARGS__)
-#define LOG_ERROR(...) ERROR("qml", __VA_ARGS__)
-#define LOG_CRITICAL(...) ERROR("qml", __VA_ARGS__)
+#define LOG_TRACE(...)    TRACE("qml", __VA_ARGS__)
+#define LOG_DEBUG(...)    DEBUG("qml", __VA_ARGS__)
+#define LOG_INFO(...)     INFO("qml", __VA_ARGS__)
+#define LOG_WARN(...)     WARN("qml", __VA_ARGS__)
+#define LOG_ERROR(...)    ERROR("qml", __VA_ARGS__)
+#define LOG_CRITICAL(...) CRITICAL("qml", __VA_ARGS__)
 
 }
 

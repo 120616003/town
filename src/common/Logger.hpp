@@ -77,7 +77,7 @@ public:
                     std::string strValue = data[i]["LogName"].asString();
                     int iSuffixLen = 10 - strValue.size();
                     m_vumapKeyValue[(m_log_index + complement) % 2][strValue] = strValue;
-                    for (int i = 0; i < iSuffixLen; ++i) {
+                    for (int j = 0; j < iSuffixLen; ++j) {
                         m_vumapKeyValue[(m_log_index + complement) % 2][strValue] += " ";
                     }
                 }
@@ -131,8 +131,8 @@ private:
 
                     struct inotify_event* event = reinterpret_cast<struct inotify_event*>(&buffer[0]);;
                     if ((event->mask & IN_MODIFY || event->mask & IN_CREATE) && std::string(event->name) == "LogConfig.json") {
-                        static unsigned long record = 0;
-                        unsigned long current = time(nullptr);
+                        static clock_t record = 0;
+                        clock_t current = time(nullptr);
                         if (current - record >= 1) {
                             record = current;
                             this->ReadLogInfo();
@@ -196,7 +196,7 @@ do { \
 #define CRITICAL(module,...) \
 do { \
     if (Logger::GetInstance()->GetLogLevel() <= SPDLOG_LEVEL_CRITICAL && Logger::GetInstance()->IsModule(module)) { \
-        SPDLOG_CRITICAL(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
+        SPDLOG_LOGGER_CRITICAL(Logger::GetInstance()->GetModuleLogger(module), __VA_ARGS__); \
     } \
 } while(0)
 

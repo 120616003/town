@@ -115,7 +115,6 @@ void ServerEvent::AcceptConnectCb(evconnlistener* listener, evutil_socket_t fd, 
 	}
 	cli_han->SetEvutilSocket(fd);
 	cli_han->SetBufferevent(bev);
-	cli_han->SetStatus(true);
 	m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(fd)] = cli_han;
 	LOG_DEBUG("accept a client:{}, index:{}", fd, INDEX_CURREN(m_record_index));
 }
@@ -201,6 +200,13 @@ void ServerEvent::RecordClient(bufferevent* bev)
 {
 	if (m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(bev)] == nullptr) {
 		m_vumCliHanPtr[INDEX_CURREN(m_record_index)][GetStringFd(bev)] = m_vumCliHanPtr[INDEX_BEFORE(m_record_index)][GetStringFd(bev)];
+	}
+}
+
+void ServerEvent::RecordClient(const std::string& uuid, bufferevent* bev)
+{
+	if (m_vumCliHanPtr[INDEX_CURREN(m_record_index)][uuid] == nullptr) {
+		m_vumCliHanPtr[INDEX_CURREN(m_record_index)][uuid] = GetClientHandle(bev);
 	}
 }
 

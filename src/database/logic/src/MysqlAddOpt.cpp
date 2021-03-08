@@ -121,8 +121,8 @@ std::string MysqlAddOpt::LoginAcc(uint8_t* pData, std::size_t iLen, std::string&
 		strParms << "phone" << al.phone();
 	}
 	else if (al.type() == common_enum::ACC_NAME) {
-		// 验证手机号格式是否正确
-		if (!PhoneFormatValidation(al.name())) {
+		// 验证名称格式是否正确
+		if (!NameFormatValidation(al.name())) {
 			LOG_ERROR("name type error:{}", al.name());
 			al_res.set_err_type(common_enum::ERR_PHONE_TYPE);
 			return al_res.SerializeAsString();
