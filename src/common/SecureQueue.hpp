@@ -11,6 +11,9 @@ public:
 	void push(T& value)
 	{ __push(value); }
 
+	void push(T&& value)
+	{ __push(std::move(value)); }
+
 	T pop()
 	{ return __pop(); }
 
@@ -30,6 +33,14 @@ public:
 	}
 
 	void __push(T& value)
+	{
+		while (m_atomic_lock.test_and_set(std::memory_order_acquire));
+		m_queue.push(value);
+		m_atomic_record.fetch_add(1, std::memory_order_seq_cst);
+		m_atomic_lock.clear(std::memory_order_release);
+	}
+
+	void __push(T&& value)
 	{
 		while (m_atomic_lock.test_and_set(std::memory_order_acquire));
 		m_queue.push(std::move(value));

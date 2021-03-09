@@ -38,7 +38,7 @@ public:
 
 	void PushMsg(std::unique_ptr<MSG_DATA>& pMsgData)
 	{
-		m_queue.push(pMsgData);
+		m_queue.push(std::move(pMsgData));
 		m_cv.notify_one();
 	}
 
