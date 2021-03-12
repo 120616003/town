@@ -58,6 +58,6 @@ message friend_info {
 
 // 10003
 message acc_friend_list {
-    string uuid                      = 1; // client -> server
-    repeated friend_info vfriendinfo = 2; // server -> client
+    string uuid                        = 1; // client -> server
+    repeated friend_info v_friend_info = 2; // server -> client
 }

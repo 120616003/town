@@ -5,7 +5,6 @@
 #include "MysqlOptHandleInfc.h"
 #include "ServerEvent.h"
 #include "SecureQueue.hpp"
-#include <atomic>
 
 namespace town {
 

@@ -59,6 +59,25 @@ public:
         return dest;
     }
 
+    static std::string GetSecondsStamp()
+    {
+        return std::to_string(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+    }
+
+    static std::string GetMillisecondsStamp()
+    {
+        return std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+    }
+
+    static std::string GetMicrosecondsStamp()
+    {
+        return std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+    }
+
+    static std::string GetNanosecondsStamp()
+    {
+        return std::to_string(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+    }
 };
 
 }
