@@ -1,3 +1,5 @@
+TEMPLATE = app
+
 QT += quick
 QT += network
 QT += core
@@ -43,7 +45,7 @@ INCLUDEPATH += $$PWD/../../third_party/spdlog-1.8.1/include      # spdlog includ
 
 INCLUDEPATH += $$PWD/common
 INCLUDEPATH += $$PWD/communication
-INCLUDEPATH += $$PWD/qml
+INCLUDEPATH += $$PWD/qmlcpp
 
 HEADERS += \
         communication/ComCommon.h \
@@ -51,18 +53,18 @@ HEADERS += \
         common/Booster.hpp \
         common/Logger.hpp \
         common/TownJson.hpp \
-        qml/QmlCommon.h \
-        qml/QmlRegister.h \
+        qmlcpp/QmlCommon.h \
+        qmlcpp/QmlRegister.h \
 
 SOURCES += \
         main.cpp \
         communication/GlobalTcpClient.cpp \
-        qml/QmlRegister.cpp \
+        qmlcpp/QmlRegister.cpp \
 
 RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH += $$PWD/qml
+QML_IMPORT_PATH += $$PWD/src/qmlcpp
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =

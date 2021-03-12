@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>ui/qml/main.qml</file>
+        <file>ui/images/Albert_Einstein.png</file>
     </qresource>
 </RCC>

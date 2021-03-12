@@ -10,11 +10,11 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     /*********************************注册qml类*********************************/
-    qmlRegisterType<town::QmlRegister>("QmlRegister", 1, 0, "QmlRegister");
+//    qmlRegisterType<town::QmlRegister>("QmlRegister", 1, 0, "QmlRegister");
     /**************************************************************************/
 
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/ui/js/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
