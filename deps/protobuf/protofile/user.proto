@@ -25,17 +25,17 @@ message common_enum {
     }
 }
 
-// 10001
+// 10001 注册
 message acc_register {
     common_enum.ACC_TYPE type       = 1; // client -> server
     string email                    = 2; // client -> server
     string phone                    = 3; // client -> server
-    string passwd                   = 5; // client -> server
+    string passwd                   = 4; // client -> server
 
-    common_enum.ERROR_CODE err_type = 6; // server -> client
+    common_enum.ERROR_CODE err_type = 5; // server -> client
 }
 
-// 10002
+// 10002 登陆
 message acc_login {
     common_enum.ACC_TYPE type       = 1; // client -> server
     string email                    = 2; // client -> server
@@ -47,17 +47,27 @@ message acc_login {
     string uuid                     = 7; // server -> client
 }
 
-message friend_info {
-    string name          = 1; // 账户名
-    string nick_name     = 2; // 匿名
-    string remarks       = 3; // 备注
-    int32 sex            = 4; // 0-男 1-女 2-保密 ^[0-2]$
-    string birthday      = 6; // 生日 ^(?:(?!0000)[0-9]{4}([-/.]?)(?:(?:0?[1-9]|1[0-2])\1(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])\1(?:29|30)|(?:0?[13578]|1[02])\1(?:31))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)([-/.]?)0?2\2(?:29))$
-    bytes head_portrait  = 7; // 头像
+// 10003 账户信息
+message acc_info {
+    string email                    = 1; // server -> client
+    string phone                    = 2; // server -> client
+    string name                     = 3; // server -> client
+    common_enum.ERROR_CODE err_type = 4; // server -> client
 }
 
-// 10003
-message acc_friend_list {
-    string uuid                        = 1; // client -> server
-    repeated friend_info v_friend_info = 2; // server -> client
+// 10004 个人信息
+message user_info {
+    string name                     = 1; // server -> client
+    string nick_name                = 2; // server -> client
+    string remarks                  = 3; // server -> client
+    int32 sex                       = 4; // server -> client 0-男 1-女 2-保密 ^[0-2]$
+    string birthday                 = 5; // server -> client ^(?:(?!0000)[0-9]{4}([-/.]?)(?:(?:0?[1-9]|1[0-2])\1(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])\1(?:29|30)|(?:0?[13578]|1[02])\1(?:31))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)([-/.]?)0?2\2(?:29))$
+    bytes head_portrait             = 6; // server -> client
+    common_enum.ERROR_CODE err_type = 7; // server -> client
+}
+
+// 10005 好友信息
+message friend_info {
+    repeated user_info friend_info  = 1; // server -> client
+    common_enum.ERROR_CODE err_type = 2; // server -> client
 }
