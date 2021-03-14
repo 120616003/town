@@ -68,6 +68,6 @@ message user_info {
 
 // 10005 好友信息
 message friend_info {
-    repeated user_info friend_info  = 1; // server -> client
-    common_enum.ERROR_CODE err_type = 2; // server -> client
+    repeated user_info v_friend_info = 1; // server -> client
+    common_enum.ERROR_CODE err_type  = 2; // server -> client
 }

@@ -56,5 +56,5 @@
 
 | Field Name    | Type               | Transmission Direction   | comment |
 | ------------- | ------------------ | ------------------------ | ------- |
-| friend_info   | repeated user_info | server -> client         | 用户名 |
+| v_friend_info | repeated user_info | server -> client         | 用户名 |
 | err_type      | enum               | server -> client         | 错误码 |
